@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
 const app = require('./app');
+const tourModel = require('./src/models/tourModel.js');
 
 const DB_URL = process.env.MONGODB.replace(
   '<PASSWORD>',
