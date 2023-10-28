@@ -1,24 +1,19 @@
-const mongoose = require('mongoose');
 require('dotenv').config();
 const app = require('./app');
-const tourModel = require('./src/models/tourModel.js');
+const connectDb = require('./connectDb');
 
-const DB_URL = process.env.MONGODB.replace(
-  '<PASSWORD>',
-  process.env.DATABASE_PASSWORD
-);
+const PORT = process.env.PORT || 8000;
 
-mongoose
-  .connect(DB_URL)
-  .then(() => {
-    console.log('DB connection established');
-  })
-  .catch((err) => {
-    console.log({ err });
-    process.exit(1);
-  });
+const start = async () => {
+  try {
+    await connectDb();
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}.`);
+    });
+  } catch (error) {
+    console.log(error);
+    console.log('Failed to connect to the database, server is not running.');
+  }
+};
 
-const port = process.env.PORT || 8000;
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+start();
