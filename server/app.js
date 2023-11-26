@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 
 const tourRouter = require('./src/routes/tourRoutes');
+const errorHandler = require('./src/handlers/errorHandler');
 
 const app = express();
 
@@ -12,12 +13,17 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(express.json());
 
-app.use((req, res, next) => {
-  console.log('Hello from the middleware');
-  next();
-});
-
 // Routes
 app.use('/api/v1/tours', tourRouter);
+
+// Error handling
+app.all('*', (req, res, next) => {
+  res.status(404).json({
+    status: 'fail',
+    message: `${req.originalUrl} not found`,
+  });
+});
+
+app.use(errorHandler);
 
 module.exports = app;
