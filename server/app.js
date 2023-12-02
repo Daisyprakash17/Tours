@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 
 const tourRouter = require('./src/routes/tourRoutes');
+const userRouter = require('./src/routes/userRoutes');
 const errorHandler = require('./src/handlers/errorHandler');
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/v1/tours', tourRouter);
+app.use('/api/v1/users', userRouter);
 
 // Error handling
 app.all('*', (req, res, next) => {
