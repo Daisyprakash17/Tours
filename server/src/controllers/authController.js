@@ -1,3 +1,4 @@
+const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 
@@ -48,9 +49,11 @@ exports.login = async (req, res) => {
     // Check if user exists && password is correct
     const user = await User.findOne({ email }).select('+password');
     let correct;
-    user ? correct = await user.correctPassword(password, user.password) : correct = false;
+    user
+      ? (correct = await user.correctPassword(password, user.password))
+      : (correct = false);
 
-    if (!user || !correctPass) {
+    if (!user || !correct) {
       // 401 Unauthorized
       return res.status(401).json({
         status: 'fail',
@@ -71,4 +74,63 @@ exports.login = async (req, res) => {
       message: err,
     });
   }
+};
+
+exports.protect = async (req, res, next) => {
+  try {
+    // Get token and check if it exists
+    let token;
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith('Bearer')
+    ) {
+      token = req.headers.authorization.split(' ')[1];
+    }
+
+    if (!token) {
+      return res.status(401).json({
+        status: 'fail',
+        message: 'Sorry, you need to log in to get access for this route',
+      });
+    }
+
+    // Verification token
+    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
+    // Check if user still exists
+    const currentUser = await User.findById(decoded.id);
+    if (!currentUser) {
+      return res.status(401).json({
+        status: 'fail',
+        message: 'The user belonging to this token does no long exist.',
+      });
+    }
+
+    req.user = currentUser;
+    next();
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
+    });
+  }
+};
+
+exports.restrictTo = (...roles) => {
+  return (req, res, next) => {
+    try {
+      if (!roles.includes(req.user.role)) {
+        return res.status(403).json({
+          status: 'fail',
+          message: 'You do not have permission to perform this action',
+        });
+      }
+      next();
+    } catch (err) {
+      res.status(404).json({
+        status: 'fail',
+        message: err,
+      });
+    }
+  };
 };
