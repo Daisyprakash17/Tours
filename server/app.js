@@ -4,6 +4,7 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xssPurge = require('xss-purge');
+const hpp = require('hpp');
 const tourRouter = require('./src/routes/tourRoutes');
 const userRouter = require('./src/routes/userRoutes');
 const errorHandler = require('./src/handlers/errorHandler');
@@ -35,6 +36,20 @@ app.use(mongoSanitize());
 
 // Data sanitization against Cross-site scripting (XXS)
 app.use(xssPurge());
+
+// Prevent parameter pollution
+app.use(
+  hpp({
+    whitelist: [
+      'duration',
+      'price',
+      'difficulty',
+      'maxGroupSize',
+      'ratingsAverage',
+      'ratingsQuantity',
+    ],
+  })
+);
 
 // Routes
 app.use('/api/v1/tours', tourRouter);
