@@ -10,6 +10,18 @@ const signToken = (id) => {
   });
 };
 
+const createSendToken = (user, statusCode, res) => {
+  const token = signToken(user._id);
+
+  res.status(statusCode).json({
+    status: 'success',
+    token,
+    data: {
+      user,
+    },
+  });
+};
+
 exports.signup = async (req, res) => {
   try {
     const newUser = await User.create({
@@ -19,15 +31,7 @@ exports.signup = async (req, res) => {
       confirmPassword: req.body.confirmPassword,
     });
 
-    const token = signToken(newUser._id);
-
-    res.status(201).json({
-      status: 'success',
-      token,
-      data: {
-        user: newUser,
-      },
-    });
+    createSendToken(newUser, 201, res);
   } catch (err) {
     res.status(404).json({
       status: 'fail',
@@ -64,12 +68,7 @@ exports.login = async (req, res) => {
       });
     }
 
-    const token = signToken(user._id);
-
-    res.status(200).json({
-      status: 'success',
-      token,
-    });
+    createSendToken(user, 200, res);
   } catch (err) {
     res.status(404).json({
       status: 'fail',
@@ -218,12 +217,34 @@ exports.resetPassword = async (req, res, next) => {
     await user.save();
 
     // Log the user in, send JWT
-    const token = signToken(user._id);
-
-    res.status(200).json({
-      status: 'success',
-      token,
+    createSendToken(user, 200, res);
+  } catch (err) {
+    res.status(500).json({
+      status: 'fail',
+      message: err.message,
     });
+  }
+};
+
+exports.updatePassword = async (req, res, next) => {
+  try {
+    // Get user from collection
+    const user = await User.findById(req.user.id).select('+password');
+    // Check if POSTed password is correct
+    if (
+      !(await user.correctPassword(req.body.passwordCurrent, user.password))
+    ) {
+      return res.status(401).json({
+        status: 'fail',
+        message: 'Your current password is incorrect.',
+      });
+    }
+    // If POSTed password is correct then update password
+    user.password = req.body.password;
+    user.confirmPassword = req.body.confirmPassword;
+    await user.save();
+    // Log user in, send JWT
+    createSendToken(user, 200, res);
   } catch (err) {
     res.status(500).json({
       status: 'fail',
