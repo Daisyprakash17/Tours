@@ -43,6 +43,22 @@ exports.deactivateMe = async (req, res, next) => {
   }
 };
 
+exports.deleteMe = async (req, res, next) => {
+  try {
+    await User.findByIdAndDelete(req.user.id);
+
+    res.status(204).json({
+      status: 'success',
+      data: null,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: 'fail',
+      message: err.message,
+    });
+  }
+};
+
 exports.updateMe = async (req, res, next) => {
   try {
     // Create error if user POSTs password data
