@@ -7,6 +7,7 @@ const xssPurge = require('xss-purge');
 const hpp = require('hpp');
 const tourRouter = require('./src/routes/tourRoutes');
 const userRouter = require('./src/routes/userRoutes');
+const reviewRouter = require('./src/routes/reviewRoutes');
 const errorHandler = require('./src/handlers/errorHandler');
 
 const app = express();
@@ -54,6 +55,7 @@ app.use(
 // Routes
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/reviews', reviewRouter);
 
 // Error handling
 app.all('*', (req, res, next) => {

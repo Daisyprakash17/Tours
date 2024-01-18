@@ -36,7 +36,7 @@ exports.getAllTours = async (req, res) => {
 /* Get a single tour */
 exports.getTour = async (req, res) => {
   try {
-    const tour = await tourModel.findById(req.params.id);
+    const tour = await tourModel.findById(req.params.id).populate('reviews');
 
     res.status(200).json({
       status: 'success',
