@@ -1,26 +1,11 @@
 const Review = require('../models/reviewModel');
-
-exports.getAllReviews = async (req, res, next) => {
-  try {
-    const reviews = await Review.find();
-
-    res.status(200).json({
-      status: 'success',
-      results: reviews.length,
-      data: {
-        reviews,
-      },
-    });
-  } catch (err) {
-    res.status(404).json({
-      status: 'fail',
-      message: err,
-    });
-  }
-};
+const factory = require('./handlerFactory');
 
 exports.createReview = async (req, res, next) => {
   try {
+    if (!req.body.tour) req.body.tour = req.params.tourId;
+    if (!req.body.user) req.body.user = req.user.id;
+
     const newReview = await Review.create(req.body);
 
     res.status(201).json({
@@ -36,3 +21,8 @@ exports.createReview = async (req, res, next) => {
     });
   }
 };
+
+exports.getAllReviews = factory.getAll(Review);
+exports.getReview = factory.getOne(Review);
+exports.updateReview = factory.updateOne(Review);
+exports.deleteReview = factory.deleteOne(Review);
