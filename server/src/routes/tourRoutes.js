@@ -8,6 +8,10 @@ const router = express.Router();
 router.use('/:tourId/reviews', reviewRouter);
 
 router
+  .route('/top-5')
+  .get(tourController.aliasTopTours, tourController.getAllTours);
+
+router
   .route('/')
   .get(authController.protect, tourController.getAllTours)
   .post(
