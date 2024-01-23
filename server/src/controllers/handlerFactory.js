@@ -53,7 +53,7 @@ exports.updateOne = (Model) => async (req, res) => {
 
 exports.createOne = (Model) => async (req, res) => {
   try {
-    const doc = await Tour.create(req.body);
+    const doc = await Model.create(req.body);
 
     if (!doc) {
       return res.status(404).json({
