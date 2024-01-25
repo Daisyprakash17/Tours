@@ -1,11 +1,24 @@
-function App() {
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Header/Header';
+import Home from './pages/Home';
+
+const App = () => {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+    </Routes>
+  );
+};
+
+const AppWrapper = () => {
   return (
     <>
-      <header className="App-header">
-        <h1>Hello World</h1>
-      </header>
+      <Router>
+        <Header />
+        <App />
+      </Router>
     </>
   );
-}
+};
 
-export default App;
+export default AppWrapper;
