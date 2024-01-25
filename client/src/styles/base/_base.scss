@@ -1,0 +1,29 @@
+@import '../abstracts/variables';
+
+::selection {
+  background-color: $color-primary;
+  color: $color-white;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+
+body {
+  line-height: 1.6;
+  font-weight: 300;
+  font-family: 'Lato', sans-serif;
+  color: $color-grey-dark;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
