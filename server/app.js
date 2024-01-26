@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
@@ -11,6 +12,7 @@ const reviewRouter = require('./src/routes/reviewRoutes');
 const errorHandler = require('./src/handlers/errorHandler');
 
 const app = express();
+app.use(cors());
 
 /* Global middlewares */
 // Set security HTTP headers
