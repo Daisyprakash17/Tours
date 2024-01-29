@@ -61,7 +61,7 @@ const TourCard = () => {
                 <div className="card__picture">
                   <div className="card__picture-overlay">&nbsp;</div>
                   <img
-                    src={`img/${tour.imageCover}`}
+                    src={`img/tours/${tour.imageCover}`}
                     alt="Tour cover"
                     className="card__picture-img"
                   />
