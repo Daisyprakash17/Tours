@@ -1,4 +1,5 @@
 @import '../abstracts/variables';
+@import '../abstracts/mixins';
 
 ::selection {
   background-color: $color-primary;
@@ -26,4 +27,16 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+.spacer {
+  padding: 8rem 6rem;
+
+  @include respond(tab-port) {
+    padding: 8rem 4rem;
+  }
+
+  @include respond(phone) {
+    padding: 8rem 6rem;
+  }
 }

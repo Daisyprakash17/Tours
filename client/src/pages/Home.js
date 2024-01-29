@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import TourCard from '../components/Card/TourCard';
 
 const Home = () => {
+  
+  useEffect(() => {
+    document.title = 'Natours | All Tours';
+  }, []);
+
   return (
-    <>
-      <h1>Home</h1>
-    </>
+    <div className="spacer">
+      <TourCard />
+    </div>
   );
 };
 
