@@ -9,8 +9,6 @@
             ],
             "address": "301 Biscayne Blvd, Miami, FL 33132, USA"
         },
-        "ratingsAverage": 4.8,
-        "ratingsQuantity": 6,
         "images": [
             "tour-2-1.jpg",
             "tour-2-2.jpg",
@@ -27,8 +25,8 @@
         "maxGroupSize": 15,
         "difficulty": "medium",
         "guides": [
-            "5c8a22c62f8fb814b56fa18b",
-            "5c8a1f4e2f8fb814b56fa185"
+            "65a7a72f3743bb260fa53e1f",
+            "65b94755d284d9eb9d98dc41"
         ],
         "price": 497,
         "summary": "Exploring the jaw-dropping US east coast by foot and by boat",
@@ -87,8 +85,6 @@
             ],
             "address": "224 Banff Ave, Banff, AB, Canada"
         },
-        "ratingsAverage": 5,
-        "ratingsQuantity": 9,
         "images": [
             "tour-1-1.jpg",
             "tour-1-2.jpg",
@@ -105,9 +101,9 @@
         "maxGroupSize": 25,
         "difficulty": "easy",
         "guides": [
-            "5c8a21d02f8fb814b56fa189",
-            "5c8a201e2f8fb814b56fa186",
-            "5c8a1f292f8fb814b56fa184"
+            "65b94755d284d9eb9d98dc41",
+            "65b94755d284d9eb9d98dc48",
+            "656ded711b4690f62884400e"
         ],
         "price": 397,
         "summary": "Breathtaking hike through the Canadian Banff National Park",
@@ -156,8 +152,6 @@
             ],
             "address": "419 S Mill St, Aspen, CO 81611, USA"
         },
-        "ratingsAverage": 4.5,
-        "ratingsQuantity": 6,
         "images": [
             "tour-3-1.jpg",
             "tour-3-2.jpg",
@@ -174,9 +168,9 @@
         "maxGroupSize": 10,
         "difficulty": "difficult",
         "guides": [
-            "5c8a21d02f8fb814b56fa189",
-            "5c8a23412f8fb814b56fa18c",
-            "5c8a1f4e2f8fb814b56fa185"
+            "656ded711b4690f62884400e",
+            "65a7a72f3743bb260fa53e1f",
+            "65b94755d284d9eb9d98dc41"
         ],
         "price": 997,
         "summary": "Exciting adventure in the snow with snowboarding and skiing",
@@ -215,8 +209,6 @@
             ],
             "address": "3663 S Las Vegas Blvd, Las Vegas, NV 89109, USA"
         },
-        "ratingsAverage": 4.7,
-        "ratingsQuantity": 7,
         "images": [
             "tour-5-1.jpg",
             "tour-5-2.jpg",
@@ -233,9 +225,9 @@
         "maxGroupSize": 15,
         "difficulty": "medium",
         "guides": [
-            "5c8a21f22f8fb814b56fa18a",
-            "5c8a23412f8fb814b56fa18c",
-            "5c8a201e2f8fb814b56fa186"
+            "65b94755d284d9eb9d98dc41",
+            "65b94755d284d9eb9d98dc42",
+            "65b94755d284d9eb9d98dc48"
         ],
         "price": 1497,
         "summary": "Breathing in Nature in America's most spectacular National Parks",
@@ -294,8 +286,6 @@
             ],
             "address": "Manhattan, NY 10036, USA"
         },
-        "ratingsAverage": 4.6,
-        "ratingsQuantity": 5,
         "images": [
             "tour-4-1.jpg",
             "tour-4-2.jpg",
@@ -312,8 +302,8 @@
         "maxGroupSize": 20,
         "difficulty": "easy",
         "guides": [
-            "5c8a22c62f8fb814b56fa18b",
-            "5c8a201e2f8fb814b56fa186"
+            "65b94755d284d9eb9d98dc48",
+            "656ded711b4690f62884400e"
         ],
         "price": 1197,
         "summary": "Living the life of Wanderlust in the US' most beatiful cities",
@@ -362,8 +352,6 @@
             ],
             "address": "29130 Cliffside Dr, Malibu, CA 90265, USA"
         },
-        "ratingsAverage": 3.9,
-        "ratingsQuantity": 7,
         "images": [
             "tour-6-1.jpg",
             "tour-6-2.jpg",
@@ -380,9 +368,9 @@
         "maxGroupSize": 8,
         "difficulty": "difficult",
         "guides": [
-            "5c8a21f22f8fb814b56fa18a",
-            "5c8a1f292f8fb814b56fa184",
-            "5c8a1f4e2f8fb814b56fa185"
+            "656ded711b4690f62884400e",
+            "65a7a72f3743bb260fa53e1f",
+            "65b94755d284d9eb9d98dc41"
         ],
         "price": 2997,
         "summary": "Surfing, skating, parajumping, rock climbing and more, all in one tour",
@@ -451,8 +439,6 @@
             ],
             "address": "Bluff, UT 84512, USA"
         },
-        "ratingsAverage": 4.8,
-        "ratingsQuantity": 6,
         "images": [
             "tour-8-1.jpg",
             "tour-8-2.jpg",
@@ -469,8 +455,8 @@
         "maxGroupSize": 8,
         "difficulty": "medium",
         "guides": [
-            "5c8a21d02f8fb814b56fa189",
-            "5c8a1f292f8fb814b56fa184"
+            "65b94755d284d9eb9d98dc41",
+            "65b94755d284d9eb9d98dc48"
         ],
         "price": 2997,
         "summary": "The most remote and stunningly beautiful places for seeing the night sky",
@@ -519,8 +505,6 @@
             ],
             "address": "Yellowknife, NT X1A 2L2, Canada"
         },
-        "ratingsAverage": 4.7,
-        "ratingsQuantity": 7,
         "images": [
             "tour-9-1.jpg",
             "tour-9-2.jpg",
@@ -537,9 +521,9 @@
         "maxGroupSize": 12,
         "difficulty": "easy",
         "guides": [
-            "5c8a21f22f8fb814b56fa18a",
-            "5c8a201e2f8fb814b56fa186",
-            "5c8a23412f8fb814b56fa18c"
+            "65b94755d284d9eb9d98dc48",
+            "656ded711b4690f62884400e",
+            "65a7a72f3743bb260fa53e1f"
         ],
         "price": 1497,
         "summary": "Enjoy the Northern Lights in one of the best places in the world",
@@ -568,8 +552,6 @@
             ],
             "address": "560 Jefferson St, Napa, CA 94559, USA"
         },
-        "ratingsAverage": 4.4,
-        "ratingsQuantity": 7,
         "images": [
             "tour-7-1.jpg",
             "tour-7-2.jpg",
@@ -586,8 +568,8 @@
         "maxGroupSize": 8,
         "difficulty": "easy",
         "guides": [
-            "5c8a22c62f8fb814b56fa18b",
-            "5c8a23412f8fb814b56fa18c"
+            "65a7a72f3743bb260fa53e1f",
+            "65b94755d284d9eb9d98dc41"
         ],
         "price": 1997,
         "summary": "Exquisite wines, scenic views, exclusive barrel tastings,  and much more",

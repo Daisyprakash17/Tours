@@ -1,4 +1,4 @@
-const APIFeatures = require("../utils/apiFeatures");
+const APIFeatures = require('../utils/apiFeatures');
 
 exports.deleteOne = (Model) => async (req, res) => {
   try {
@@ -79,7 +79,11 @@ exports.createOne = (Model) => async (req, res) => {
 exports.getOne = (Model, popOptions) => async (req, res) => {
   try {
     let query = Model.findById(req.params.id);
-    if (popOptions) query = query.populate(popOptions);
+    if (popOptions) {
+      popOptions.forEach((popOption) => {
+        query = query.populate(popOption);
+      });
+    }
     const doc = await query;
 
     if (!doc) {
