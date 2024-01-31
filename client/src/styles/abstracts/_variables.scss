@@ -15,3 +15,10 @@ $color-grey-extra-dark: #444;
 
 $color-white: #fff;
 $color-black: #000;
+
+// Background
+$background: linear-gradient(
+  to right bottom,
+  $color-primary-light,
+  $color-primary-dark
+);

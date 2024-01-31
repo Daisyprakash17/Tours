@@ -173,6 +173,27 @@ const TourDetails = () => {
               )}
             </div>
           </section>
+
+          <section className="details-cta">
+            <div className="cta">
+              <div className="cta__img">
+                <img src="/img/logo-white.png" alt="Natours logo" />
+              </div>
+
+              <div className="cta__content">
+                <h2 className="heading-secondary">What are you waiting for?</h2>
+                <p className="cta__text">
+                  {tour.duration} days. 1 adventure. Infinite memories. Make it
+                  yours today!
+                </p>
+              </div>
+              <div>
+                <button className="btn btn--green">
+                  Book now!
+                </button>
+              </div>
+            </div>
+          </section>
         </div>
       )}
     </>
