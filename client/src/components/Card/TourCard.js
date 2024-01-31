@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { getClosestData } from '../../helper/functions';
+import { getClosestDate } from '../../helper/functions';
 import { IoFlagOutline } from 'react-icons/io5';
 import Calendar from '../Icons/Calendar';
 import Location from '../Icons/Location';
@@ -58,7 +58,7 @@ const TourCard = () => {
                 </div>
                 <div className="card__data">
                   <Calendar className="card__icon" />
-                  <span>{getClosestData(tour.startDates)}</span>
+                  <span>{getClosestDate(tour.startDates)}</span>
                 </div>
                 <div className="card__data">
                   <IoFlagOutline className="card__icon" />

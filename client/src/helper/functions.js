@@ -1,6 +1,6 @@
-export const getClosestData = (data) => {
+export const getClosestDate = (date) => {
   const currentDate = new Date();
-  return data.reduce(function (a, b) {
+  return date.reduce(function (a, b) {
     let dateA = new Date(a);
     let dateB = new Date(b);
 
