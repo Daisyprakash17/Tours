@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { GrLocation } from 'react-icons/gr';
-import { IoCalendarClearOutline, IoFlagOutline } from 'react-icons/io5';
-import { BiUser } from 'react-icons/bi';
+import { getClosestData } from '../../helper/functions';
+import { IoFlagOutline } from 'react-icons/io5';
+import Calendar from '../Icons/Calendar';
+import Location from '../Icons/Location';
+import User from '../Icons/User';
 
 const TourCard = () => {
   const [allTours, setAllTours] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    document.title = 'Natours | All Tours';
-
     axios
       .get('http://127.0.0.1:8000/api/v1/tours')
       .then((res) => {
@@ -23,31 +23,6 @@ const TourCard = () => {
         console.log(err);
       });
   }, []);
-
-  const getClosestData = (data) => {
-    const currentDate = new Date();
-    return data.reduce(function (a, b) {
-      let dateA = new Date(a);
-      let dateB = new Date(b);
-
-      // Convert ISO 8601 time date into plain English
-      let dateStrA = dateA.toLocaleString('en-us', {
-        month: 'long',
-        year: 'numeric',
-        day: 'numeric',
-      });
-
-      let dateStrB = dateB.toLocaleString('en-us', {
-        month: 'long',
-        year: 'numeric',
-        day: 'numeric',
-      });
-
-      // Get the closest date to now
-      const adiff = dateStrA - currentDate;
-      return adiff > 0 && adiff < dateStrB - currentDate ? dateStrA : dateStrB;
-    });
-  };
 
   return (
     <>
@@ -78,11 +53,11 @@ const TourCard = () => {
                 </h4>
                 <p className="card__summary">{tour.summary}.</p>
                 <div className="card__data">
-                  <GrLocation className="card__icon" />
+                  <Location className="card__icon" />
                   <span>{tour.startLocation.description}</span>
                 </div>
                 <div className="card__data">
-                  <IoCalendarClearOutline className="card__icon" />
+                  <Calendar className="card__icon" />
                   <span>{getClosestData(tour.startDates)}</span>
                 </div>
                 <div className="card__data">
@@ -90,7 +65,7 @@ const TourCard = () => {
                   <span>{tour.locations.length} stops</span>
                 </div>
                 <div className="card__data">
-                  <BiUser className="card__icon" />
+                  <User className="card__icon" />
                   <span>{tour.maxGroupSize} people</span>
                 </div>
               </div>
@@ -109,7 +84,10 @@ const TourCard = () => {
                     rating ({tour.ratingsQuantity})
                   </span>
                 </p>
-                <Link to="#" className="btn btn--green btn--small">
+                <Link
+                  to={`/tour/${tour.id}`}
+                  className="btn btn--green btn--small"
+                >
                   Details
                 </Link>
               </div>
