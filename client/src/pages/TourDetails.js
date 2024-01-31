@@ -1,12 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getClosestData } from '../helper/functions';
-import { FaRegClock, FaRegStar } from 'react-icons/fa6';
+import { getClosestDate, starCalc } from '../helper/functions';
+import { FaRegClock } from 'react-icons/fa6';
 import { CgGym } from 'react-icons/cg';
 import Calendar from '../components/Icons/Calendar';
 import Location from '../components/Icons/Location';
 import User from '../components/Icons/User';
+import Star from '../components/Icons/Star';
 
 const TourDetails = () => {
   const [tour, setTour] = useState({});
@@ -65,7 +66,7 @@ const TourDetails = () => {
             </div>
           </div>
 
-          <div className="details-description">
+          <section className="details-description">
             <div className="overview-box">
               <div>
                 <div className="overview-box__group">
@@ -74,7 +75,7 @@ const TourDetails = () => {
                     <Calendar className="overview-box__icon" />
                     <span className="overview-box__label">Next date:</span>
                     <span className="overview-box__text">
-                      {getClosestData(tour.startDates)}
+                      {getClosestDate(tour.startDates)}
                     </span>
                   </div>
                   <div className="overview-box__detail">
@@ -92,7 +93,7 @@ const TourDetails = () => {
                     </span>
                   </div>
                   <div className="overview-box__detail">
-                    <FaRegStar className="overview-box__icon" />
+                    <Star className="overview-box__icon" />
                     <span className="overview-box__label">Rating:</span>
                     <span className="overview-box__text">
                       {tour.ratingsAverage} / 5
@@ -127,7 +128,51 @@ const TourDetails = () => {
               <h2 className="heading-secondary ma-bt-lg">About {tour.name}</h2>
               <p className="description__text">{tour.description}</p>
             </div>
-          </div>
+          </section>
+
+          <section className="details-pictures">
+            {tour.images.map((image, index) => {
+              return (
+                <div key={image} className="picture-box">
+                  <img
+                    className={`picture-box__img picture-box__img--${
+                      index + 1
+                    }`}
+                    src={`/img/tours/${image}`}
+                    alt={`${tour.name}-${index + 1}`}
+                  />
+                </div>
+              );
+            })}
+          </section>
+
+          <section className="details-reviews">
+            <h2 className="heading-primary">All Reviews</h2>
+            <div className="reviews">
+              {tour.reviews.length < 1 ? (
+                <h3>No reviews yet!</h3>
+              ) : (
+                tour.reviews.map((review) => {
+                  return (
+                    <div className="reviews__card">
+                      <div className="reviews__avatar">
+                        <img
+                          src={`/img/users/${review.user.photo}`}
+                          alt={review.user.name}
+                          className="reviews__avatar-img"
+                        />
+                        <h6 className="reviews__user">{review.user.name}</h6>
+                      </div>
+                      <p className="reviews__text">{review.review}</p>
+                      <div className="reviews__rating">
+                        {starCalc(review.rating)}
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </section>
         </div>
       )}
     </>
