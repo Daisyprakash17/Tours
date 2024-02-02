@@ -37,18 +37,56 @@ const createSendToken = (user, statusCode, res) => {
 
 exports.signup = async (req, res) => {
   try {
+    const { name, email, password, confirmPassword } = req.body;
+
+    const existingUser = await User.findOne({ name });
+    const existingEmail = await User.findOne({ email });
+
+    if (name.length < 6) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'User name must be at least 6 characters long',
+      });
+    }
+
+    if (existingUser) {
+      return res
+        .status(400)
+        .json({ status: 'fail', message: 'User name already taken!' });
+    }
+
+    if (existingEmail) {
+      return res
+        .status(400)
+        .json({ status: 'fail', message: 'This email is already in use!' });
+    }
+
+    if (password.length < 8) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Password must be at least 8 characters long',
+      });
+    }
+
+    if (password !== confirmPassword) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Password and confirm password does not match!',
+      });
+    }
+
     const newUser = await User.create({
-      name: req.body.name,
-      email: req.body.email,
-      password: req.body.password,
-      confirmPassword: req.body.confirmPassword,
+      name,
+      email,
+      password,
+      confirmPassword,
     });
 
     createSendToken(newUser, 201, res);
   } catch (err) {
-    res.status(404).json({
+    res.status(400).json({
       status: 'fail',
-      message: err,
+      message: err.message,
     });
   }
 };
