@@ -1,0 +1,27 @@
+.alert {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  color: $color-white;
+  font-size: 1.8rem;
+  font-weight: 400;
+  text-align: center;
+  border-radius: 5px;
+  padding: 2.75rem 2rem;
+
+  @include respond(phone) {
+    width: 100%;
+    font-size: 1.6rem;
+    padding: 1.75rem;
+  }
+
+  &--error {
+    background-color: #eb4d4b;
+  }
+
+  &--success {
+    background-color: #20bf6b;
+  }
+}
