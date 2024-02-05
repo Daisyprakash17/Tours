@@ -1,8 +1,8 @@
-import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import Alert from '../components/Alert/Alert';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../store/AuthContext';
+import api from '../utils/axiosConfig';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -19,13 +19,8 @@ const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    axios
-      .post(
-        'http://127.0.0.1:8000/api/v1/users/login',
-        { email, password },
-        { withCredentials: true },
-        { headers: { 'Content-Type': 'application/json' } }
-      )
+    api
+      .post('users/login', { email, password })
       .then((res) => {
         console.log(res);
         if (res.status === 200) {

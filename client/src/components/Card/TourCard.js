@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { getClosestDate } from '../../helper/functions';
 import { IoFlagOutline } from 'react-icons/io5';
 import Calendar from '../Icons/Calendar';
 import Location from '../Icons/Location';
 import User from '../Icons/User';
+import api from '../../utils/axiosConfig';
 
 const TourCard = () => {
   const [allTours, setAllTours] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get('http://127.0.0.1:8000/api/v1/tours')
+    api
+      .get('tours')
       .then((res) => {
         // console.log(res);
         setAllTours(res.data.data.data);

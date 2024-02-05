@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getClosestDate, starCalc } from '../helper/functions';
@@ -8,6 +7,7 @@ import Calendar from '../components/Icons/Calendar';
 import Location from '../components/Icons/Location';
 import User from '../components/Icons/User';
 import Star from '../components/Icons/Star';
+import api from '../utils/axiosConfig';
 
 const TourDetails = () => {
   const [tour, setTour] = useState({});
@@ -16,8 +16,8 @@ const TourDetails = () => {
   let id = params.id;
 
   useEffect(() => {
-    axios
-      .get(`http://127.0.0.1:8000/api/v1/tours/${id}`)
+    api
+      .get(`tours/${id}`)
       .then((res) => {
         // console.log(res);
         setTour(res.data.data.data);
@@ -188,9 +188,7 @@ const TourDetails = () => {
                 </p>
               </div>
               <div>
-                <button className="btn btn--green">
-                  Book now!
-                </button>
+                <button className="btn btn--green">Book now!</button>
               </div>
             </div>
           </section>

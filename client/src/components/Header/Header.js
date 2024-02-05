@@ -1,23 +1,23 @@
-import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../store/AuthContext';
+import api from '../../utils/axiosConfig';
 
 const Header = () => {
   const [user, setUser] = useState(null);
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
 
   useEffect(() => {
-    axios
-      .get('http://127.0.0.1:8000/api/v1/users/me', {
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,
-      })
+    api
+      .get('users/me')
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.status === 200) {
           setUser(res.data.data.data);
         }
+      })
+      .catch((err) => {
+        console.error(err);
       });
   }, []);
 

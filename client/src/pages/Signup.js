@@ -1,8 +1,8 @@
-import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import Alert from '../components/Alert/Alert';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../store/AuthContext';
+import api from '../utils/axiosConfig';
 
 const Signup = () => {
   const [name, setName] = useState('');
@@ -21,8 +21,8 @@ const Signup = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    axios
-      .post('http://127.0.0.1:8000/api/v1/users/signup', {
+    api
+      .post('users/signup', {
         name,
         email,
         password,
