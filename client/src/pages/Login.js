@@ -22,7 +22,7 @@ const Login = () => {
     api
       .post('users/login', { email, password })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.status === 200) {
           setMessage('You are successfully logged in!');
           setStatus('success');

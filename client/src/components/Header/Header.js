@@ -2,8 +2,11 @@ import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../store/AuthContext';
 import api from '../../utils/axiosConfig';
+import Alert from '../Alert/Alert';
 
 const Header = () => {
+  const [message, setMessage] = useState('');
+  const [status, setStatus] = useState('');
   const [user, setUser] = useState(null);
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
 
@@ -22,12 +25,35 @@ const Header = () => {
   }, []);
 
   const logOut = () => {
-    setIsLoggedIn(false);
+    api
+      .get('users/logout')
+      .then((res) => {
+        // console.log(res);
+        if (res.data.status === 'success') {
+          setIsLoggedIn(false);
+          setMessage('successfully logged out');
+          setStatus('success');
+
+          setTimeout(() => {
+            setMessage('');
+          }, 600);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        setMessage('Ops, something went wrong. Try logging out again!');
+        setStatus('error');
+
+        setTimeout(() => {
+          setMessage('');
+        }, 3000);
+      });
   };
 
   return (
     <>
       <header className="header">
+        {message && <Alert status={status} text={message} />}
         {/* Desktop navigation */}
         <nav className="nav nav--tours xs-hidden">
           <Link to="/" className="nav__el">
@@ -38,7 +64,7 @@ const Header = () => {
           <img src="/img/logo-white.png" alt="Natours logo" />
         </div>
         <nav className="nav nav--user xs-hidden">
-          {isLoggedIn ? (
+          {isLoggedIn && user ? (
             <Link to="/me" className="nav__el">
               <img
                 className="nav__user-img"
@@ -76,7 +102,7 @@ const Header = () => {
                   All tours
                 </Link>
               </li>
-              {isLoggedIn ? (
+              {isLoggedIn && user ? (
                 <>
                   <li className="navigation__item">
                     <Link to="/me" className="navigation__link">

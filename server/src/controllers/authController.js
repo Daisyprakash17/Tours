@@ -128,6 +128,16 @@ exports.login = async (req, res) => {
   }
 };
 
+exports.logout = async (req, res, next) => {
+  res.clearCookie('jwt', {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+  });
+  res.status(200).json({ status: 'success' });
+};
+
 exports.protect = async (req, res, next) => {
   try {
     // Get token and check if it exists
