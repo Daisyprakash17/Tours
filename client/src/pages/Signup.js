@@ -1,6 +1,8 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Alert from '../components/Alert/Alert';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../store/AuthContext';
 
 const Signup = () => {
   const [name, setName] = useState('');
@@ -9,6 +11,12 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState('');
+  const { setIsLoggedIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = 'Natours | Signup';
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -25,6 +33,7 @@ const Signup = () => {
         if (res.status === 201) {
           setStatus('success');
           setMessage('User successfully signed in!');
+
           setName('');
           setEmail('');
           setPassword('');
@@ -32,7 +41,9 @@ const Signup = () => {
 
           setTimeout(() => {
             setMessage('');
-          }, 2000);
+            setIsLoggedIn(true);
+            navigate('/');
+          }, 600);
         }
       })
       .catch((err) => {
@@ -89,7 +100,7 @@ const Signup = () => {
             type="password"
             placeholder="••••••••"
             required
-            minlength="8"
+            minLength="8"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -104,7 +115,7 @@ const Signup = () => {
             type="password"
             placeholder="••••••••"
             required
-            minlength="8"
+            minLength="8"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />

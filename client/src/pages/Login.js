@@ -1,28 +1,45 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Alert from '../components/Alert/Alert';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../store/AuthContext';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState('');
+  const { setIsLoggedIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = 'Natours | Login';
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
     axios
-      .post('http://127.0.0.1:8000/api/v1/users/login', { email, password })
+      .post(
+        'http://127.0.0.1:8000/api/v1/users/login',
+        { email, password },
+        { withCredentials: true },
+        { headers: { 'Content-Type': 'application/json' } }
+      )
       .then((res) => {
-        // console.log(res);
+        console.log(res);
         if (res.status === 200) {
           setMessage('You are successfully logged in!');
           setStatus('success');
+
           setEmail('');
           setPassword('');
+
           setTimeout(() => {
             setMessage('');
-          }, 2000);
+            setIsLoggedIn(true);
+            navigate('/');
+          }, 600);
         }
       })
       .catch((err) => {
@@ -64,7 +81,7 @@ const Login = () => {
             type="password"
             placeholder="••••••••"
             required
-            minlength="8"
+            minLength="8"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

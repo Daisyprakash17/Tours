@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import TourDetails from './pages/TourDetails';
+import { AuthProvider } from './store/AuthContext';
 
 const App = () => {
   return (
@@ -21,9 +22,11 @@ const AppWrapper = () => {
   return (
     <>
       <Router>
-        <Header />
-        <App />
-        <Footer />
+        <AuthProvider>
+          <Header />
+          <App />
+          <Footer />
+        </AuthProvider>
       </Router>
     </>
   );
