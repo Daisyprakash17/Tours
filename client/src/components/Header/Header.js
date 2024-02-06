@@ -11,18 +11,11 @@ const Header = () => {
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
 
   useEffect(() => {
-    api
-      .get('users/me')
-      .then((res) => {
-        // console.log(res);
-        if (res.status === 200) {
-          setUser(res.data.data.data);
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
+    if (isLoggedIn) {
+      const loggedInUser = localStorage.getItem('user');
+      setUser(JSON.parse(loggedInUser));
+    }
+  }, [isLoggedIn]);
 
   const logOut = () => {
     api
@@ -31,6 +24,7 @@ const Header = () => {
         // console.log(res);
         if (res.data.status === 'success') {
           setIsLoggedIn(false);
+          localStorage.clear();
           setMessage('successfully logged out');
           setStatus('success');
 

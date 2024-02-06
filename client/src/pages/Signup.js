@@ -34,6 +34,9 @@ const Signup = () => {
           setStatus('success');
           setMessage('User successfully signed in!');
 
+          const userObject = { name: res.data.data.user.name, photo: res.data.data.user.photo };
+          localStorage.setItem('user', JSON.stringify(userObject));
+
           setName('');
           setEmail('');
           setPassword('');

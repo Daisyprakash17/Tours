@@ -27,6 +27,9 @@ const Login = () => {
           setMessage('You are successfully logged in!');
           setStatus('success');
 
+          const userObject = { name: res.data.data.user.name, photo: res.data.data.user.photo };
+          localStorage.setItem('user', JSON.stringify(userObject));
+
           setEmail('');
           setPassword('');
 
