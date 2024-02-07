@@ -11,6 +11,8 @@ import api from '../utils/axiosConfig';
 const Account = () => {
   const { isLoggedIn } = useContext(AuthContext);
   const [user, setUser] = useState({});
+  const [userNavActive, setUserNavActive] = useState(0);
+  const [adminNavActive, setAdminNavActive] = useState(null);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -21,66 +23,80 @@ const Account = () => {
     }
   }, [isLoggedIn]);
 
+  const userNavList = [
+    {
+      value: 'Settings',
+      icon: <IoSettingsOutline />,
+    },
+    {
+      value: 'My bookings',
+      icon: <PiSuitcase />,
+    },
+    {
+      value: 'My reviews',
+      icon: <Star />,
+    },
+    {
+      value: 'Billing',
+      icon: <SlCreditCard />,
+    },
+  ];
+
+  const adminNavList = [
+    {
+      value: 'Manage tours',
+      icon: <IoMapOutline />,
+    },
+    {
+      value: 'Manage users',
+      icon: <PiUsers />,
+    },
+    {
+      value: 'Manage reviews',
+      icon: <Star />,
+    },
+    {
+      value: 'Manage bookings',
+      icon: <PiSuitcase />,
+    },
+  ];
+
   return (
     <div className="spacer">
       {isLoggedIn ? (
         <div className="user-view">
           <nav className="user-view__menu">
             <ul className="side-nav">
-              <li className="side-nav--active">
-                <Link to="#">
-                  <IoSettingsOutline />
-                  Settings
-                </Link>
-              </li>
-              <li>
-                <Link to="#">
-                  <PiSuitcase />
-                  My bookings
-                </Link>
-              </li>
-              <li>
-                <Link to="#">
-                  <Star />
-                  My reviews
-                </Link>
-              </li>
-              <li>
-                <Link to="#">
-                  <SlCreditCard />
-                  Billing
-                </Link>
-              </li>
+              {userNavList.map((item, index) => (
+                <li
+                  key={index}
+                  onClick={() => setUserNavActive(index)}
+                  className={userNavActive === index && 'side-nav--active'}
+                >
+                  <Link to="#">
+                    {item.icon}
+                    {item.value}
+                  </Link>
+                </li>
+              ))}
             </ul>
 
             {user.role === 'admin' && (
               <div className="ma-top-huge">
                 <h5 className="side-nav__heading">Admin</h5>
                 <ul className="side-nav">
-                  <li>
-                    <Link to="#">
-                      <IoMapOutline />
-                      Manage tours
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="#">
-                      <PiUsers />
-                      Manage users
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="#">
-                      <Star />
-                      Manage reviews
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="#">
-                      <PiSuitcase />
-                      Manage bookings
-                    </Link>
-                  </li>
+                  {adminNavList.map((item, index) => (
+                    <li
+                      key={index}
+                      onClick={() => setAdminNavActive(index)}
+                      className={adminNavActive === index && 'side-nav--active'}
+                    >
+                      <Link to="#">
+                        {item.icon}
+                        {item.value}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </div>
             )}
