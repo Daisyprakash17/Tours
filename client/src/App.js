@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import TourDetails from './pages/TourDetails';
+import Account from './pages/Account';
 import { AuthProvider } from './store/AuthContext';
 
 const App = () => {
@@ -13,6 +14,7 @@ const App = () => {
       <Route path="/" element={<Home />} />
       <Route path="/log-in" element={<Login />} />
       <Route path="/sign-up" element={<Signup />} />
+      <Route path="/me" element={<Account />} />
       <Route path="/tour/:id" element={<TourDetails />} />
     </Routes>
   );

@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../store/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../../utils/axiosConfig';
 import Alert from '../Alert/Alert';
 
 const Form = (props) => {
-  const { title } = props;
+  const { title, userInfo } = props;
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -211,6 +211,54 @@ const Form = (props) => {
         </>
       )}
       {/* ---- END SIGNUP FORM ---- */}
+
+      {/* ---- START ACCOUNT SETTINGS FORM ---- */}
+      {title === 'account-settings' && (
+        <>
+          <h2 className="heading-secondary ma-bt-lg">Account settings</h2>
+          <div className="form__group">
+            <label className="form__label" htmlFor="name">
+              Name
+            </label>
+            <input
+              id="name"
+              className="form__input"
+              type="name"
+              placeholder="Your Name"
+              required
+              minLength="6"
+              value={userInfo.name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+          <div className="form__group ma-bt-md">
+            <label className="form__label" htmlFor="email">
+              Email address
+            </label>
+            <input
+              id="email"
+              className="form__input"
+              type="email"
+              placeholder="you@example.com"
+              required
+              value={userInfo.email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="form__group form__photo-upload ma-bt-lg">
+            <img
+              className="form__user-photo"
+              src={`/img/users/${userInfo.photo}`}
+              alt={userInfo.name}
+            />
+            <Link to="#" className="btn-text">Choose new photo</Link>
+          </div>
+          <div className="form__group">
+            <button className="btn btn--green">Save settings</button>
+          </div>
+        </>
+      )}
+      {/* ---- END ACCOUNT SETTINGS FORM ---- */}
     </form>
   );
 };
