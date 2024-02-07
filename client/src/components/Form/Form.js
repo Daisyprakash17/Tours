@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../store/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../../utils/axiosConfig';
@@ -8,17 +8,34 @@ const Form = (props) => {
   const { title, userInfo } = props;
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [photo, setPhoto] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState('');
-  const { setIsLoggedIn } = useContext(AuthContext);
+  const { setIsLoggedIn, setIsLoading } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (userInfo) {
+      setName(userInfo.name);
+      setEmail(userInfo.email);
+    }
+  }, [userInfo]);
+
+  // User storage
+  const usrStorage = (name, photo) => {
+    const userObject = {
+      name,
+      photo,
+    };
+    localStorage.setItem('user', JSON.stringify(userObject));
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Login submit
+    // Login
     if (title === 'login') {
       api
         .post('users/login', { email, password })
@@ -27,12 +44,7 @@ const Form = (props) => {
           if (res.status === 200) {
             setMessage('You are successfully logged in!');
             setStatus('success');
-
-            const userObject = {
-              name: res.data.data.user.name,
-              photo: res.data.data.user.photo,
-            };
-            localStorage.setItem('user', JSON.stringify(userObject));
+            usrStorage(res.data.data.user.name, res.data.data.user.photo);
 
             setEmail('');
             setPassword('');
@@ -46,7 +58,10 @@ const Form = (props) => {
         })
         .catch((err) => {
           console.error(err.response.data);
-          setMessage(err.response.data.error || 'Ops! Something went wrong!');
+          setMessage(
+            err.response.data.error ||
+              'Ops! Something went wrong, please try again.'
+          );
           setStatus('error');
           setTimeout(() => {
             setMessage('');
@@ -54,7 +69,7 @@ const Form = (props) => {
         });
     }
 
-    // Signup submit
+    // Signup
     if (title === 'signup') {
       api
         .post('users/signup', {
@@ -68,12 +83,7 @@ const Form = (props) => {
           if (res.status === 201) {
             setStatus('success');
             setMessage('User successfully signed in!');
-
-            const userObject = {
-              name: res.data.data.user.name,
-              photo: res.data.data.user.photo,
-            };
-            localStorage.setItem('user', JSON.stringify(userObject));
+            usrStorage(res.data.data.user.name, res.data.data.user.photo);
 
             setName('');
             setEmail('');
@@ -89,8 +99,55 @@ const Form = (props) => {
         })
         .catch((err) => {
           console.error(err.response);
-          setMessage(err.response.data.message || 'Ops! Something went wrong!');
+          setMessage(
+            err.response.data.message ||
+              'Ops! Something went wrong, please try again.'
+          );
           setStatus('error');
+          setTimeout(() => {
+            setMessage('');
+          }, 3000);
+        });
+    }
+
+    // User update name, email, photo
+    if (title === 'account-settings') {
+      api
+        .patch('users/updateMe', { name, email, photo })
+        .then((res) => {
+          // console.log(res);
+
+          if (res.status === 200) {
+            setStatus('success');
+            setMessage('User successfully updated!');
+            usrStorage(res.data.data.user.name, res.data.data.user.photo);
+
+            setIsLoading(true);
+            setTimeout(() => {
+              setIsLoading(false);
+            }, 0);
+
+            setTimeout(() => {
+              setMessage('');
+            }, 1000);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          setStatus('error');
+          if (err.response.data.message.includes('dup key: { email')) {
+            setMessage('This email is already in use!');
+          } else if (err.response.data.message.includes('dup key: { name')) {
+            setStatus('error');
+            setMessage('User name already taken!');
+          } else {
+            setStatus('error');
+            setMessage(
+              err.response.data.message ||
+                'Ops! Something went wrong, please try again.'
+            );
+          }
+
           setTimeout(() => {
             setMessage('');
           }, 3000);
@@ -227,7 +284,7 @@ const Form = (props) => {
               placeholder="Your Name"
               required
               minLength="6"
-              value={userInfo.name}
+              value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </div>
@@ -241,7 +298,7 @@ const Form = (props) => {
               type="email"
               placeholder="you@example.com"
               required
-              value={userInfo.email}
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
@@ -251,7 +308,9 @@ const Form = (props) => {
               src={`/img/users/${userInfo.photo}`}
               alt={userInfo.name}
             />
-            <Link to="#" className="btn-text">Choose new photo</Link>
+            <Link to="#" className="btn-text">
+              Choose new photo
+            </Link>
           </div>
           <div className="form__group">
             <button className="btn btn--green">Save settings</button>

@@ -48,14 +48,23 @@ exports.getMe = (req, res, next) => {
 
 exports.updateMe = async (req, res, next) => {
   try {
+    const { name, password, confirmPassword } = req.body;
     // Create error if user POSTs password data
-    if (req.body.password || req.body.confirmPassword) {
+    if (password || confirmPassword) {
       return res.status(400).json({
         status: 'error',
         message:
           'This route is not for password updates. Please use /updatePassword',
       });
     }
+
+    if (name.length < 6) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'User name must be at least 6 characters long',
+      });
+    }
+
     // Filtered out unwanted fields name that are not allowed to be updated
     const filteredBody = filterObj(req.body, 'name', 'email');
     // Update user document
