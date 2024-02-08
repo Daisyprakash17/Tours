@@ -9,10 +9,12 @@ const Form = (props) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [photo, setPhoto] = useState('');
+  const [currentPassword, setCurrentPassword] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState('');
+  const [disabled, setDisabled] = useState(false);
   const { setIsLoggedIn, setIsLoading } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -147,6 +149,46 @@ const Form = (props) => {
                 'Ops! Something went wrong, please try again.'
             );
           }
+
+          setTimeout(() => {
+            setMessage('');
+          }, 3000);
+        });
+    }
+
+    // Update password
+    if (title === 'password-change') {
+      setDisabled(true);
+      api
+        .patch('users/updatePassword', {
+          currentPassword,
+          password,
+          confirmPassword,
+        })
+        .then((res) => {
+          // console.log(res);
+          if (res.status === 200) {
+            setStatus('success');
+            setMessage('Password successfully updated!');
+
+            setCurrentPassword('');
+            setPassword('');
+            setConfirmPassword('');
+
+            setDisabled(false);
+
+            setTimeout(() => {
+              setMessage('');
+            }, 1500);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          setStatus('error');
+          setMessage(
+            err.response.data.message ||
+              'Ops! Something went wrong, please try again.'
+          );
 
           setTimeout(() => {
             setMessage('');
@@ -318,6 +360,66 @@ const Form = (props) => {
         </>
       )}
       {/* ---- END ACCOUNT SETTINGS FORM ---- */}
+
+      {/* ---- START PASSWORD CHANGE FORM ---- */}
+      {title === 'password-change' && (
+        <>
+          <h2 className="heading-secondary ma-bt-lg">Change password</h2>
+          <div className="form__group">
+            <label className="form__label" htmlFor="currentPassword">
+              Current password
+            </label>
+            <input
+              id="currentPassword"
+              className="form__input"
+              type="password"
+              placeholder="••••••••"
+              required
+              minLength="8"
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+            />
+          </div>
+          <div className="form__group">
+            <label className="form__label" htmlFor="newPassword">
+              New password
+            </label>
+            <input
+              id="newPassword"
+              className="form__input"
+              type="password"
+              placeholder="••••••••"
+              required
+              minLength="8"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <div className="form__group ma-bt-md">
+            <label className="form__label" htmlFor="confirmPassword">
+              Confirm password
+            </label>
+            <input
+              id="confirmPassword"
+              className="form__input"
+              type="password"
+              placeholder="••••••••"
+              required
+              minLength="8"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </div>
+          <div className="form__group">
+            {disabled ? (
+              <button disabled className="btn btn--green">Updating...</button>
+            ) : (
+              <button className="btn btn--green">Save Password</button>
+            )}
+          </div>
+        </>
+      )}
+      {/* ---- END PASSWORD CHANGE FORM ---- */}
     </form>
   );
 };

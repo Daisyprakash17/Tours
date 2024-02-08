@@ -18,6 +18,13 @@
   }
 }
 
+.divider {
+  margin: 6rem 0;
+  width: 100%;
+  height: 1px;
+  background-color: #e0e0e0;
+}
+
 .ma-bt-md {
   margin-bottom: 3rem !important;
 }
@@ -26,6 +33,18 @@
   margin-bottom: 3.5rem !important;
 }
 
+.ma-bt-xl {
+  margin-bottom: 4rem !important;
+}
+
+.ma-bt-huge {
+  margin-bottom: 5rem !important;
+}
+
+.ma-top-md {
+  margin-bottom: 3rem !important;
+}
+
 .ma-top-huge {
-  margin-top: 10rem !important;
+  margin-top: 5rem !important;
 }

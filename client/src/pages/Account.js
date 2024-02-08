@@ -2,31 +2,43 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../store/AuthContext';
 import { Link } from 'react-router-dom';
 import Form from '../components/Form/Form';
-import { IoSettingsOutline, IoMapOutline } from 'react-icons/io5';
+import { IoSettingsOutline, IoMapOutline, IoKeyOutline } from 'react-icons/io5';
 import { PiSuitcase, PiUsers } from 'react-icons/pi';
 import { SlCreditCard } from 'react-icons/sl';
 import Star from '../components/Icons/Star';
 import api from '../utils/axiosConfig';
 
 const Account = () => {
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, setIsLoading } = useContext(AuthContext);
   const [user, setUser] = useState({});
   const [userNavActive, setUserNavActive] = useState(0);
   const [adminNavActive, setAdminNavActive] = useState(null);
+  const [content, setContent] = useState('account-settings');
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (!isLoggedIn) {
+      document.title = 'Natours | Error';
+      setIsLoading(false);
+    } else {
       api
         .get('/users/me')
         .then((res) => setUser(res.data.data.data))
         .catch((err) => console.error(err));
+
+      document.title = 'Natours | Account';
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, setIsLoading]);
 
   const userNavList = [
     {
       value: 'Settings',
       icon: <IoSettingsOutline />,
+      content: 'account-settings',
+    },
+    {
+      value: 'Password',
+      icon: <IoKeyOutline />,
+      content: 'password-change',
     },
     {
       value: 'My bookings',
@@ -66,14 +78,16 @@ const Account = () => {
       {isLoggedIn ? (
         <div className="user-view">
           <nav className="user-view__menu">
-            <ul className="side-nav">
+            <ul className="side-nav ma-top-md">
               {userNavList.map((item, index) => (
                 <li
                   key={index}
                   onClick={() => setUserNavActive(index)}
-                  className={userNavActive === index && 'side-nav--active'}
+                  className={
+                    userNavActive === index ? 'side-nav--active' : undefined
+                  }
                 >
-                  <Link to="#">
+                  <Link onClick={() => setContent(item.content)} to="#">
                     {item.icon}
                     {item.value}
                   </Link>
@@ -91,7 +105,7 @@ const Account = () => {
                       onClick={() => setAdminNavActive(index)}
                       className={adminNavActive === index && 'side-nav--active'}
                     >
-                      <Link to="#">
+                      <Link onClick={() => setContent(item.content)} to="#">
                         {item.icon}
                         {item.value}
                       </Link>
@@ -102,7 +116,14 @@ const Account = () => {
             )}
           </nav>
           <div className="user-view__content">
-            <Form title="account-settings" userInfo={user} />
+            {content ? (
+              <Form title={content} userInfo={user} />
+            ) : (
+              <div className="spacer" style={{textAlign:'center'}}>
+                <h2 className="heading-secondary ma-bt-lg">ToDo</h2>
+                <p style={{fontSize:'2rem'}}><strong>This content does not exist yet!</strong></p>
+              </div>
+            )}
           </div>
         </div>
       ) : (

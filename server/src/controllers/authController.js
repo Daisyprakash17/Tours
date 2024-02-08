@@ -295,13 +295,21 @@ exports.updatePassword = async (req, res, next) => {
     const user = await User.findById(req.user.id).select('+password');
     // Check if POSTed password is correct
     if (
-      !(await user.correctPassword(req.body.passwordCurrent, user.password))
+      !(await user.correctPassword(req.body.currentPassword, user.password))
     ) {
-      return res.status(401).json({
+      return res.status(400).json({
         status: 'fail',
         message: 'Your current password is incorrect.',
       });
     }
+
+    if (req.body.password !== req.body.confirmPassword) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Password and confirm password does not match!',
+      });
+    }
+
     // If POSTed password is correct then update password
     user.password = req.body.password;
     user.confirmPassword = req.body.confirmPassword;
