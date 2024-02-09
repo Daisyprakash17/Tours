@@ -8,7 +8,7 @@ const Login = () => {
 
   return (
     <div className="spacer">
-      <Form title="login" />
+      <Form content="login" />
     </div>
   );
 };

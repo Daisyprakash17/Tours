@@ -117,7 +117,7 @@ const Account = () => {
           </nav>
           <div className="user-view__content">
             {content ? (
-              <Form title={content} userInfo={user} />
+              <Form content={content} userInfo={user} />
             ) : (
               <div className="spacer" style={{textAlign:'center'}}>
                 <h2 className="heading-secondary ma-bt-lg">ToDo</h2>

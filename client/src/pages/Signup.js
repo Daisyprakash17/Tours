@@ -8,7 +8,7 @@ const Signup = () => {
 
   return (
     <div className="spacer">
-      <Form title="signup" />
+      <Form content="signup" />
     </div>
   );
 };

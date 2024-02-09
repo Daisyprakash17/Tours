@@ -5,7 +5,7 @@ import api from '../../utils/axiosConfig';
 import Alert from '../Alert/Alert';
 
 const Form = (props) => {
-  const { title, userInfo } = props;
+  const { content, userInfo } = props;
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [photo, setPhoto] = useState('');
@@ -38,7 +38,7 @@ const Form = (props) => {
     event.preventDefault();
 
     // Login
-    if (title === 'login') {
+    if (content === 'login') {
       api
         .post('users/login', { email, password })
         .then((res) => {
@@ -72,7 +72,7 @@ const Form = (props) => {
     }
 
     // Signup
-    if (title === 'signup') {
+    if (content === 'signup') {
       api
         .post('users/signup', {
           name,
@@ -113,7 +113,7 @@ const Form = (props) => {
     }
 
     // User update name, email, photo
-    if (title === 'account-settings') {
+    if (content === 'account-settings') {
       api
         .patch('users/updateMe', { name, email, photo })
         .then((res) => {
@@ -157,7 +157,7 @@ const Form = (props) => {
     }
 
     // Update password
-    if (title === 'password-change') {
+    if (content === 'password-change') {
       setDisabled(true);
       api
         .patch('users/updatePassword', {
@@ -202,7 +202,7 @@ const Form = (props) => {
       {message && <Alert status={status} text={message} />}
 
       {/* ---- START LOGIN FORM ---- */}
-      {title === 'login' && (
+      {content === 'login' && (
         <>
           <h2 className="heading-secondary ma-bt-lg">Log in</h2>
           <div className="form__group">
@@ -242,7 +242,7 @@ const Form = (props) => {
       {/* ---- END LOGIN FORM ---- */}
 
       {/* ---- START SIGNUP FORM ---- */}
-      {title === 'signup' && (
+      {content === 'signup' && (
         <>
           <h2 className="heading-secondary ma-bt-lg">Sign up</h2>
           <div className="form__group">
@@ -312,7 +312,7 @@ const Form = (props) => {
       {/* ---- END SIGNUP FORM ---- */}
 
       {/* ---- START ACCOUNT SETTINGS FORM ---- */}
-      {title === 'account-settings' && (
+      {content === 'account-settings' && (
         <>
           <h2 className="heading-secondary ma-bt-lg">Account settings</h2>
           <div className="form__group">
@@ -362,7 +362,7 @@ const Form = (props) => {
       {/* ---- END ACCOUNT SETTINGS FORM ---- */}
 
       {/* ---- START PASSWORD CHANGE FORM ---- */}
-      {title === 'password-change' && (
+      {content === 'password-change' && (
         <>
           <h2 className="heading-secondary ma-bt-lg">Change password</h2>
           <div className="form__group">
