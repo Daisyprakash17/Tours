@@ -1,5 +1,30 @@
+const multer = require('multer');
 const User = require('../models/userModel');
 const factory = require('./handlerFactory');
+
+// Doc: https://www.npmjs.com/package/multer#diskstorage
+const multerStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, '../client/public/img/users');
+  },
+  filename: (req, file, cb) => {
+    // Get file extension
+    const ext = file.mimetype.split('/')[1];
+    cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
+  },
+});
+
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image')) {
+    cb(null, true);
+  } else {
+    cb(new Error('Only images are allowed.'), false);
+  }
+};
+
+const upload = multer({ storage: multerStorage, fileFilter: multerFilter });
+
+exports.uploadUserPhoto = upload.single('photo');
 
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {};
@@ -58,7 +83,7 @@ exports.updateMe = async (req, res, next) => {
       });
     }
 
-    if (name.length < 6) {
+    if (name && name.length < 6) {
       return res.status(400).json({
         status: 'fail',
         message: 'User name must be at least 6 characters long',
@@ -67,6 +92,9 @@ exports.updateMe = async (req, res, next) => {
 
     // Filtered out unwanted fields name that are not allowed to be updated
     const filteredBody = filterObj(req.body, 'name', 'email');
+    // console.log(req.file);
+    if (req.file) filteredBody.photo = req.file.filename;
+
     // Update user document
     const updatedUser = await User.findByIdAndUpdate(
       req.user.id,
