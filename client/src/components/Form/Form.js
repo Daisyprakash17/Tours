@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../store/AuthContext';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import api from '../../utils/axiosConfig';
 import Alert from '../Alert/Alert';
 
@@ -15,6 +15,7 @@ const Form = (props) => {
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState('');
   const [disabled, setDisabled] = useState(false);
+  const [imgData, setImgData] = useState(null);
   const { setIsLoggedIn, setIsLoading } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -32,6 +33,17 @@ const Form = (props) => {
       photo,
     };
     localStorage.setItem('user', JSON.stringify(userObject));
+  };
+
+  const onChangePicture = (e) => {
+    if (e.target.files[0]) {
+      setPhoto(e.target.files[0]);
+      const reader = new FileReader();
+      reader.addEventListener('load', () => {
+        setImgData(reader.result);
+      });
+      reader.readAsDataURL(e.target.files[0]);
+    }
   };
 
   const handleSubmit = (event) => {
@@ -114,20 +126,47 @@ const Form = (props) => {
 
     // User update name, email, photo
     if (content === 'account-settings') {
+      const formData = new FormData();
+      formData.append('photo', photo);
+      formData.append('name', name);
+      formData.append('email', email);
+
+      const config = {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        withCredentials: true,
+      };
+
       api
-        .patch('users/updateMe', { name, email, photo })
+        .patch('users/updateMe', formData, config)
         .then((res) => {
           // console.log(res);
+
+          if (res.data.status === 'error') {
+            setStatus('error');
+            setMessage(
+              res.data.message || 'Ops! Something went wrong, please try again.'
+            );
+
+            setTimeout(() => {
+              setMessage('');
+            }, 1500);
+
+            return;
+          }
 
           if (res.status === 200) {
             setStatus('success');
             setMessage('User successfully updated!');
             usrStorage(res.data.data.user.name, res.data.data.user.photo);
+            setPhoto('');
+            setImgData(
+              `http://localhost:8000/public/img/users/${res.data.data.user.photo}`
+            );
 
             setIsLoading(true);
             setTimeout(() => {
               setIsLoading(false);
-            }, 0);
+            }, 100);
 
             setTimeout(() => {
               setMessage('');
@@ -347,12 +386,26 @@ const Form = (props) => {
           <div className="form__group form__photo-upload ma-bt-lg">
             <img
               className="form__user-photo"
-              src={`/img/users/${userInfo.photo}`}
+              src={
+                imgData
+                  ? imgData
+                  : `http://localhost:8000/public/img/users/${userInfo.photo}`
+              }
               alt={userInfo.name}
+              crossorigin="anonymous"
             />
-            <Link to="#" className="btn-text">
+            <input
+              className="hidden"
+              type="file"
+              accept="image/*"
+              id="photo"
+              name="photo"
+              onChange={onChangePicture}
+            />
+            <span className="form__selected-file">{photo && photo.name}</span>
+            <label htmlFor="photo" className="form__label--upload">
               Choose new photo
-            </Link>
+            </label>
           </div>
           <div className="form__group">
             <button className="btn btn--green">Save settings</button>
@@ -412,7 +465,9 @@ const Form = (props) => {
           </div>
           <div className="form__group">
             {disabled ? (
-              <button disabled className="btn btn--green">Updating...</button>
+              <button disabled className="btn btn--green">
+                Updating...
+              </button>
             ) : (
               <button className="btn btn--green">Save Password</button>
             )}

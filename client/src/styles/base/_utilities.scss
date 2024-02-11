@@ -1,5 +1,9 @@
 @import '../abstracts/mixins';
 
+.hidden {
+  display: none !important;
+}
+
 .xs-hidden {
   @include respond(phone) {
     display: none !important;

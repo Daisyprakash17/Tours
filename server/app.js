@@ -74,6 +74,8 @@ app.use(
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
+// Upload images route
+app.use('/public/img/users', express.static(__dirname + '/public/img/users/'));
 
 // Error handling
 app.all('*', (req, res, next) => {

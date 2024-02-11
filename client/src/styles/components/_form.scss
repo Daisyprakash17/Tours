@@ -48,6 +48,25 @@
     font-size: 1.6rem;
     font-weight: 700;
     margin-bottom: 0.75rem;
+
+    &--upload {
+      color: $color-primary;
+      display: inline-block;
+      border-bottom: 1px solid $color-primary;
+      padding: 3px;
+      transition: all 0.2s;
+
+      &:hover {
+        cursor: pointer;
+        transform: translateY(-2px);
+      }
+
+      &:focus {
+        outline: none;
+        outline: 3px solid $color-primary;
+        outline-offset: 3px;
+      }
+    }
   }
 
   &__photo-upload {
@@ -61,5 +80,9 @@
     width: 7.5rem;
     border-radius: 50%;
     margin-right: 2rem;
+  }
+
+  &__selected-file {
+    margin-right: 1rem;
   }
 }

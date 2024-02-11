@@ -84,8 +84,9 @@ const Header = () => {
             <div className="nav__el" onClick={toggleMenu}>
               <img
                 className="nav__user-img"
-                src={`/img/users/${user.photo}`}
+                src={`http://localhost:8000/public/img/users/${user.photo}`}
                 alt={`User ${user.name}`}
+                crossorigin="anonymous"
               />
               <span>{user.name.split(' ')[0]}</span>
             </div>
