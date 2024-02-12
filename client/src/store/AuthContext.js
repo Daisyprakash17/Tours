@@ -9,8 +9,8 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (localStorage.getItem('user')) {
       setIsLoggedIn(true);
-      setIsLoading(false);
     }
+    setIsLoading(false);
   }, []);
 
   return (

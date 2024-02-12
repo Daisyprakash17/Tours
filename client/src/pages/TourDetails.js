@@ -41,8 +41,9 @@ const TourDetails = () => {
               <div className="header__hero-overlay">&nbsp;</div>
               <img
                 className="header__hero-img"
-                src={`/img/tours/${tour.imageCover}`}
+                src={`http://localhost:8000/public/img/tours/${tour.imageCover}`}
                 alt={tour.name}
+                crossOrigin="anonymous"
               />
             </div>
             <div className="heading-box">
@@ -109,9 +110,10 @@ const TourDetails = () => {
                     return (
                       <div key={index} className="overview-box__detail">
                         <img
-                          src={`/img/users/${guide.photo}`}
+                          src={`http://localhost:8000/public/img/users/${guide.photo}`}
                           alt="Guide"
                           className="overview-box__img"
+                          crossorigin="anonymous"
                         />
                         <span className="overview-box__label">
                           {index === 0 ? 'Lead ' : 'Tour '}guide:
@@ -138,8 +140,9 @@ const TourDetails = () => {
                     className={`picture-box__img picture-box__img--${
                       index + 1
                     }`}
-                    src={`/img/tours/${image}`}
+                    src={`http://localhost:8000/public/img/tours/${image}`}
                     alt={`${tour.name}-${index + 1}`}
+                    crossorigin="anonymous"
                   />
                 </div>
               );
@@ -150,16 +153,17 @@ const TourDetails = () => {
             <h2 className="heading-primary">All Reviews</h2>
             <div className="reviews">
               {tour.reviews.length < 1 ? (
-                <h3>No reviews yet!</h3>
+                <h3 className="no-reviews">There are no reviews yet!</h3>
               ) : (
-                tour.reviews.map((review) => {
+                tour.reviews.map((review, index) => {
                   return (
-                    <div className="reviews__card">
+                    <div key={index} className="reviews__card">
                       <div className="reviews__avatar">
                         <img
-                          src={`/img/users/${review.user.photo}`}
+                          src={`http://localhost:8000/public/img/users/${review.user.photo}`}
                           alt={review.user.name}
                           className="reviews__avatar-img"
+                          crossorigin="anonymous"
                         />
                         <h6 className="reviews__user">{review.user.name}</h6>
                       </div>
@@ -172,6 +176,7 @@ const TourDetails = () => {
                 })
               )}
             </div>
+            <button className="btn btn--white">New review</button>
           </section>
 
           <section className="details-cta">

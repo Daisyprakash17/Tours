@@ -36,9 +36,10 @@ const TourCard = () => {
                 <div className="card__picture">
                   <div className="card__picture-overlay">&nbsp;</div>
                   <img
-                    src={`img/tours/${tour.imageCover}`}
+                    src={`http://localhost:8000/public/img/tours/${tour.imageCover}`}
                     alt="Tour cover"
                     className="card__picture-img"
+                    crossorigin="anonymous"
                   />
                 </div>
 

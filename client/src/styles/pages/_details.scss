@@ -180,6 +180,9 @@ $section-rotate: 9vw;
 }
 
 .details-reviews {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-top: calc(0px - $section-rotate);
   padding: calc(5rem + $section-rotate) 0;
   position: relative;
@@ -201,6 +204,12 @@ $section-rotate: 9vw;
     justify-items: center;
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
+
+    .no-reviews {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin: 0 auto;
+    }
 
     &__card {
       width: 30rem;
