@@ -5,8 +5,10 @@ import Form from '../components/Form/Form';
 import { IoSettingsOutline, IoMapOutline, IoKeyOutline } from 'react-icons/io5';
 import { PiSuitcase, PiUsers } from 'react-icons/pi';
 import { SlCreditCard } from 'react-icons/sl';
+import { RiDeleteBinLine } from "react-icons/ri";
 import Star from '../components/Icons/Star';
 import api from '../utils/axiosConfig';
+import ManageTours from './admin/ManageTours';
 
 const Account = () => {
   const { isLoggedIn, setIsLoading } = useContext(AuthContext);
@@ -33,24 +35,60 @@ const Account = () => {
     {
       value: 'Settings',
       icon: <IoSettingsOutline />,
-      content: 'account-settings',
+      content: <Form content="account-settings" userInfo={user} />,
     },
     {
       value: 'Password',
       icon: <IoKeyOutline />,
-      content: 'password-change',
+      content: <Form content="password-change" />,
     },
     {
       value: 'My bookings',
       icon: <PiSuitcase />,
+      content: (
+        <div className="spacer" style={{ textAlign: 'center' }}>
+          <h2 className="heading-secondary ma-bt-lg">ToDo</h2>
+          <p style={{ fontSize: '2rem' }}>
+            <strong>This content does not exist yet!</strong>
+          </p>
+        </div>
+      ),
     },
     {
       value: 'My reviews',
       icon: <Star />,
+      content: (
+        <div className="spacer" style={{ textAlign: 'center' }}>
+          <h2 className="heading-secondary ma-bt-lg">ToDo</h2>
+          <p style={{ fontSize: '2rem' }}>
+            <strong>This content does not exist yet!</strong>
+          </p>
+        </div>
+      ),
     },
     {
       value: 'Billing',
       icon: <SlCreditCard />,
+      content: (
+        <div className="spacer" style={{ textAlign: 'center' }}>
+          <h2 className="heading-secondary ma-bt-lg">ToDo</h2>
+          <p style={{ fontSize: '2rem' }}>
+            <strong>This content does not exist yet!</strong>
+          </p>
+        </div>
+      ),
+    },
+    {
+      value: 'Delete account',
+      icon: <RiDeleteBinLine />,
+      content: (
+        <div className="spacer" style={{ textAlign: 'center' }}>
+          <h2 className="heading-secondary ma-bt-lg">ToDo</h2>
+          <p style={{ fontSize: '2rem' }}>
+            <strong>This content does not exist yet!</strong>
+          </p>
+        </div>
+      ),
     },
   ];
 
@@ -58,18 +96,43 @@ const Account = () => {
     {
       value: 'Manage tours',
       icon: <IoMapOutline />,
+      content: <ManageTours />,
     },
     {
       value: 'Manage users',
       icon: <PiUsers />,
+      content: (
+        <div className="spacer" style={{ textAlign: 'center' }}>
+          <h2 className="heading-secondary ma-bt-lg">ToDo</h2>
+          <p style={{ fontSize: '2rem' }}>
+            <strong>This content does not exist yet!</strong>
+          </p>
+        </div>
+      ),
     },
     {
       value: 'Manage reviews',
       icon: <Star />,
+      content: (
+        <div className="spacer" style={{ textAlign: 'center' }}>
+          <h2 className="heading-secondary ma-bt-lg">ToDo</h2>
+          <p style={{ fontSize: '2rem' }}>
+            <strong>This content does not exist yet!</strong>
+          </p>
+        </div>
+      ),
     },
     {
       value: 'Manage bookings',
       icon: <PiSuitcase />,
+      content: (
+        <div className="spacer" style={{ textAlign: 'center' }}>
+          <h2 className="heading-secondary ma-bt-lg">ToDo</h2>
+          <p style={{ fontSize: '2rem' }}>
+            <strong>This content does not exist yet!</strong>
+          </p>
+        </div>
+      ),
     },
   ];
 
@@ -116,13 +179,10 @@ const Account = () => {
             )}
           </nav>
           <div className="user-view__content">
-            {content ? (
-              <Form content={content} userInfo={user} />
+            {content === 'account-settings' ? (
+              <Form content="account-settings" userInfo={user} />
             ) : (
-              <div className="spacer" style={{textAlign:'center'}}>
-                <h2 className="heading-secondary ma-bt-lg">ToDo</h2>
-                <p style={{fontSize:'2rem'}}><strong>This content does not exist yet!</strong></p>
-              </div>
+              <>{content}</>
             )}
           </div>
         </div>

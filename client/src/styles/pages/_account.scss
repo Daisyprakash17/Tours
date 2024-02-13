@@ -34,7 +34,7 @@
       padding: 0;
     }
 
-    form {
+    .form {
       box-shadow: none;
     }
   }
@@ -89,6 +89,28 @@
       width: 1.9rem;
       fill: $color-grey-light;
       margin-right: 2rem;
+    }
+  }
+}
+
+.content {
+  margin: 0 auto;
+  max-width: 60rem;
+  background-color: #fff;
+  padding: 5rem 7rem;
+
+  @include respond(phone) {
+    padding: 5rem 1.5rem;
+  }
+
+  .content-list {
+    list-style: none;
+
+    &--item {
+      margin: 1rem 0;
+      padding: 1rem 0;
+      font-size: 1.5rem;
+      font-weight: 400;
     }
   }
 }

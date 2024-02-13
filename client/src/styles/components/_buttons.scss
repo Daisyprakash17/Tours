@@ -72,6 +72,26 @@
   background-color: $color-primary-light;
 }
 
+.btn-text--green {
+  color: $color-primary;
+  display: inline-block;
+  transition: all 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.btn-text--red {
+  color: #eb4d4b;
+  display: inline-block;
+  transition: all 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
 .btn-text:link,
 .btn-text:visited {
   color: $color-primary;
