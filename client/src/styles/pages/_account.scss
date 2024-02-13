@@ -96,14 +96,14 @@
 .content {
   margin: 0 auto;
   max-width: 60rem;
-  background-color: #fff;
+  background-color: $color-white;
   padding: 5rem 7rem;
 
   @include respond(phone) {
     padding: 5rem 1.5rem;
   }
 
-  .content-list {
+  &__list {
     list-style: none;
 
     &--item {

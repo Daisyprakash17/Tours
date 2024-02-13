@@ -74,9 +74,9 @@ const ManageTours = () => {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <ul className="content-list ma-top-md">
+        <ul className="content__list ma-top-md">
           {tours.map((tour, index) => (
-            <li className="content-list--item" key={index}>
+            <li className="content__list--item" key={index}>
               <span>
                 <strong>{tour.name}</strong> |{' '}
                 <Link className="btn-text--green" to={`/edit-tour/${tour.id}`}>
