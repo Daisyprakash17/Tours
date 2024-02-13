@@ -7,7 +7,7 @@ const Login = () => {
   }, []);
 
   return (
-    <div className="spacer">
+    <div className="main-container">
       <Form content="login" />
     </div>
   );

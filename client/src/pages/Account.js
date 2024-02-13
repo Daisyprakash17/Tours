@@ -46,7 +46,7 @@ const Account = () => {
       value: 'My bookings',
       icon: <PiSuitcase />,
       content: (
-        <div className="spacer" style={{ textAlign: 'center' }}>
+        <div className="main-container" style={{ textAlign: 'center' }}>
           <h2 className="heading-secondary ma-bt-lg">ToDo</h2>
           <p style={{ fontSize: '2rem' }}>
             <strong>This content does not exist yet!</strong>
@@ -58,7 +58,7 @@ const Account = () => {
       value: 'My reviews',
       icon: <Star />,
       content: (
-        <div className="spacer" style={{ textAlign: 'center' }}>
+        <div className="main-container" style={{ textAlign: 'center' }}>
           <h2 className="heading-secondary ma-bt-lg">ToDo</h2>
           <p style={{ fontSize: '2rem' }}>
             <strong>This content does not exist yet!</strong>
@@ -70,7 +70,7 @@ const Account = () => {
       value: 'Billing',
       icon: <SlCreditCard />,
       content: (
-        <div className="spacer" style={{ textAlign: 'center' }}>
+        <div className="main-container" style={{ textAlign: 'center' }}>
           <h2 className="heading-secondary ma-bt-lg">ToDo</h2>
           <p style={{ fontSize: '2rem' }}>
             <strong>This content does not exist yet!</strong>
@@ -82,7 +82,7 @@ const Account = () => {
       value: 'Delete account',
       icon: <RiDeleteBinLine />,
       content: (
-        <div className="spacer" style={{ textAlign: 'center' }}>
+        <div className="main-container" style={{ textAlign: 'center' }}>
           <h2 className="heading-secondary ma-bt-lg">ToDo</h2>
           <p style={{ fontSize: '2rem' }}>
             <strong>This content does not exist yet!</strong>
@@ -102,7 +102,7 @@ const Account = () => {
       value: 'Manage users',
       icon: <PiUsers />,
       content: (
-        <div className="spacer" style={{ textAlign: 'center' }}>
+        <div className="main-container" style={{ textAlign: 'center' }}>
           <h2 className="heading-secondary ma-bt-lg">ToDo</h2>
           <p style={{ fontSize: '2rem' }}>
             <strong>This content does not exist yet!</strong>
@@ -114,7 +114,7 @@ const Account = () => {
       value: 'Manage reviews',
       icon: <Star />,
       content: (
-        <div className="spacer" style={{ textAlign: 'center' }}>
+        <div className="main-container" style={{ textAlign: 'center' }}>
           <h2 className="heading-secondary ma-bt-lg">ToDo</h2>
           <p style={{ fontSize: '2rem' }}>
             <strong>This content does not exist yet!</strong>
@@ -126,7 +126,7 @@ const Account = () => {
       value: 'Manage bookings',
       icon: <PiSuitcase />,
       content: (
-        <div className="spacer" style={{ textAlign: 'center' }}>
+        <div className="main-container" style={{ textAlign: 'center' }}>
           <h2 className="heading-secondary ma-bt-lg">ToDo</h2>
           <p style={{ fontSize: '2rem' }}>
             <strong>This content does not exist yet!</strong>
@@ -137,7 +137,7 @@ const Account = () => {
   ];
 
   return (
-    <div className="spacer">
+    <div className="main-container">
       {isLoggedIn ? (
         <div className="user-view">
           <nav className="user-view__menu">

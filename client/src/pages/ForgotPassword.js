@@ -7,7 +7,7 @@ const ForgotPassword = () => {
   }, []);
 
   return (
-    <div className="spacer">
+    <div className="main-container">
       <Form content="forgotPassword" />
     </div>
   );

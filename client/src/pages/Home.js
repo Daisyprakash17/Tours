@@ -8,7 +8,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="spacer">
+    <div className="main-container">
       <TourCard />
     </div>
   );

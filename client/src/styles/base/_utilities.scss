@@ -10,8 +10,9 @@
   }
 }
 
-.spacer {
+.main-container {
   padding: 8rem 6rem;
+  min-height: 75vh;
 
   @include respond(tab-port) {
     padding: 8rem 4rem;

@@ -7,7 +7,7 @@ const Signup = () => {
   }, []);
 
   return (
-    <div className="spacer">
+    <div className="main-container">
       <Form content="signup" />
     </div>
   );
