@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../store/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../../utils/axiosConfig';
 import Alert from '../Alert/Alert';
 
@@ -234,6 +234,35 @@ const Form = (props) => {
           }, 3000);
         });
     }
+
+    // Forgot password
+    if (content === 'forgotPassword') {
+      api
+        .post('users/forgotPassword', { email })
+        .then((res) => {
+          // console.log(res);
+          if (res.status === 200) {
+            setMessage('Link to reset password successfully sent to email');
+            setStatus('success');
+
+            setTimeout(() => {
+              setMessage('');
+            }, 1500);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          setMessage(
+            err.response.data.message ||
+              'Ops! Something went wrong, please try again.'
+          );
+          setStatus('error');
+
+          setTimeout(() => {
+            setMessage('');
+          }, 1500);
+        });
+    }
   };
 
   return (
@@ -258,7 +287,7 @@ const Form = (props) => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div className="form__group ma-bt-md">
+          <div className="form__group">
             <label className="form__label" htmlFor="password">
               Password
             </label>
@@ -272,6 +301,11 @@ const Form = (props) => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+          </div>
+          <div className="form__group ma-bt-md">
+            <Link className="btn-text" to="/forgot-password">
+              Forgot password?
+            </Link>
           </div>
           <div className="form__group">
             <button className="btn btn--green">Login</button>
@@ -349,6 +383,31 @@ const Form = (props) => {
         </>
       )}
       {/* ---- END SIGNUP FORM ---- */}
+
+      {/* ---- START FORGOT PASSWORD FORM ---- */}
+      {content === 'forgotPassword' && (
+        <>
+          <h2 className="heading-secondary ma-bt-lg">Forgot password</h2>
+          <div className="form__group ma-bt-md">
+            <label className="form__label" htmlFor="email">
+              Email address
+            </label>
+            <input
+              id="email"
+              className="form__input"
+              type="email"
+              placeholder="you@example.com"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="form__group">
+            <button className="btn btn--green">Password reset</button>
+          </div>
+        </>
+      )}
+      {/* ---- END FORGOT PASSWORD FORM ---- */}
 
       {/* ---- START ACCOUNT SETTINGS FORM ---- */}
       {content === 'account-settings' && (
