@@ -19,7 +19,7 @@
   }
 
   &--error {
-    background-color: #eb4d4b;
+    background-color: $color-error;
   }
 
   &--success {
@@ -29,7 +29,7 @@
   &--confirmation {
     color: $color-grey-dark;
     font-weight: 700;
-    background-color: #fff;
+    background-color: $color-white;
   }
 
   &__btns > button {

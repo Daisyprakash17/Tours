@@ -8,6 +8,7 @@ import Location from '../components/Icons/Location';
 import User from '../components/Icons/User';
 import Star from '../components/Icons/Star';
 import api from '../utils/axiosConfig';
+import Button from '../components/Button/Button';
 
 const TourDetails = () => {
   const [tour, setTour] = useState({});
@@ -176,7 +177,7 @@ const TourDetails = () => {
                 })
               )}
             </div>
-            <button className="btn btn--white">New review</button>
+            <Button color="white" value="New review" />
           </section>
 
           <section className="details-cta">
@@ -193,7 +194,7 @@ const TourDetails = () => {
                 </p>
               </div>
               <div>
-                <button className="btn btn--green">Book now!</button>
+                <Button color="green" value="Book now!" />
               </div>
             </div>
           </section>

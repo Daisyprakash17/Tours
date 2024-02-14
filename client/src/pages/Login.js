@@ -8,7 +8,7 @@ const Login = () => {
 
   return (
     <div className="main-container">
-      <Form content="login" />
+      <Form content="login" title="Log in" />
     </div>
   );
 };

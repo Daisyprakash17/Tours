@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '../../utils/axiosConfig';
-import { Link } from 'react-router-dom';
 import Alert from '../../components/Alert/Alert';
+import Button from '../../components/Button/Button';
 
 const ManageTours = () => {
   const [tours, setTours] = useState({});
@@ -79,17 +79,20 @@ const ManageTours = () => {
             <li className="content__list--item" key={index}>
               <span>
                 <strong>{tour.name}</strong> |{' '}
-                <Link className="btn-text--green" to={`/edit-tour/${tour.id}`}>
-                  Edit
-                </Link>{' '}
+                <Button
+                  type="link"
+                  color="green"
+                  to={`/edit-tour/${tour.id}`}
+                  value="Edit"
+                />{' '}
                 or{' '}
-                <Link
+                <Button
+                  type="link"
                   onClick={() => popupHandler(tour.id, tour.name)}
-                  className="btn-text--red"
+                  color="red"
                   to="#"
-                >
-                  Delete
-                </Link>
+                  value="Delete"
+                />
               </span>
               <p>{tour.summary}</p>
             </li>

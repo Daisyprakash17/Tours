@@ -8,7 +8,7 @@ const ForgotPassword = () => {
 
   return (
     <div className="main-container">
-      <Form content="forgotPassword" />
+      <Form content="forgotPassword" title="Forgot password" />
     </div>
   );
 };

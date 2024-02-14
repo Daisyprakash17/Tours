@@ -35,12 +35,12 @@ const Account = () => {
     {
       value: 'Settings',
       icon: <IoSettingsOutline />,
-      content: <Form content="account-settings" userInfo={user} />,
+      content: <Form content="account-settings" title="Account settings" userInfo={user} />,
     },
     {
       value: 'Password',
       icon: <IoKeyOutline />,
-      content: <Form content="password-change" />,
+      content: <Form content="password-change" title="Change password" />,
     },
     {
       value: 'My bookings',

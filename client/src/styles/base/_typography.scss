@@ -30,7 +30,7 @@
 }
 
 .heading-secondary--error {
-  background-image: linear-gradient(to right, #ff7730, #eb4d4b);
+  background-image: linear-gradient(to right, $color-error-secondary, $color-error);
   font-size: 3.5rem;
 }
 

@@ -1,11 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../store/AuthContext';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import api from '../../utils/axiosConfig';
 import Alert from '../Alert/Alert';
+import Input from './Input';
+import Submit from './Submit';
+import Button from '../Button/Button';
 
 const Form = (props) => {
-  const { content, userInfo } = props;
+  const { content, title, userInfo } = props;
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [photo, setPhoto] = useState('');
@@ -268,48 +271,39 @@ const Form = (props) => {
   return (
     <form className="form" onSubmit={handleSubmit}>
       {message && <Alert status={status} text={message} />}
+      <h2 className="heading-secondary ma-bt-lg">{title}</h2>
 
       {/* ---- START LOGIN FORM ---- */}
       {content === 'login' && (
         <>
-          <h2 className="heading-secondary ma-bt-lg">Log in</h2>
-          <div className="form__group">
-            <label className="form__label" htmlFor="email">
-              Email address
-            </label>
-            <input
-              id="email"
-              className="form__input"
-              type="email"
-              placeholder="you@example.com"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="form__group">
-            <label className="form__label" htmlFor="password">
-              Password
-            </label>
-            <input
-              id="password"
-              className="form__input"
-              type="password"
-              placeholder="••••••••"
-              required
-              minLength="8"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
+          <Input
+            name="email"
+            label="Email address"
+            type="email"
+            placeholder="you@example.com"
+            isRequired="true"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            name="password"
+            label="Password"
+            type="password"
+            placeholder="••••••••"
+            isRequired="true"
+            minLength="8"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
           <div className="form__group ma-bt-md">
-            <Link className="btn-text" to="/forgot-password">
-              Forgot password?
-            </Link>
+            <Button
+              type="link"
+              color="green"
+              to="/forgot-password"
+              value="Forgot password?"
+            />
           </div>
-          <div className="form__group">
-            <button className="btn btn--green">Login</button>
-          </div>
+          <Submit submitText="Login" />
         </>
       )}
       {/* ---- END LOGIN FORM ---- */}
@@ -317,69 +311,47 @@ const Form = (props) => {
       {/* ---- START SIGNUP FORM ---- */}
       {content === 'signup' && (
         <>
-          <h2 className="heading-secondary ma-bt-lg">Sign up</h2>
-          <div className="form__group">
-            <label className="form__label" htmlFor="name">
-              Name
-            </label>
-            <input
-              id="name"
-              className="form__input"
-              type="name"
-              placeholder="Your Name"
-              required
-              minLength="6"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
-          <div className="form__group">
-            <label className="form__label" htmlFor="email">
-              Email address
-            </label>
-            <input
-              id="email"
-              className="form__input"
-              type="email"
-              placeholder="you@example.com"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="form__group">
-            <label className="form__label" htmlFor="password">
-              Password
-            </label>
-            <input
-              id="password"
-              className="form__input"
-              type="password"
-              placeholder="••••••••"
-              required
-              minLength="8"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <div className="form__group ma-bt-md">
-            <label className="form__label" htmlFor="confirmPassword">
-              Confirm password
-            </label>
-            <input
-              id="confirmPassword"
-              className="form__input"
-              type="password"
-              placeholder="••••••••"
-              required
-              minLength="8"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-          </div>
-          <div className="form__group">
-            <button className="btn btn--green">Signup</button>
-          </div>
+          <Input
+            name="name"
+            label="Name"
+            type="text"
+            placeholder="Your Name"
+            isRequired="true"
+            minLength="6"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Input
+            name="email"
+            label="Email address"
+            type="email"
+            placeholder="you@example.com"
+            isRequired="true"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            name="password"
+            label="Password"
+            type="password"
+            placeholder="••••••••"
+            isRequired="true"
+            minLength="8"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Input
+            extraClass="ma-bt-md"
+            name="confirmPassword"
+            label="Confirm password"
+            type="password"
+            placeholder="••••••••"
+            isRequired="true"
+            minLength="8"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+          <Submit submitText="Signup" />
         </>
       )}
       {/* ---- END SIGNUP FORM ---- */}
@@ -387,24 +359,17 @@ const Form = (props) => {
       {/* ---- START FORGOT PASSWORD FORM ---- */}
       {content === 'forgotPassword' && (
         <>
-          <h2 className="heading-secondary ma-bt-lg">Forgot password</h2>
-          <div className="form__group ma-bt-md">
-            <label className="form__label" htmlFor="email">
-              Email address
-            </label>
-            <input
-              id="email"
-              className="form__input"
-              type="email"
-              placeholder="you@example.com"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="form__group">
-            <button className="btn btn--green">Password reset</button>
-          </div>
+          <Input
+            extraClass="ma-bt-md"
+            name="email"
+            label="Email address"
+            type="email"
+            placeholder="you@example.com"
+            isRequired="true"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Submit submitText="Password reset" />
         </>
       )}
       {/* ---- END FORGOT PASSWORD FORM ---- */}
@@ -412,36 +377,26 @@ const Form = (props) => {
       {/* ---- START ACCOUNT SETTINGS FORM ---- */}
       {content === 'account-settings' && (
         <>
-          <h2 className="heading-secondary ma-bt-lg">Account settings</h2>
-          <div className="form__group">
-            <label className="form__label" htmlFor="name">
-              Name
-            </label>
-            <input
-              id="name"
-              className="form__input"
-              type="name"
-              placeholder="Your Name"
-              required
-              minLength="6"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
-          <div className="form__group ma-bt-md">
-            <label className="form__label" htmlFor="email">
-              Email address
-            </label>
-            <input
-              id="email"
-              className="form__input"
-              type="email"
-              placeholder="you@example.com"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
+          <Input
+            name="name"
+            label="Name"
+            type="text"
+            placeholder="Your Name"
+            isRequired="true"
+            minLength="6"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Input
+            extraClass="ma-bt-md"
+            name="email"
+            label="Email address"
+            type="email"
+            placeholder="you@example.com"
+            isRequired="true"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
           <div className="form__group form__photo-upload ma-bt-lg">
             <img
               className="form__user-photo"
@@ -466,9 +421,7 @@ const Form = (props) => {
               Choose new photo
             </label>
           </div>
-          <div className="form__group">
-            <button className="btn btn--green">Save settings</button>
-          </div>
+          <Submit submitText="Save settings" />
         </>
       )}
       {/* ---- END ACCOUNT SETTINGS FORM ---- */}
@@ -476,61 +429,38 @@ const Form = (props) => {
       {/* ---- START PASSWORD CHANGE FORM ---- */}
       {content === 'password-change' && (
         <>
-          <h2 className="heading-secondary ma-bt-lg">Change password</h2>
-          <div className="form__group">
-            <label className="form__label" htmlFor="currentPassword">
-              Current password
-            </label>
-            <input
-              id="currentPassword"
-              className="form__input"
-              type="password"
-              placeholder="••••••••"
-              required
-              minLength="8"
-              value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
-            />
-          </div>
-          <div className="form__group">
-            <label className="form__label" htmlFor="newPassword">
-              New password
-            </label>
-            <input
-              id="newPassword"
-              className="form__input"
-              type="password"
-              placeholder="••••••••"
-              required
-              minLength="8"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <div className="form__group ma-bt-md">
-            <label className="form__label" htmlFor="confirmPassword">
-              Confirm password
-            </label>
-            <input
-              id="confirmPassword"
-              className="form__input"
-              type="password"
-              placeholder="••••••••"
-              required
-              minLength="8"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-          </div>
-          <div className="form__group">
-            {disabled ? (
-              <button disabled className="btn btn--green">
-                Updating...
-              </button>
-            ) : (
-              <button className="btn btn--green">Save Password</button>
-            )}
-          </div>
+          <Input
+            name="currentPassword"
+            label="Current password"
+            type="password"
+            placeholder="••••••••"
+            isRequired="true"
+            minLength="8"
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+          />
+          <Input
+            name="newPassword"
+            label="New password"
+            type="password"
+            placeholder="••••••••"
+            isRequired="true"
+            minLength="8"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Input
+            extraClass="ma-bt-md"
+            name="confirmPassword"
+            label="Confirm password"
+            type="password"
+            placeholder="••••••••"
+            isRequired="true"
+            minLength="8"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+          <Submit submitText={disabled ? 'Updating...' : 'Save Password'} />
         </>
       )}
       {/* ---- END PASSWORD CHANGE FORM ---- */}
