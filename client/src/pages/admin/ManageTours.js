@@ -100,7 +100,7 @@ const ManageTours = () => {
           {showPopUp && (
             <Alert
               status={status}
-              text={message ?? `Are you sure you want to delete ${tourName}?`}
+              message={message ?? `Are you sure you want to delete ${tourName}?`}
               confirmHandler={() => deleteTour(tourId)}
               deniesHandler={closePopup}
             />

@@ -67,7 +67,7 @@ const Header = () => {
   return (
     <>
       <header className="header">
-        {message && <Alert status={status} text={message} />}
+        {message && <Alert status={status} message={message} />}
         {/* Desktop navigation */}
         <nav className="nav nav--tours xs-hidden">
           <Link to="/" className="nav__el">

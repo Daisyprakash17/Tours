@@ -270,7 +270,7 @@ const Form = (props) => {
 
   return (
     <form className="form" onSubmit={handleSubmit}>
-      {message && <Alert status={status} text={message} />}
+      {message && <Alert status={status} message={message} />}
       <h2 className="heading-secondary ma-bt-lg">{title}</h2>
 
       {/* ---- START LOGIN FORM ---- */}

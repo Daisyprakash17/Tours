@@ -1,10 +1,10 @@
 import React from 'react';
 
 const Alert = (props) => {
-  const { status, text, confirmHandler, deniesHandler } = props;
+  const { status, message, confirmHandler, deniesHandler } = props;
   return (
     <div className={`alert alert--${status}`}>
-      <p>{text}</p>
+      <p>{message}</p>
       {status === 'confirmation' && (
         <div className="alert__btns ma-top-md">
           <button onClick={confirmHandler} className="btn btn--green">
