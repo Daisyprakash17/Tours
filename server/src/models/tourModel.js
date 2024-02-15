@@ -115,6 +115,6 @@ tourSchema.virtual('reviews', {
   localField: '_id',
 });
 
-const tourModel = mongoose.model('Tour', tourSchema);
+const Tour = mongoose.model('Tour', tourSchema);
 
-module.exports = tourModel;
+module.exports = Tour;

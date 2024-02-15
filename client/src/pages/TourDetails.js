@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getClosestDate, starCalc } from '../helper/functions';
 import { FaRegClock } from 'react-icons/fa6';
@@ -9,12 +9,97 @@ import User from '../components/Icons/User';
 import Star from '../components/Icons/Star';
 import api from '../utils/axiosConfig';
 import Button from '../components/Button/Button';
+import { AuthContext } from '../store/AuthContext';
+import Alert from '../components/Alert/Alert';
+import Submit from '../components/Form/Submit';
 
 const TourDetails = () => {
   const [tour, setTour] = useState({});
   const [loading, setLoading] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [review, setReview] = useState('');
+  const [rating, setRating] = useState(0);
+  const [message, setMessage] = useState(null);
+  const [status, setStatus] = useState(null);
+  const { isLoggedIn } = useContext(AuthContext);
   let params = useParams();
   let id = params.id;
+
+  const reviewHandler = () => {
+    if (!isLoggedIn) {
+      setStatus('error');
+      setMessage('Please login to perform this action');
+      setShowAlert(true);
+
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 1500);
+
+      return;
+    }
+
+    setShowForm(true);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    api
+      .post(`tours/${id}/reviews`, { review, rating })
+      .then((res) => {
+        console.log(res);
+
+        if (res.status === 201) {
+          setMessage('Tour successfully reviewed');
+          setStatus('success');
+          setShowAlert(true);
+          setReview('');
+          setRating(null);
+          setShowForm(false);
+
+          setTimeout(() => {
+            setShowAlert(false);
+          }, 1500);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        setStatus('error');
+        setShowAlert(true);
+
+        if (err.response.data.message.code === 11000) {
+          setMessage(
+            'please make sure you have not already reviewed this tour!'
+          );
+
+          setTimeout(() => {
+            setShowAlert(false);
+          }, 1500);
+
+          return;
+        }
+
+        if (err.response.data.message.message.includes('failed: rating')) {
+          setMessage('Please make sure to select at least one star');
+
+          setTimeout(() => {
+            setShowAlert(false);
+          }, 1500);
+
+          return;
+        }
+
+        setMessage(
+          err.response.data.message.message ||
+            'Ops! Something went wrong, please try again.'
+        );
+
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 2500);
+      });
+  };
 
   useEffect(() => {
     api
@@ -29,10 +114,11 @@ const TourDetails = () => {
       });
 
     document.title = `Natours | ${tour.name}`;
-  }, [id, tour.name]);
+  }, [id, tour.name, tour.ratingsAverage, review]);
 
   return (
     <>
+      {showAlert && <Alert status={status} message={message} />}
       {loading ? (
         <h1>Loading...</h1>
       ) : (
@@ -136,7 +222,7 @@ const TourDetails = () => {
           <section className="details-pictures">
             {tour.images.map((image, index) => {
               return (
-                <div key={image} className="picture-box">
+                <div key={index} className="picture-box">
                   <img
                     className={`picture-box__img picture-box__img--${
                       index + 1
@@ -177,7 +263,59 @@ const TourDetails = () => {
                 })
               )}
             </div>
-            <Button color="white" value="New review" />
+            {showForm && (
+              <form className="form" onSubmit={handleSubmit}>
+                <h2 className="heading-secondary ma-bt-lg">Review tour</h2>
+                <div className="form__group">
+                  <label className="form__label" htmlFor="review">
+                    Review message
+                  </label>
+                  <textarea
+                    className="form__input"
+                    id="review"
+                    name="review"
+                    rows="5"
+                    cols="50"
+                    required
+                    value={review}
+                    onChange={(e) => setReview(e.target.value)}
+                  />
+                </div>
+                <div className="form__group ma-bt-md">
+                  <p className="form__label" htmlFor="rating">
+                    Review rating
+                  </p>
+                  {[...Array(5)].map((star, index) => {
+                    const currentRating = index + 1;
+                    return (
+                      <label key={index}>
+                        <input
+                          id="rating"
+                          className="hidden"
+                          type="radio"
+                          name="rating"
+                          value={currentRating}
+                          onClick={() => setRating(currentRating)}
+                        />
+                        <Star
+                          className={`reviews__star reviews__star--cta reviews__star--${
+                            currentRating <= rating ? 'active' : 'inactive'
+                          }`}
+                        />
+                      </label>
+                    );
+                  })}
+                </div>
+                <Submit submitText="Review tour" />
+              </form>
+            )}
+            {!showForm && (
+              <Button
+                color="white"
+                value="New review"
+                onClick={reviewHandler}
+              />
+            )}
           </section>
 
           <section className="details-cta">

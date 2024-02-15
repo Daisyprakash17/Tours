@@ -1,6 +1,6 @@
 const fs = require('fs');
 const connectDb = require('../../connectDb');
-const tourModel = require('../models/tourModel');
+const Tour = require('../models/tourModel');
 
 // READ JSON FILE
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/tours.json`, 'utf8'));
@@ -9,7 +9,7 @@ const tours = JSON.parse(fs.readFileSync(`${__dirname}/tours.json`, 'utf8'));
 const importData = async () => {
   try {
     await connectDb();
-    await tourModel.create(tours);
+    await Tour.create(tours);
     console.log('Data loaded successfully');
   } catch (err) {
     console.log(err);
@@ -21,7 +21,7 @@ const importData = async () => {
 const deleteData = async () => {
   try {
     await connectDb();
-    await tourModel.deleteMany();
+    await Tour.deleteMany();
     console.log('Data deleted successfully');
   } catch (err) {
     console.log(err);

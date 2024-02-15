@@ -275,6 +275,13 @@ $section-rotate: 9vw;
   }
 }
 
+.reviews__star--cta {
+  cursor: pointer;
+  &:hover {
+    fill: $color-primary;
+  }
+}
+
 .details-cta {
   margin-top: calc(0px - $section-rotate);
   padding: 3rem;
