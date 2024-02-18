@@ -240,6 +240,7 @@ const Form = (props) => {
 
     // Forgot password
     if (content === 'forgotPassword') {
+      setDisabled(true);
       api
         .post('users/forgotPassword', { email })
         .then((res) => {
@@ -247,6 +248,7 @@ const Form = (props) => {
           if (res.status === 200) {
             setMessage('Link to reset password successfully sent to email');
             setStatus('success');
+            setDisabled(false);
 
             setTimeout(() => {
               setMessage('');
@@ -369,7 +371,7 @@ const Form = (props) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <Submit submitText="Password reset" />
+          <Submit submitText={disabled ? 'Email sending...' : 'Password reset'} />
         </>
       )}
       {/* ---- END FORGOT PASSWORD FORM ---- */}

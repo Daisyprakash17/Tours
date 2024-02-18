@@ -1,6 +1,9 @@
 const crypto = require('crypto');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
+const handlebars = require('handlebars');
+const fs = require('fs');
+const path = require('path');
 const User = require('../models/userModel');
 const sendEmail = require('../utils/email');
 
@@ -14,7 +17,7 @@ const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
   const cookieOptions = {
     expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
+      Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000,
     ),
     httpOnly: true, // backend only
     secure: true, // set to true if using https or samesite is none
@@ -227,12 +230,27 @@ exports.forgotPassword = async (req, res, next) => {
         'host'
       )}/api/v1/users/resetPassword/${resetToken}`;
 
-      const message = `Forgot your password? Click the link below to reset your password\n${resetURL}\nIf you did not forget your password, please ignore this email!`;
+      const emailTemplateSource = fs.readFileSync(
+        path.join(
+          __dirname,
+          '/../../public/templates/emails/resetPassword.hbs',
+        ),
+        'utf8',
+      );
+
+      const template = handlebars.compile(emailTemplateSource);
+      const htmlToSend = template({
+        firstName: user.name.split(' ')[0],
+        url: resetURL,
+      });
+
+      const message = `Forgot your password? Follow the link below to reset your password\n${resetURL}\nIf you did not forget your password, please ignore this email!`;
 
       await sendEmail({
         email: user.email,
         subject: 'Your password reset token (valid for 10 min)',
         message,
+        html: htmlToSend,
       });
 
       res.status(200).json({

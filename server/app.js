@@ -23,6 +23,8 @@ app.use(
 );
 
 /* Global middlewares */
+// Serving static files
+app.use('/public', express.static(__dirname + '/public/'));
 // Set security HTTP headers
 app.use(helmet());
 
@@ -74,9 +76,6 @@ app.use(
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
-// Uploaded images route
-app.use('/public/img/users', express.static(__dirname + '/public/img/users/'));
-app.use('/public/img/tours', express.static(__dirname + '/public/img/tours/'));
 
 // Error handling
 app.all('*', (req, res, next) => {
