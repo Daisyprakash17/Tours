@@ -1,14 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../store/AuthContext';
 import { Link } from 'react-router-dom';
-import Form from '../components/Form/Form';
 import { IoSettingsOutline, IoMapOutline, IoKeyOutline } from 'react-icons/io5';
 import { PiSuitcase, PiUsers } from 'react-icons/pi';
 import { SlCreditCard } from 'react-icons/sl';
-import { RiDeleteBinLine } from "react-icons/ri";
+import { RiDeleteBinLine } from 'react-icons/ri';
 import Star from '../components/Icons/Star';
 import api from '../utils/axiosConfig';
 import ManageTours from './admin/ManageTours';
+import PasswordChange from './account/PasswordChange';
+import AccountSettings from './account/AccountSettings';
 
 const Account = () => {
   const { isLoggedIn, setIsLoading } = useContext(AuthContext);
@@ -35,12 +36,12 @@ const Account = () => {
     {
       value: 'Settings',
       icon: <IoSettingsOutline />,
-      content: <Form content="account-settings" title="Account settings" userInfo={user} />,
+      content: <AccountSettings userInfo={user} />,
     },
     {
       value: 'Password',
       icon: <IoKeyOutline />,
-      content: <Form content="password-change" title="Change password" />,
+      content: <PasswordChange />,
     },
     {
       value: 'My bookings',
@@ -180,7 +181,7 @@ const Account = () => {
           </nav>
           <div className="user-view__content">
             {content === 'account-settings' ? (
-              <Form content="account-settings" userInfo={user} />
+              <AccountSettings userInfo={user} />
             ) : (
               <>{content}</>
             )}

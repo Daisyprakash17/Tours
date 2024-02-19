@@ -39,7 +39,7 @@ const TourCard = () => {
                     src={`http://localhost:8000/public/img/tours/${tour.imageCover}`}
                     alt="Tour cover"
                     className="card__picture-img"
-                    crossorigin="anonymous"
+                    crossOrigin="anonymous"
                   />
                 </div>
 

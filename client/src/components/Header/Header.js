@@ -86,7 +86,7 @@ const Header = () => {
                 className="nav__user-img"
                 src={`http://localhost:8000/public/img/users/${user.photo}`}
                 alt={`User ${user.name}`}
-                crossorigin="anonymous"
+                crossOrigin="anonymous"
               />
               <span>{user.name.split(' ')[0]}</span>
             </div>

@@ -200,7 +200,7 @@ const TourDetails = () => {
                           src={`http://localhost:8000/public/img/users/${guide.photo}`}
                           alt="Guide"
                           className="overview-box__img"
-                          crossorigin="anonymous"
+                          crossOrigin="anonymous"
                         />
                         <span className="overview-box__label">
                           {index === 0 ? 'Lead ' : 'Tour '}guide:
@@ -229,7 +229,7 @@ const TourDetails = () => {
                     }`}
                     src={`http://localhost:8000/public/img/tours/${image}`}
                     alt={`${tour.name}-${index + 1}`}
-                    crossorigin="anonymous"
+                    crossOrigin="anonymous"
                   />
                 </div>
               );
@@ -250,7 +250,7 @@ const TourDetails = () => {
                           src={`http://localhost:8000/public/img/users/${review.user.photo}`}
                           alt={review.user.name}
                           className="reviews__avatar-img"
-                          crossorigin="anonymous"
+                          crossOrigin="anonymous"
                         />
                         <h6 className="reviews__user">{review.user.name}</h6>
                       </div>

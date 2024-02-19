@@ -1,5 +1,6 @@
 import Star from "../components/Icons/Star";
 
+// Get the closest date to the current one
 export const getClosestDate = (date) => {
   const currentDate = new Date();
   return date.reduce(function (a, b) {
@@ -25,6 +26,7 @@ export const getClosestDate = (date) => {
   });
 };
 
+// Displays the current review average with stars (1 to 5)
 export const starCalc = (rating) => {
   let stars = [1, 2, 3, 4, 5];
   let classes = [];
@@ -32,4 +34,13 @@ export const starCalc = (rating) => {
     rating >= star ? classes.push('active') : classes.push('inactive');
   });
   return classes.map((el) => <Star className={`reviews__star reviews__star--${el}`} />);
+};
+
+// Set username and photo to localstorage
+export const userStorage = (name, photo) => {
+  const userObject = {
+    name,
+    photo,
+  };
+  localStorage.setItem('user', JSON.stringify(userObject));
 };
