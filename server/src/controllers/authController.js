@@ -226,9 +226,9 @@ exports.forgotPassword = async (req, res, next) => {
 
     // Send reset token to user's email
     try {
-      const resetURL = `${req.protocol}://${req.get(
-        'host'
-      )}/api/v1/users/resetPassword/${resetToken}`;
+      const resetURL = `${req.get(
+        'origin'
+      )}/resetPassword/${resetToken}`;
 
       const emailTemplateSource = fs.readFileSync(
         path.join(
