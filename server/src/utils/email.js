@@ -7,9 +7,9 @@ const sendEmail = async (options) => {
   if (process.env.NODE_ENV === 'production') {
     transporter = nodemailer.createTransport(
       nodemailerSendgrid({
-           apiKey: process.env.SENDGRID_PASSWORD
-        })
-      );
+        apiKey: process.env.SENDGRID_API_KEY,
+      })
+    );
   } else {
     transporter = nodemailer.createTransport({
       host: process.env.EMAIL_HOST,

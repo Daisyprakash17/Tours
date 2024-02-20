@@ -7,6 +7,7 @@ import Signup from './pages/Signup';
 import ForgotPassword from './pages/ForgotPassword';
 import TourDetails from './pages/TourDetails';
 import Account from './pages/Account';
+import ResetPassword from './pages/ResetPassword';
 import { AuthProvider } from './store/AuthContext';
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
       <Route path="/log-in" element={<Login />} />
       <Route path="/sign-up" element={<Signup />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/resetPassword/:token" element={<ResetPassword />} />
       <Route path="/me" element={<Account />} />
       <Route path="/tour/:id" element={<TourDetails />} />
     </Routes>
