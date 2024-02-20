@@ -48,7 +48,7 @@ const TourDetails = () => {
     api
       .post(`tours/${id}/reviews`, { review, rating })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
 
         if (res.status === 201) {
           setMessage('Tour successfully reviewed');
@@ -68,6 +68,19 @@ const TourDetails = () => {
         setStatus('error');
         setShowAlert(true);
 
+        if (err.response.status === 403) {
+          setMessage(
+            err.response.message ||
+              'You do not have permission to perform this action'
+          );
+
+          setTimeout(() => {
+            setShowAlert(false);
+          }, 1500);
+
+          return;
+        }
+
         if (err.response.data.message.code === 11000) {
           setMessage(
             'please make sure you have not already reviewed this tour!'
@@ -80,20 +93,21 @@ const TourDetails = () => {
           return;
         }
 
-        if (err.response.data.message.message.includes('failed: rating')) {
-          setMessage('Please make sure to select at least one star');
+        if (err.response.data.message.message) {
+          if (err.response.data.message.message.includes('failed: rating')) {
+            setMessage('Please make sure to select at least one star');
 
-          setTimeout(() => {
-            setShowAlert(false);
-          }, 1500);
+            setTimeout(() => {
+              setShowAlert(false);
+            }, 1500);
 
-          return;
+            return;
+          }
+
+          setMessage(err.response.data.message.message);
+        } else {
+          setMessage('Ops! Something went wrong, please try again.');
         }
-
-        setMessage(
-          err.response.data.message.message ||
-            'Ops! Something went wrong, please try again.'
-        );
 
         setTimeout(() => {
           setShowAlert(false);
