@@ -28,6 +28,7 @@
     "nodemailer": "^6.9.7",
     "nodemailer-sendgrid": "^1.0.3",
     "sharp": "^0.33.2",
+    "stripe": "^14.17.0",
     "validator": "^13.11.0",
     "xss-purge": "^1.0.0"
   }

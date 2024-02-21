@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getClosestDate, starCalc } from '../helper/functions';
 import { FaRegClock } from 'react-icons/fa6';
@@ -22,11 +22,13 @@ const TourDetails = () => {
   const [rating, setRating] = useState(0);
   const [message, setMessage] = useState(null);
   const [status, setStatus] = useState(null);
+  const [processing, setProcessing] = useState(false);
   const { isLoggedIn } = useContext(AuthContext);
   let params = useParams();
   let id = params.id;
 
   const reviewHandler = () => {
+    // Check if the user is logged in
     if (!isLoggedIn) {
       setStatus('error');
       setMessage('Please login to perform this action');
@@ -40,6 +42,41 @@ const TourDetails = () => {
     }
 
     setShowForm(true);
+  };
+
+  const bookTourHandler = () => {
+    // Check if the user is logged in
+    if (!isLoggedIn) {
+      setStatus('error');
+      setMessage('Please login to perform this action');
+      setShowAlert(true);
+
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 1500);
+
+      return;
+    }
+
+    setProcessing(true);
+
+    api
+      .get(`bookings/checkout-session/${id}`)
+      .then((res) => {
+        setProcessing(false);
+        console.log(res);
+        window.location.href = res.data.session.url;
+      })
+      .catch((err) => {
+        console.error(err);
+        setShowAlert(true);
+        setMessage(err || 'Ops! Something went wrong, please try again.');
+        setStatus('error');
+
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 1500);
+      });
   };
 
   const handleSubmit = (e) => {
@@ -346,7 +383,11 @@ const TourDetails = () => {
                 </p>
               </div>
               <div>
-                <Button color="green" value="Book now!" />
+                <Button
+                  color="green"
+                  value={processing ? 'Processing...' : 'Book now!'}
+                  onClick={bookTourHandler}
+                />
               </div>
             </div>
           </section>
