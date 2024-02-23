@@ -12,6 +12,8 @@ import Button from '../components/Button/Button';
 import { AuthContext } from '../store/AuthContext';
 import Alert from '../components/Alert/Alert';
 import Submit from '../components/Form/Submit';
+import Form from '../components/Form/Form';
+import Input from '../components/Form/Input';
 
 const TourDetails = () => {
   const [tour, setTour] = useState({});
@@ -27,7 +29,8 @@ const TourDetails = () => {
   let params = useParams();
   let id = params.id;
 
-  const reviewHandler = () => {
+  // Show the review form if the user is logged in
+  const reviewFormHandler = () => {
     // Check if the user is logged in
     if (!isLoggedIn) {
       setStatus('error');
@@ -44,42 +47,8 @@ const TourDetails = () => {
     setShowForm(true);
   };
 
-  const bookTourHandler = () => {
-    // Check if the user is logged in
-    if (!isLoggedIn) {
-      setStatus('error');
-      setMessage('Please login to perform this action');
-      setShowAlert(true);
-
-      setTimeout(() => {
-        setShowAlert(false);
-      }, 1500);
-
-      return;
-    }
-
-    setProcessing(true);
-
-    api
-      .get(`bookings/checkout-session/${id}`)
-      .then((res) => {
-        setProcessing(false);
-        console.log(res);
-        window.location.href = res.data.session.url;
-      })
-      .catch((err) => {
-        console.error(err);
-        setShowAlert(true);
-        setMessage(err || 'Ops! Something went wrong, please try again.');
-        setStatus('error');
-
-        setTimeout(() => {
-          setShowAlert(false);
-        }, 1500);
-      });
-  };
-
-  const handleSubmit = (e) => {
+  // Create a new review
+  const handleReviewSubmit = (e) => {
     e.preventDefault();
 
     api
@@ -149,6 +118,42 @@ const TourDetails = () => {
         setTimeout(() => {
           setShowAlert(false);
         }, 2500);
+      });
+  };
+
+  // Tour booking
+  const bookTourHandler = () => {
+    // Check if the user is logged in
+    if (!isLoggedIn) {
+      setStatus('error');
+      setMessage('Please login to perform this action');
+      setShowAlert(true);
+
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 1500);
+
+      return;
+    }
+
+    setProcessing(true);
+
+    api
+      .get(`bookings/checkout-session/${id}`)
+      .then((res) => {
+        setProcessing(false);
+        // console.log(res);
+        window.location.href = res.data.session.url;
+      })
+      .catch((err) => {
+        console.error(err);
+        setShowAlert(true);
+        setMessage(err || 'Ops! Something went wrong, please try again.');
+        setStatus('error');
+
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 1500);
       });
   };
 
@@ -291,22 +296,22 @@ const TourDetails = () => {
             <h2 className="heading-primary">All Reviews</h2>
             <div className="reviews">
               {tour.reviews.length < 1 ? (
-                <h3 className="no-reviews">There are no reviews yet!</h3>
+                <h3 className="no-results">There are no reviews yet!</h3>
               ) : (
                 tour.reviews.map((review, index) => {
                   return (
-                    <div key={index} className="reviews__card">
-                      <div className="reviews__avatar">
+                    <div key={index} className="reviews__card card-secondary">
+                      <div className="card-secondary__avatar">
                         <img
                           src={`http://localhost:8000/public/img/users/${review.user.photo}`}
                           alt={review.user.name}
-                          className="reviews__avatar-img"
+                          className="card-secondary__avatar-img"
                           crossOrigin="anonymous"
                         />
-                        <h6 className="reviews__user">{review.user.name}</h6>
+                        <h6 className="card-secondary__title">{review.user.name}</h6>
                       </div>
-                      <p className="reviews__text">{review.review}</p>
-                      <div className="reviews__rating">
+                      <p className="card-secondary__text">{review.review}</p>
+                      <div className="card-secondary__rating">
                         {starCalc(review.rating)}
                       </div>
                     </div>
@@ -315,23 +320,15 @@ const TourDetails = () => {
               )}
             </div>
             {showForm && (
-              <form className="form" onSubmit={handleSubmit}>
-                <h2 className="heading-secondary ma-bt-lg">Review tour</h2>
-                <div className="form__group">
-                  <label className="form__label" htmlFor="review">
-                    Review message
-                  </label>
-                  <textarea
-                    className="form__input"
-                    id="review"
-                    name="review"
-                    rows="5"
-                    cols="50"
-                    required
-                    value={review}
-                    onChange={(e) => setReview(e.target.value)}
-                  />
-                </div>
+              <Form title="Review tour" onSubmit={handleReviewSubmit}>
+                <Input
+                  type="textarea"
+                  name="review"
+                  label="Review message"
+                  isRequired="true"
+                  value={review}
+                  onChange={(e) => setReview(e.target.value)}
+                />
                 <div className="form__group ma-bt-md">
                   <p className="form__label" htmlFor="rating">
                     Review rating
@@ -358,13 +355,13 @@ const TourDetails = () => {
                   })}
                 </div>
                 <Submit submitText="Review tour" />
-              </form>
+              </Form>
             )}
             {!showForm && (
               <Button
                 color="white"
                 value="New review"
-                onClick={reviewHandler}
+                onClick={reviewFormHandler}
               />
             )}
           </section>

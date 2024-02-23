@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Form from '../../components/Form/Form';
 import Input from '../../components/Form/Input';
 import Submit from '../../components/Form/Submit';
@@ -12,6 +12,10 @@ const PasswordChange = () => {
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState('');
   const [disabled, setDisabled] = useState(false);
+
+  useEffect(() => {
+    document.title = 'Natours | Change password';
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();

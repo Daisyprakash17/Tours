@@ -30,7 +30,7 @@ const ResetPassword = () => {
     api
       .patch(`users/resetPassword/${token}`, { password, confirmPassword })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setDisabled(false);
 
         if (res.status === 200) {

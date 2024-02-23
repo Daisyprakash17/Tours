@@ -1,0 +1,27 @@
+.reviews {
+  &__rating {
+    margin-top: auto;
+    display: flex;
+  }
+
+  &__star {
+    height: 2rem;
+    width: 2rem;
+    margin-right: 1px;
+
+    &--cta {
+      cursor: pointer;
+      &:hover {
+        fill: $color-primary;
+      }
+    }
+
+    &--active {
+      fill: $color-primary;
+    }
+
+    &--inactive {
+      fill: #bbb;
+    }
+  }
+}

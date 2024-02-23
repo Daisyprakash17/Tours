@@ -19,6 +19,8 @@ const AccountSettings = ({ userInfo }) => {
   useEffect(() => {
     setName(userInfo.name);
     setEmail(userInfo.email);
+
+    document.title = 'Natours | Account settings';
   }, [userInfo.email, userInfo.name]);
 
   const onChangePicture = (e) => {

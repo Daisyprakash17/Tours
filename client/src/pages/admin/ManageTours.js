@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import api from '../../utils/axiosConfig';
 import Alert from '../../components/Alert/Alert';
 import Button from '../../components/Button/Button';
+import { Link } from 'react-router-dom';
 
 const ManageTours = () => {
   const [tours, setTours] = useState({});
@@ -66,19 +67,29 @@ const ManageTours = () => {
           console.log(err);
         });
     }
+    document.title = 'Natours | Manage tours';
   }, [loading]);
 
   return (
     <div className="content">
-      <h2 className="heading-secondary">Manage Tours</h2>
+      <h2 className="heading-secondary ma-bt-md">Manage Tours</h2>
       {loading ? (
-        <p>Loading...</p>
+        <h3 className="no-results">Loading...</h3>
       ) : (
-        <ul className="content__list ma-top-md">
+        <div>
           {tours.map((tour, index) => (
-            <li className="content__list--item" key={index}>
-              <span>
-                <strong>{tour.name}</strong> |{' '}
+            <Link to={`/tour/${tour.id}`} className="card-secondary content__card" key={index}>
+              <div className="card-secondary__avatar">
+                <img
+                  src={`http://localhost:8000/public/img/tours/${tour.imageCover}`}
+                  alt={tour.name}
+                  className="card-secondary__avatar-img card-secondary__avatar-img--tour"
+                  crossOrigin="anonymous"
+                />
+                <h6 className="card-secondary__title">{tour.name}</h6>
+              </div>
+              <p className="card-secondary__text ma-bt-md">{tour.summary}</p>
+              <div>
                 <Button
                   type="link"
                   color="green"
@@ -93,19 +104,20 @@ const ManageTours = () => {
                   to="#"
                   value="Delete"
                 />
-              </span>
-              <p>{tour.summary}</p>
-            </li>
+              </div>
+            </Link>
           ))}
           {showPopUp && (
             <Alert
               status={status}
-              message={message ?? `Are you sure you want to delete ${tourName}?`}
+              message={
+                message ?? `Are you sure you want to delete ${tourName}?`
+              }
               confirmHandler={() => deleteTour(tourId)}
               deniesHandler={closePopup}
             />
           )}
-        </ul>
+        </div>
       )}
     </div>
   );

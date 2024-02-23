@@ -17,16 +17,29 @@ const Input = (props) => {
       <label className="form__label" htmlFor={name}>
         {label}
       </label>
-      <input
-        id={name}
-        className="form__input"
-        type={type}
-        placeholder={placeholder}
-        required={isRequired}
-        minLength={minLength}
-        value={value}
-        onChange={onChange}
-      />
+      {type === 'textarea' ? (
+        <textarea
+          className="form__input"
+          id={name}
+          name={name}
+          rows="5"
+          cols="50"
+          required={isRequired}
+          value={value}
+          onChange={onChange}
+        />
+      ) : (
+        <input
+          id={name}
+          className="form__input"
+          type={type}
+          placeholder={placeholder}
+          required={isRequired}
+          minLength={minLength}
+          value={value}
+          onChange={onChange}
+        />
+      )}
     </div>
   );
 };
