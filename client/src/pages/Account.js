@@ -10,6 +10,7 @@ import api from '../utils/axiosConfig';
 import ManageTours from './admin/ManageTours';
 import PasswordChange from './account/PasswordChange';
 import AccountSettings from './account/AccountSettings';
+import MyReviews from './account/MyReviews';
 
 const Account = () => {
   const { isLoggedIn, setIsLoading } = useContext(AuthContext);
@@ -49,23 +50,14 @@ const Account = () => {
       content: (
         <div className="main-container" style={{ textAlign: 'center' }}>
           <h2 className="heading-secondary ma-bt-lg">ToDo</h2>
-          <p style={{ fontSize: '2rem' }}>
-            <strong>This content does not exist yet!</strong>
-          </p>
+          <p className="no-results">This content does not exist yet!</p>
         </div>
       ),
     },
     {
       value: 'My reviews',
       icon: <Star />,
-      content: (
-        <div className="main-container" style={{ textAlign: 'center' }}>
-          <h2 className="heading-secondary ma-bt-lg">ToDo</h2>
-          <p style={{ fontSize: '2rem' }}>
-            <strong>This content does not exist yet!</strong>
-          </p>
-        </div>
-      ),
+      content: <MyReviews />,
     },
     {
       value: 'Billing',
@@ -73,9 +65,7 @@ const Account = () => {
       content: (
         <div className="main-container" style={{ textAlign: 'center' }}>
           <h2 className="heading-secondary ma-bt-lg">ToDo</h2>
-          <p style={{ fontSize: '2rem' }}>
-            <strong>This content does not exist yet!</strong>
-          </p>
+          <p className="no-results">This content does not exist yet!</p>
         </div>
       ),
     },
@@ -85,9 +75,7 @@ const Account = () => {
       content: (
         <div className="main-container" style={{ textAlign: 'center' }}>
           <h2 className="heading-secondary ma-bt-lg">ToDo</h2>
-          <p style={{ fontSize: '2rem' }}>
-            <strong>This content does not exist yet!</strong>
-          </p>
+          <p className="no-results">This content does not exist yet!</p>
         </div>
       ),
     },
@@ -105,9 +93,7 @@ const Account = () => {
       content: (
         <div className="main-container" style={{ textAlign: 'center' }}>
           <h2 className="heading-secondary ma-bt-lg">ToDo</h2>
-          <p style={{ fontSize: '2rem' }}>
-            <strong>This content does not exist yet!</strong>
-          </p>
+          <p className="no-results">This content does not exist yet!</p>
         </div>
       ),
     },
@@ -117,9 +103,7 @@ const Account = () => {
       content: (
         <div className="main-container" style={{ textAlign: 'center' }}>
           <h2 className="heading-secondary ma-bt-lg">ToDo</h2>
-          <p style={{ fontSize: '2rem' }}>
-            <strong>This content does not exist yet!</strong>
-          </p>
+          <p className="no-results">This content does not exist yet!</p>
         </div>
       ),
     },
@@ -129,9 +113,7 @@ const Account = () => {
       content: (
         <div className="main-container" style={{ textAlign: 'center' }}>
           <h2 className="heading-secondary ma-bt-lg">ToDo</h2>
-          <p style={{ fontSize: '2rem' }}>
-            <strong>This content does not exist yet!</strong>
-          </p>
+          <p className="no-results">This content does not exist yet!</p>
         </div>
       ),
     },
