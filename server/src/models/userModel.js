@@ -3,61 +3,74 @@ const validator = require('validator');
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, 'User name is required'],
-    unique: true,
-    trim: true,
-    minlength: 6,
-  },
-  email: {
-    type: String,
-    required: [true, 'Email is required'],
-    unique: true,
-    trim: true,
-    lowercase: true,
-    validate: [validator.isEmail, 'Please provide a valid email'],
-  },
-  role: {
-    type: String,
-    enum: ['user', 'admin', 'guide'],
-    default: 'user',
-  },
-  photo: {
-    type: String,
-    default: 'default.jpg'
-  },
-  password: {
-    type: String,
-    required: [true, 'Password is required'],
-    minlength: 8,
-    select: false, // will never be shown in any output
-  },
-  confirmPassword: {
-    type: String,
-    required: [true, 'Confirm Password is required'],
-    validate: {
-      validator: function (value) {
-        return value === this.password;
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, 'User name is required'],
+      unique: true,
+      trim: true,
+      minlength: 6,
+    },
+    email: {
+      type: String,
+      required: [true, 'Email is required'],
+      unique: true,
+      trim: true,
+      lowercase: true,
+      validate: [validator.isEmail, 'Please provide a valid email'],
+    },
+    role: {
+      type: String,
+      enum: ['user', 'admin', 'guide'],
+      default: 'user',
+    },
+    photo: {
+      type: String,
+      default: 'default.jpg',
+    },
+    password: {
+      type: String,
+      required: [true, 'Password is required'],
+      minlength: 8,
+      select: false, // will never be shown in any output
+    },
+    confirmPassword: {
+      type: String,
+      required: [true, 'Confirm Password is required'],
+      validate: {
+        validator: function (value) {
+          return value === this.password;
+        },
+        message: 'Password and Confirm Password does not match.',
       },
-      message: 'Password and Confirm Password does not match.',
+    },
+    passwordChangedAt: {
+      type: Date,
+    },
+    passwordResetToken: {
+      type: String,
+    },
+    passwordResetExpires: {
+      type: Date,
+    },
+    active: {
+      type: Boolean,
+      default: true,
+      select: false,
     },
   },
-  passwordChangedAt: {
-    type: Date,
-  },
-  passwordResetToken: {
-    type: String,
-  },
-  passwordResetExpires: {
-    type: Date,
-  },
-  active: {
-    type: Boolean,
-    default: true,
-    select: false,
-  },
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
+);
+
+// Virtual populate
+userSchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'user',
+  localField: '_id',
 });
 
 userSchema.pre('save', async function (next) {
