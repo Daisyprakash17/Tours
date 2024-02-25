@@ -14,6 +14,7 @@ import Alert from '../components/Alert/Alert';
 import Submit from '../components/Form/Submit';
 import Form from '../components/Form/Form';
 import Input from '../components/Form/Input';
+import Popup from '../components/Popup/Popup';
 
 const TourDetails = () => {
   const [tour, setTour] = useState({});
@@ -175,6 +176,46 @@ const TourDetails = () => {
   return (
     <>
       {showAlert && <Alert status={status} message={message} />}
+      {showForm && (
+        <Popup onClose={() => setShowForm(false)}>
+          <Form title="Review tour" onSubmit={handleReviewSubmit}>
+            <Input
+              type="textarea"
+              name="review"
+              label="Review message"
+              isRequired="true"
+              value={review}
+              onChange={(e) => setReview(e.target.value)}
+            />
+            <div className="form__group ma-bt-md">
+              <p className="form__label" htmlFor="rating">
+                Review rating
+              </p>
+              {[...Array(5)].map((star, index) => {
+                const currentRating = index + 1;
+                return (
+                  <label key={index}>
+                    <input
+                      id="rating"
+                      className="hidden"
+                      type="radio"
+                      name="rating"
+                      value={currentRating}
+                      onClick={() => setRating(currentRating)}
+                    />
+                    <Star
+                      className={`reviews__star reviews__star--cta reviews__star--${
+                        currentRating <= rating ? 'active' : 'inactive'
+                      }`}
+                    />
+                  </label>
+                );
+              })}
+            </div>
+            <Submit submitText="Review tour" />
+          </Form>
+        </Popup>
+      )}
       {loading ? (
         <h1>Loading...</h1>
       ) : (
@@ -308,7 +349,9 @@ const TourDetails = () => {
                           className="card-secondary__avatar-img"
                           crossOrigin="anonymous"
                         />
-                        <h6 className="card-secondary__title">{review.user.name}</h6>
+                        <h6 className="card-secondary__title">
+                          {review.user.name}
+                        </h6>
                       </div>
                       <p className="card-secondary__text">{review.review}</p>
                       <div className="card-secondary__rating">
@@ -319,44 +362,6 @@ const TourDetails = () => {
                 })
               )}
             </div>
-            {showForm && (
-              <Form title="Review tour" onSubmit={handleReviewSubmit}>
-                <Input
-                  type="textarea"
-                  name="review"
-                  label="Review message"
-                  isRequired="true"
-                  value={review}
-                  onChange={(e) => setReview(e.target.value)}
-                />
-                <div className="form__group ma-bt-md">
-                  <p className="form__label" htmlFor="rating">
-                    Review rating
-                  </p>
-                  {[...Array(5)].map((star, index) => {
-                    const currentRating = index + 1;
-                    return (
-                      <label key={index}>
-                        <input
-                          id="rating"
-                          className="hidden"
-                          type="radio"
-                          name="rating"
-                          value={currentRating}
-                          onClick={() => setRating(currentRating)}
-                        />
-                        <Star
-                          className={`reviews__star reviews__star--cta reviews__star--${
-                            currentRating <= rating ? 'active' : 'inactive'
-                          }`}
-                        />
-                      </label>
-                    );
-                  })}
-                </div>
-                <Submit submitText="Review tour" />
-              </Form>
-            )}
             {!showForm && (
               <Button
                 color="white"
