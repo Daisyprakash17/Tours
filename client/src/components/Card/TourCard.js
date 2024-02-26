@@ -12,17 +12,19 @@ const TourCard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api
-      .get('tours')
-      .then((res) => {
-        // console.log(res);
-        setAllTours(res.data.data.data);
-      })
-      .then(() => setLoading(false))
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    if (loading) {
+      api
+        .get('tours')
+        .then((res) => {
+          // console.log(res);
+          setAllTours(res.data.data.data);
+        })
+        .then(() => setLoading(false))
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  }, [loading]);
 
   return (
     <>

@@ -53,7 +53,7 @@ const MyReviews = () => {
     api
       .patch(`reviews/${reviewId}`, { review, rating })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.status === 200) {
           setMessage('Review successfully updated');
           setStatus('success');
