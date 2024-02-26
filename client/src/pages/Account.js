@@ -11,6 +11,7 @@ import ManageTours from './admin/ManageTours';
 import PasswordChange from './account/PasswordChange';
 import AccountSettings from './account/AccountSettings';
 import MyReviews from './account/MyReviews';
+import DeleteAccount from './account/DeleteAccount';
 
 const Account = () => {
   const { isLoggedIn, setIsLoading } = useContext(AuthContext);
@@ -72,12 +73,7 @@ const Account = () => {
     {
       value: 'Delete account',
       icon: <RiDeleteBinLine />,
-      content: (
-        <div className="main-container" style={{ textAlign: 'center' }}>
-          <h2 className="heading-secondary ma-bt-lg">ToDo</h2>
-          <p className="no-results">This content does not exist yet!</p>
-        </div>
-      ),
+      content: <DeleteAccount />,
     },
   ];
 

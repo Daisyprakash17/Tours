@@ -23,8 +23,7 @@ router.patch(
   userController.resizeUserPhoto,
   userController.updateMe
 );
-router.delete('/deactivateMe', userController.deactivateMe);
-router.delete('/deleteMe', userController.deleteMe);
+router.post('/deleteMe', authController.deleteMe);
 
 // Restrict to admins all the routes after this middleware
 router.use(authController.restrictTo('admin'));

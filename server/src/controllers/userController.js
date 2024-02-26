@@ -50,38 +50,6 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
-exports.deactivateMe = async (req, res, next) => {
-  try {
-    await User.findByIdAndUpdate(req.user.id, { active: false });
-
-    res.status(204).json({
-      status: 'success',
-      data: null,
-    });
-  } catch (err) {
-    res.status(500).json({
-      status: 'fail',
-      message: err.message,
-    });
-  }
-};
-
-exports.deleteMe = async (req, res, next) => {
-  try {
-    await User.findByIdAndDelete(req.user.id);
-
-    res.status(204).json({
-      status: 'success',
-      data: null,
-    });
-  } catch (err) {
-    res.status(500).json({
-      status: 'fail',
-      message: err.message,
-    });
-  }
-};
-
 exports.getMe = (req, res, next) => {
   req.params.id = req.user.id;
   next();

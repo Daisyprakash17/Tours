@@ -71,3 +71,12 @@
   font-weight: 700;
   margin: 0 auto;
 }
+
+.note {
+  font-style: italic;
+  font-size: 1.2rem;
+
+  span {
+    text-decoration: underline;
+  }
+}

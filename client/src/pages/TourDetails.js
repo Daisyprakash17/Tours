@@ -167,7 +167,7 @@ const TourDetails = () => {
       })
       .then(() => setLoading(false))
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
 
     document.title = `Natours | ${tour.name}`;
@@ -344,13 +344,13 @@ const TourDetails = () => {
                     <div key={index} className="reviews__card card-secondary">
                       <div className="card-secondary__avatar">
                         <img
-                          src={`http://localhost:8000/public/img/users/${review.user.photo}`}
-                          alt={review.user.name}
+                          src={`http://localhost:8000/public/img/users/${review.user ? review.user.photo : 'default.jpg'}`}
+                          alt={review.user ? review.user.name : 'Deleted user'}
                           className="card-secondary__avatar-img"
                           crossOrigin="anonymous"
                         />
                         <h6 className="card-secondary__title">
-                          {review.user.name}
+                          {review.user ? review.user.name.split(' ')[0] : 'Deleted user'}
                         </h6>
                       </div>
                       <p className="card-secondary__text">{review.review}</p>

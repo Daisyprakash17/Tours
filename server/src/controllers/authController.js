@@ -17,7 +17,7 @@ const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
   const cookieOptions = {
     expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000,
+      Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
     ),
     httpOnly: true, // backend only
     secure: true, // set to true if using https or samesite is none
@@ -226,16 +226,14 @@ exports.forgotPassword = async (req, res, next) => {
 
     // Send reset token to user's email
     try {
-      const resetURL = `${req.get(
-        'origin'
-      )}/resetPassword/${resetToken}`;
+      const resetURL = `${req.get('origin')}/resetPassword/${resetToken}`;
 
       const emailTemplateSource = fs.readFileSync(
         path.join(
           __dirname,
-          '/../../public/templates/emails/resetPassword.hbs',
+          '/../../public/templates/emails/resetPassword.hbs'
         ),
-        'utf8',
+        'utf8'
       );
 
       const template = handlebars.compile(emailTemplateSource);
@@ -334,6 +332,39 @@ exports.updatePassword = async (req, res, next) => {
     await user.save();
     // Log user in, send JWT
     createSendToken(user, 200, res);
+  } catch (err) {
+    res.status(500).json({
+      status: 'fail',
+      message: err.message,
+    });
+  }
+};
+
+exports.deleteMe = async (req, res, next) => {
+  try {
+    // Get user from collection
+    const user = await User.findById(req.user.id).select('+password');
+    // Check if POSTed password is correct
+    if (!(await user.correctPassword(req.body.password, user.password))) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Your password is incorrect.',
+      });
+    }
+
+    // If POSTed password is correct
+    // and the environment is production then delete the user
+    // otherwise deactivates the user
+    if (process.env.NODE_ENV === 'production') {
+      await User.findByIdAndDelete(req.user.id);
+    } else {
+      await User.findByIdAndUpdate(user, { active: false });
+    }
+
+    res.status(204).json({
+      status: 'success',
+      data: null,
+    });
   } catch (err) {
     res.status(500).json({
       status: 'fail',
