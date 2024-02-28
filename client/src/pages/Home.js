@@ -2,14 +2,31 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TourCard from '../components/Card/TourCard';
 import Alert from '../components/Alert/Alert';
+import api from '../utils/axiosConfig';
 
 const Home = () => {
+  const [loading, setLoading] = useState(true);
+  const [allTours, setAllTours] = useState({});
   const [message, setMessage] = useState(null);
   const [status, setStatus] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     document.title = 'Natours | All Tours';
+
+    // Get all tours
+    if (loading) {
+      api
+        .get('tours')
+        .then((res) => {
+          // console.log(res);
+          setAllTours(res.data.data.data);
+        })
+        .then(() => setLoading(false))
+        .catch((err) => {
+          console.error(err);
+        });
+    }
 
     // If the URL contains the parameter paymentIntent=succeeded
     const queryParams = new URLSearchParams(window.location.search);
@@ -26,12 +43,16 @@ const Home = () => {
         setMessage(null);
       }, 1500);
     }
-  }, [navigate]);
+  }, [loading, navigate]);
 
   return (
     <div className="main-container">
       {message && <Alert message={message} status={status} />}
-      <TourCard />
+      {loading ? (
+        <h1 className="no-results">Loading...</h1>
+      ) : (
+        <TourCard tours={allTours} />
+      )}
     </div>
   );
 };
