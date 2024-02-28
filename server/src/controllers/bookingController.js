@@ -9,6 +9,19 @@ exports.getCheckoutSession = async (req, res, next) => {
     // Get the currently booked tour
     const tour = await Tour.findById(req.params.tourId);
 
+    // Check if the user has already booked this tour
+    const booking = await Booking.findOne({
+      user: req.user.id,
+      tour: req.params.tourId,
+    });
+
+    if (booking) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Tour already booked by this user!',
+      });
+    }
+
     // Create checkout session
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',

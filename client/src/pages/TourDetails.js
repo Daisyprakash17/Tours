@@ -144,18 +144,24 @@ const TourDetails = () => {
     api
       .get(`bookings/checkout-session/${id}`)
       .then((res) => {
-        setProcessing(false);
         // console.log(res);
-        window.location.href = res.data.session.url;
+        if (res.status === 200) {
+          window.location.href = res.data.session.url;
+        }
       })
+      .then(() => setProcessing(false))
       .catch((err) => {
         console.error(err);
         setShowAlert(true);
-        setMessage(err || 'Ops! Something went wrong, please try again.');
         setStatus('error');
+        setMessage(
+          err.response.data.message ||
+            'Ops! Something went wrong, please try again.'
+        );
 
         setTimeout(() => {
           setShowAlert(false);
+          setProcessing(false);
         }, 1500);
       });
   };

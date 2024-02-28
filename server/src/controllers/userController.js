@@ -93,6 +93,7 @@ exports.getMyBookings = async (req, res, next) => {
 
     res.status(200).json({
       status: 'success',
+      results: tours.length,
       data: {
         bookedTours: tours,
       },
