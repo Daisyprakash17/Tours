@@ -12,6 +12,7 @@ import PasswordChange from './account/PasswordChange';
 import AccountSettings from './account/AccountSettings';
 import MyReviews from './account/MyReviews';
 import DeleteAccount from './account/DeleteAccount';
+import MyBookings from './account/MyBookings';
 
 const Account = () => {
   const { isLoggedIn, setIsLoading } = useContext(AuthContext);
@@ -48,12 +49,7 @@ const Account = () => {
     {
       value: 'My bookings',
       icon: <PiSuitcase />,
-      content: (
-        <div className="main-container" style={{ textAlign: 'center' }}>
-          <h2 className="heading-secondary ma-bt-lg">ToDo</h2>
-          <p className="no-results">This content does not exist yet!</p>
-        </div>
-      ),
+      content: <MyBookings />,
     },
     {
       value: 'My reviews',
