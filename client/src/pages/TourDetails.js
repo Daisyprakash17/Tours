@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getClosestDate, starCalc } from '../helper/functions';
 import { FaRegClock } from 'react-icons/fa6';
 import { CgGym } from 'react-icons/cg';
@@ -15,6 +15,7 @@ import Submit from '../components/Form/Submit';
 import Form from '../components/Form/Form';
 import Input from '../components/Form/Input';
 import Popup from '../components/Popup/Popup';
+import CtaCard from '../components/Card/CtaCard';
 
 const TourDetails = () => {
   const [tour, setTour] = useState({});
@@ -29,6 +30,7 @@ const TourDetails = () => {
   const { isLoggedIn } = useContext(AuthContext);
   let params = useParams();
   let id = params.id;
+  const navigate = useNavigate();
 
   // Show the review form if the user is logged in
   const reviewFormHandler = () => {
@@ -156,6 +158,11 @@ const TourDetails = () => {
           setShowAlert(false);
         }, 1500);
       });
+  };
+
+  const navigateHandler = () => {
+    navigate('/');
+    window.scrollTo(0, 0);
   };
 
   useEffect(() => {
@@ -344,13 +351,17 @@ const TourDetails = () => {
                     <div key={index} className="reviews__card card-secondary">
                       <div className="card-secondary__avatar">
                         <img
-                          src={`http://localhost:8000/public/img/users/${review.user ? review.user.photo : 'default.jpg'}`}
+                          src={`http://localhost:8000/public/img/users/${
+                            review.user ? review.user.photo : 'default.jpg'
+                          }`}
                           alt={review.user ? review.user.name : 'Deleted user'}
                           className="card-secondary__avatar-img"
                           crossOrigin="anonymous"
                         />
                         <h6 className="card-secondary__title">
-                          {review.user ? review.user.name.split(' ')[0] : 'Deleted user'}
+                          {review.user
+                            ? review.user.name.split(' ')[0]
+                            : 'Deleted user'}
                         </h6>
                       </div>
                       <p className="card-secondary__text">{review.review}</p>
@@ -371,28 +382,33 @@ const TourDetails = () => {
             )}
           </section>
 
-          <section className="details-cta">
-            <div className="cta">
-              <div className="cta__img">
-                <img src="/img/logo-white.png" alt="Natours logo" />
-              </div>
-
-              <div className="cta__content">
-                <h2 className="heading-secondary">What are you waiting for?</h2>
-                <p className="cta__text">
-                  {tour.duration} days. 1 adventure. Infinite memories. Make it
-                  yours today!
-                </p>
-              </div>
-              <div>
+          {tour.bookings.length < tour.maxGroupSize ? (
+            <CtaCard
+              headline="What are you waiting for?"
+              text={`${tour.duration} days. 1 adventure. Infinite memories. Make
+                      it yours today!`}
+              cta={
                 <Button
                   color="green"
                   value={processing ? 'Processing...' : 'Book now!'}
                   onClick={bookTourHandler}
                 />
-              </div>
-            </div>
-          </section>
+              }
+            />
+          ) : (
+            <CtaCard
+              headline="Uh-Oh! This tour has sold out!"
+              text="Come back in a few days to check for other available
+                      dates."
+              cta={
+                <Button
+                  color="green"
+                  value="All tours"
+                  onClick={navigateHandler}
+                />
+              }
+            />
+          )}
         </div>
       )}
     </>
