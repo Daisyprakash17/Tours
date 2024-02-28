@@ -8,4 +8,13 @@ router.use(authController.protect);
 
 router.get('/checkout-session/:tourId', bookingController.getCheckoutSession);
 
+router.use(authController.restrictTo('admin'));
+
+router.route('/').get(bookingController.getAllBooking);
+
+router
+  .route('/:id')
+  .get(bookingController.getBooking)
+  .delete(bookingController.deleteBooking);
+
 module.exports = router;

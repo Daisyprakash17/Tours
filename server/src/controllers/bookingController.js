@@ -2,6 +2,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const Tour = require('../models/tourModel');
 const Booking = require('../models/bookingModel');
 const User = require('../models/userModel');
+const factory = require('./handlerFactory');
 
 exports.getCheckoutSession = async (req, res, next) => {
   try {
@@ -75,3 +76,7 @@ exports.webhookCheckout = (req, res, next) => {
   // Return a 200 response to acknowledge receipt of the event
   res.send().end();
 };
+
+exports.getBooking = factory.getOne(Booking);
+exports.getAllBooking = factory.getAll(Booking);
+exports.deleteBooking = factory.deleteOne(Booking);
