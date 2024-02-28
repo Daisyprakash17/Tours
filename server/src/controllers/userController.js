@@ -3,6 +3,7 @@ const sharp = require('sharp');
 const User = require('../models/userModel');
 const Review = require('../models/reviewModel');
 const Tour = require('../models/tourModel');
+const Booking = require('../models/bookingModel');
 const factory = require('./handlerFactory');
 
 // Doc: https://www.npmjs.com/package/multer
@@ -71,6 +72,29 @@ exports.getMyReviews = async (req, res, next) => {
       data: {
         myReviews,
         reviewedTours: tours,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: 'fail',
+      message: err.message,
+    });
+  }
+};
+
+exports.getMyBookings = async (req, res, next) => {
+  try {
+    // Find all bookings
+    const bookings = await Booking.find({ user: req.user.id });
+
+    // Get all tours with returned IDs
+    const tourIDs = bookings.map((el) => el.tour);
+    const tours = await Tour.find({ _id: { $in: tourIDs } });
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        bookedTours: tours,
       },
     });
   } catch (err) {

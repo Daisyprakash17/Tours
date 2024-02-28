@@ -17,6 +17,11 @@ router.patch('/updatePassword', authController.updatePassword);
 
 router.get('/me', userController.getMe, userController.getUser);
 router.get('/my-reviews', userController.getMyReviews, userController.getUser);
+router.get(
+  '/my-bookings',
+  userController.getMyBookings,
+  userController.getUser
+);
 router.patch(
   '/updateMe',
   userController.uploadUserPhoto,
