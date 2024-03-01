@@ -13,6 +13,7 @@ import AccountSettings from './account/AccountSettings';
 import MyReviews from './account/MyReviews';
 import DeleteAccount from './account/DeleteAccount';
 import MyBookings from './account/MyBookings';
+import Billing from './account/Billing';
 
 const Account = () => {
   const { isLoggedIn, setIsLoading } = useContext(AuthContext);
@@ -27,7 +28,7 @@ const Account = () => {
       setIsLoading(false);
     } else {
       api
-        .get('/users/me')
+        .get('users/me')
         .then((res) => setUser(res.data.data.data))
         .catch((err) => console.error(err));
 
@@ -59,12 +60,7 @@ const Account = () => {
     {
       value: 'Billing',
       icon: <SlCreditCard />,
-      content: (
-        <div className="main-container" style={{ textAlign: 'center' }}>
-          <h2 className="heading-secondary ma-bt-lg">ToDo</h2>
-          <p className="no-results">This content does not exist yet!</p>
-        </div>
-      ),
+      content: <Billing />,
     },
     {
       value: 'Delete account',

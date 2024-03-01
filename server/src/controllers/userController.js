@@ -106,6 +106,34 @@ exports.getMyBookings = async (req, res, next) => {
   }
 };
 
+exports.getMyBillings = async (req, res, next) => {
+  try {
+    // Find all bookings
+    const bookings = await Booking.find({ user: req.user.id });
+
+    const tour = bookings.map((el) => el.tour);
+    const price = bookings.map((el) => el.price);
+    const date = bookings.map((el) => el.createdAt);
+
+    res.status(200).json({
+      status: 'success',
+      results: bookings.length,
+      data: {
+        billings: {
+          tour,
+          price,
+          date,
+        },
+      },
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: 'fail',
+      message: err.message,
+    });
+  }
+};
+
 exports.updateMe = async (req, res, next) => {
   try {
     const { name, password, confirmPassword } = req.body;

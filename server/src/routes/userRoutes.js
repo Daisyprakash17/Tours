@@ -22,6 +22,11 @@ router.get(
   userController.getMyBookings,
   userController.getUser
 );
+router.get(
+  '/my-billings',
+  userController.getMyBillings,
+  userController.getUser
+);
 router.patch(
   '/updateMe',
   userController.uploadUserPhoto,

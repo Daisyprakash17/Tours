@@ -1,4 +1,13 @@
-import Star from "../components/Icons/Star";
+import Star from '../components/Icons/Star';
+
+// Convert ISO 8601 time date into plain English
+export const humanReadableDate = (date) => {
+  return date.toLocaleString('en-us', {
+    month: 'long',
+    year: 'numeric',
+    day: 'numeric',
+  });
+};
 
 // Get the closest date to the current one
 export const getClosestDate = (date) => {
@@ -8,17 +17,8 @@ export const getClosestDate = (date) => {
     let dateB = new Date(b);
 
     // Convert ISO 8601 time date into plain English
-    let dateStrA = dateA.toLocaleString('en-us', {
-      month: 'long',
-      year: 'numeric',
-      day: 'numeric',
-    });
-
-    let dateStrB = dateB.toLocaleString('en-us', {
-      month: 'long',
-      year: 'numeric',
-      day: 'numeric',
-    });
+    let dateStrA = humanReadableDate(dateA);
+    let dateStrB = humanReadableDate(dateB);
 
     // Get the closest date to now
     const adiff = dateStrA - currentDate;
@@ -33,7 +33,9 @@ export const starCalc = (rating) => {
   stars.forEach((star) => {
     rating >= star ? classes.push('active') : classes.push('inactive');
   });
-  return classes.map((el) => <Star className={`reviews__star reviews__star--${el}`} />);
+  return classes.map((el) => (
+    <Star className={`reviews__star reviews__star--${el}`} />
+  ));
 };
 
 // Set username and photo to localstorage
