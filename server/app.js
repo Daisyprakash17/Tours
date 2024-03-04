@@ -21,6 +21,7 @@ app.enable('trust proxy');
 app.use(
   cors({
     origin: 'https://natours-mern-app.netlify.app',
+    credentials: true,
   })
 );
 app.options('*', cors());
