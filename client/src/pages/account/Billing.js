@@ -82,7 +82,7 @@ const Billing = () => {
                     <div key={index} className="card-secondary content__card">
                       <div className="card-secondary__avatar">
                         <img
-                          src={`http://localhost:8000/public/img/tours/${billings.tour[index].imageCover}`}
+                          src={`https://natours-app-r8rd.onrender.com/public/img/tours/${billings.tour[index].imageCover}`}
                           alt={billings.tour[index].name}
                           className="card-secondary__avatar-img card-secondary__avatar-img--tour"
                           crossOrigin="anonymous"
@@ -111,7 +111,7 @@ const Billing = () => {
                   <div key={index} className="card-secondary content__card">
                     <div className="card-secondary__avatar">
                       <img
-                        src={`http://localhost:8000/public/img/tours/${billings.tour[index].imageCover}`}
+                        src={`https://natours-app-r8rd.onrender.com/public/img/tours/${billings.tour[index].imageCover}`}
                         alt={billings.tour[index].name}
                         className="card-secondary__avatar-img card-secondary__avatar-img--tour"
                         crossOrigin="anonymous"

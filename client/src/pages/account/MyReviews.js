@@ -181,7 +181,7 @@ const MyReviews = () => {
               >
                 <div className="card-secondary__avatar">
                   <img
-                    src={`http://localhost:8000/public/img/tours/${review.tour.imageCover}`}
+                    src={`https://natours-app-r8rd.onrender.com/public/img/tours/${review.tour.imageCover}`}
                     alt={review.tour.name}
                     className="card-secondary__avatar-img card-secondary__avatar-img--tour"
                     crossOrigin="anonymous"

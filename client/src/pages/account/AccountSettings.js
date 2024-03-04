@@ -75,7 +75,7 @@ const AccountSettings = ({ userInfo }) => {
           userStorage(res.data.data.user.name, res.data.data.user.photo);
           setPhoto('');
           setImgData(
-            `http://localhost:8000/public/img/users/${res.data.data.user.photo}`
+            `https://natours-app-r8rd.onrender.com/public/img/users/${res.data.data.user.photo}`
           );
 
           setIsLoading(true);
@@ -151,7 +151,7 @@ const AccountSettings = ({ userInfo }) => {
               src={
                 imgData
                   ? imgData
-                  : `http://localhost:8000/public/img/users/${userInfo.photo}`
+                  : `https://natours-app-r8rd.onrender.com/public/img/users/${userInfo.photo}`
               }
               alt={userInfo.name}
               crossOrigin="anonymous"

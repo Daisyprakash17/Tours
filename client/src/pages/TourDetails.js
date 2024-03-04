@@ -288,7 +288,7 @@ const TourDetails = () => {
               <div className="header__hero-overlay">&nbsp;</div>
               <img
                 className="header__hero-img"
-                src={`http://localhost:8000/public/img/tours/${tour.imageCover}`}
+                src={`https://natours-app-r8rd.onrender.com/public/img/tours/${tour.imageCover}`}
                 alt={tour.name}
                 crossOrigin="anonymous"
               />
@@ -357,7 +357,7 @@ const TourDetails = () => {
                     return (
                       <div key={index} className="overview-box__detail">
                         <img
-                          src={`http://localhost:8000/public/img/users/${guide.photo}`}
+                          src={`https://natours-app-r8rd.onrender.com/public/img/users/${guide.photo}`}
                           alt="Guide"
                           className="overview-box__img"
                           crossOrigin="anonymous"
@@ -387,7 +387,7 @@ const TourDetails = () => {
                     className={`picture-box__img picture-box__img--${
                       index + 1
                     }`}
-                    src={`http://localhost:8000/public/img/tours/${image}`}
+                    src={`https://natours-app-r8rd.onrender.com/public/img/tours/${image}`}
                     alt={`${tour.name}-${index + 1}`}
                     crossOrigin="anonymous"
                   />
@@ -407,7 +407,7 @@ const TourDetails = () => {
                     <div key={index} className="reviews__card card-secondary">
                       <div className="card-secondary__avatar">
                         <img
-                          src={`http://localhost:8000/public/img/users/${
+                          src={`https://natours-app-r8rd.onrender.com/public/img/users/${
                             review.user ? review.user.photo : 'default.jpg'
                           }`}
                           alt={review.user ? review.user.name : 'Deleted user'}
