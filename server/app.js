@@ -17,7 +17,7 @@ const errorHandler = require('./src/handlers/errorHandler');
 const app = express();
 app.use(
   cors({
-    origin: 'https://localhost:3000',
+    origin: 'https://natours-mern-app.netlify.app/',
     credentials: true,
     sameSite: 'none',
     secure: true,
