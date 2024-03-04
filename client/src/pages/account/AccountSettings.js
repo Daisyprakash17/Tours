@@ -14,11 +14,15 @@ const AccountSettings = ({ userInfo }) => {
   const [imgData, setImgData] = useState(null);
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState('');
+  const [loading, setLoading] = useState(true);
   const { setIsLoading } = useContext(AuthContext);
 
   useEffect(() => {
-    setName(userInfo.name);
-    setEmail(userInfo.email);
+    if (userInfo.name && userInfo.email) {
+      setName(userInfo.name);
+      setEmail(userInfo.email);
+      setLoading(false);
+    }
 
     document.title = 'Natours | Account settings';
   }, [userInfo.email, userInfo.name]);
@@ -109,51 +113,57 @@ const AccountSettings = ({ userInfo }) => {
   return (
     <Form title="Account settings" onSubmit={handleSubmit}>
       {message && <Alert status={status} message={message} />}
-      <Input
-        name="name"
-        label="Name"
-        type="text"
-        placeholder="Your Name"
-        isRequired="true"
-        minLength="6"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <Input
-        extraClass="ma-bt-md"
-        name="email"
-        label="Email address"
-        type="email"
-        placeholder="you@example.com"
-        isRequired="true"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <div className="form__group form__photo-upload ma-bt-lg">
-        <img
-          className="form__user-photo"
-          src={
-            imgData
-              ? imgData
-              : `http://localhost:8000/public/img/users/${userInfo.photo}`
-          }
-          alt={userInfo.name}
-          crossOrigin="anonymous"
-        />
-        <input
-          className="hidden"
-          type="file"
-          accept="image/*"
-          id="photo"
-          name="photo"
-          onChange={onChangePicture}
-        />
-        <span className="form__selected-file">{photo && photo.name}</span>
-        <label htmlFor="photo" className="form__label--upload">
-          Choose new photo
-        </label>
-      </div>
-      <Submit submitText="Save settings" />
+      {loading ? (
+        <h3 className="no-results">Loading...</h3>
+      ) : (
+        <>
+          <Input
+            name="name"
+            label="Name"
+            type="text"
+            placeholder="Your Name"
+            isRequired="true"
+            minLength="6"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Input
+            extraClass="ma-bt-md"
+            name="email"
+            label="Email address"
+            type="email"
+            placeholder="you@example.com"
+            isRequired="true"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <div className="form__group form__photo-upload ma-bt-lg">
+            <img
+              className="form__user-photo"
+              src={
+                imgData
+                  ? imgData
+                  : `http://localhost:8000/public/img/users/${userInfo.photo}`
+              }
+              alt={userInfo.name}
+              crossOrigin="anonymous"
+            />
+            <input
+              className="hidden"
+              type="file"
+              accept="image/*"
+              id="photo"
+              name="photo"
+              onChange={onChangePicture}
+            />
+            <span className="form__selected-file">{photo && photo.name}</span>
+            <label htmlFor="photo" className="form__label--upload">
+              Choose new photo
+            </label>
+          </div>
+          <Submit submitText="Save settings" />
+        </>
+      )}
     </Form>
   );
 };
