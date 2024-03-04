@@ -56,7 +56,7 @@ const Billing = () => {
       {loading ? (
         <h1 className="no-results">Loading...</h1>
       ) : !billings ? (
-        <h1 className="no-results">No results</h1>
+        <h1 className="no-results">There are no billings yet!</h1>
       ) : (
         <>
           <div className="ma-bt-md">
