@@ -18,7 +18,11 @@ const app = express();
 
 app.enable('trust proxy');
 
-app.use(cors());
+app.use(
+  cors({
+    origin: 'https://natours-mern-app.netlify.app',
+  })
+);
 app.options('*', cors());
 
 /* Global middlewares */
