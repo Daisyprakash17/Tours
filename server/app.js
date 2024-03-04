@@ -15,14 +15,11 @@ const bookingController = require('./src/controllers/bookingController');
 const errorHandler = require('./src/handlers/errorHandler');
 
 const app = express();
-app.use(
-  cors({
-    origin: 'https://natours-mern-app.netlify.app/',
-    credentials: true,
-    sameSite: 'none',
-    secure: true,
-  })
-);
+
+app.enable('trust proxy');
+
+app.use(cors());
+app.options('*', cors());
 
 /* Global middlewares */
 // Serving static files
