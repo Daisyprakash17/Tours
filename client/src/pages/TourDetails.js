@@ -20,17 +20,18 @@ import CtaCard from '../components/Card/CtaCard';
 const TourDetails = () => {
   const [tour, setTour] = useState({});
   const [loading, setLoading] = useState(true);
-  const [showAlert, setShowAlert] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [review, setReview] = useState('');
   const [rating, setRating] = useState(0);
   const [message, setMessage] = useState(null);
   const [status, setStatus] = useState(null);
   const [processing, setProcessing] = useState(false);
+  const [userCanReview, setUserCanReview] = useState(true);
   const { isLoggedIn } = useContext(AuthContext);
   let params = useParams();
   let id = params.id;
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem('user'));
 
   // Show the review form if the user is logged in
   const reviewFormHandler = () => {
@@ -38,10 +39,9 @@ const TourDetails = () => {
     if (!isLoggedIn) {
       setStatus('error');
       setMessage('Please login to perform this action');
-      setShowAlert(true);
 
       setTimeout(() => {
-        setShowAlert(false);
+        setMessage(null);
       }, 1500);
 
       return;
@@ -62,20 +62,18 @@ const TourDetails = () => {
         if (res.status === 201) {
           setMessage('Tour successfully reviewed');
           setStatus('success');
-          setShowAlert(true);
           setReview('');
           setRating(null);
           setShowForm(false);
 
           setTimeout(() => {
-            setShowAlert(false);
+            setMessage(null);
           }, 1500);
         }
       })
       .catch((err) => {
         console.error(err);
         setStatus('error');
-        setShowAlert(true);
 
         if (err.response.status === 403) {
           setMessage(
@@ -84,7 +82,7 @@ const TourDetails = () => {
           );
 
           setTimeout(() => {
-            setShowAlert(false);
+            setMessage(null);
           }, 1500);
 
           return;
@@ -96,7 +94,7 @@ const TourDetails = () => {
           );
 
           setTimeout(() => {
-            setShowAlert(false);
+            setMessage(null);
           }, 1500);
 
           return;
@@ -107,7 +105,7 @@ const TourDetails = () => {
             setMessage('Please make sure to select at least one star');
 
             setTimeout(() => {
-              setShowAlert(false);
+              setMessage(null);
             }, 1500);
 
             return;
@@ -119,7 +117,7 @@ const TourDetails = () => {
         }
 
         setTimeout(() => {
-          setShowAlert(false);
+          setMessage(null);
         }, 2500);
       });
   };
@@ -130,10 +128,9 @@ const TourDetails = () => {
     if (!isLoggedIn) {
       setStatus('error');
       setMessage('Please login to perform this action');
-      setShowAlert(true);
 
       setTimeout(() => {
-        setShowAlert(false);
+        setMessage(null);
       }, 1500);
 
       return;
@@ -152,7 +149,6 @@ const TourDetails = () => {
       .then(() => setProcessing(false))
       .catch((err) => {
         console.error(err);
-        setShowAlert(true);
         setStatus('error');
         setMessage(
           err.response.data.message ||
@@ -160,7 +156,7 @@ const TourDetails = () => {
         );
 
         setTimeout(() => {
-          setShowAlert(false);
+          setMessage(null);
           setProcessing(false);
         }, 1500);
       });
@@ -184,11 +180,22 @@ const TourDetails = () => {
       });
 
     document.title = `Natours | ${tour.name}`;
-  }, [id, tour.name, tour.ratingsAverage, review]);
+
+    // Check if the user has already reviewed the tour
+    if (!loading && user) {
+      tour.reviews.map((review) => {
+        if (review.user.name !== user.name) {
+          return setUserCanReview(true);
+        } else {
+          return setUserCanReview(false);
+        }
+      });
+    }
+  }, [id, loading, tour, user]);
 
   return (
     <>
-      {showAlert && <Alert status={status} message={message} />}
+      {message && <Alert status={status} message={message} />}
       {showForm && (
         <Popup onClose={() => setShowForm(false)}>
           <Form title="Review tour" onSubmit={handleReviewSubmit}>
@@ -379,7 +386,8 @@ const TourDetails = () => {
                 })
               )}
             </div>
-            {!showForm && (
+            {/* Hide the button from users who have already reviewed the tour */}
+            {userCanReview && (
               <Button
                 color="white"
                 value="New review"
