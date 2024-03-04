@@ -78,10 +78,14 @@ const ManageTours = () => {
       ) : (
         <div>
           {tours.map((tour, index) => (
-            <Link to={`/tour/${tour.id}`} className="card-secondary content__card" key={index}>
+            <Link
+              to={`/tour/${tour.id}`}
+              className="card-secondary content__card"
+              key={index}
+            >
               <div className="card-secondary__avatar">
                 <img
-                  src={`http://localhost:8000/public/img/tours/${tour.imageCover}`}
+                  src={`https://natours-app-r8rd.onrender.com/public/img/tours/${tour.imageCover}`}
                   alt={tour.name}
                   className="card-secondary__avatar-img card-secondary__avatar-img--tour"
                   crossOrigin="anonymous"

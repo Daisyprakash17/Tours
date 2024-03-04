@@ -149,7 +149,7 @@ const MyReviews = () => {
               >
                 <div className="card-secondary__avatar">
                   <img
-                    src={`http://localhost:8000/public/img/tours/${tours[index].imageCover}`}
+                    src={`https://natours-app-r8rd.onrender.com/public/img/tours/${tours[index].imageCover}`}
                     alt={tours[index].name}
                     className="card-secondary__avatar-img card-secondary__avatar-img--tour"
                     crossOrigin="anonymous"
