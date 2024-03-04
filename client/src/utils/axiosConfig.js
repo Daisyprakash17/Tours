@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = 'http://127.0.0.1:8000/api/v1/';
+const baseURL = 'https://natours-api.onrender.com';
 
 const api = axios.create({
   baseURL,
