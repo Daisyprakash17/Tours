@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../store/AuthContext';
 import api from '../../utils/axiosConfig';
 import Alert from '../Alert/Alert';
@@ -12,8 +12,10 @@ const Header = () => {
   const [status, setStatus] = useState('');
   const [user, setUser] = useState(null);
   const [subMenuOpen, setSubMenuOpen] = useState(false);
+  const [checked, setChecked] = useState(false);
   const { isLoggedIn, setIsLoggedIn, isLoading } = useContext(AuthContext);
   const menuRef = useRef();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isLoggedIn && !isLoading) {
@@ -43,6 +45,8 @@ const Header = () => {
           localStorage.clear();
           setMessage('successfully logged out');
           setStatus('success');
+          setChecked(false);
+          navigate('/');
 
           setTimeout(() => {
             setMessage('');
@@ -62,6 +66,10 @@ const Header = () => {
 
   const toggleMenu = () => {
     setSubMenuOpen((prevOpen) => !prevOpen);
+  };
+
+  const toggleMobileMenu = () => {
+    setChecked((prevChecked) => !prevChecked);
   };
 
   return (
@@ -127,15 +135,23 @@ const Header = () => {
             type="checkbox"
             className="navigation__checkbox"
             id="navi-toggle"
+            checked={checked}
           ></input>
           <label htmlFor="navi-toggle" className="navigation__button">
-            <span className="navigation__icon"></span>
+            <span
+              className="navigation__icon"
+              onClick={toggleMobileMenu}
+            ></span>
           </label>
           <nav className="navigation__nav">
             <ul className="navigation__list">
               <li className="navigation__item">
                 <RiHome2Line className="navigation__item-icon" />
-                <Link to="/" className="navigation__link">
+                <Link
+                  to="/"
+                  className="navigation__link"
+                  onClick={toggleMobileMenu}
+                >
                   All tours
                 </Link>
               </li>
@@ -143,7 +159,11 @@ const Header = () => {
                 <>
                   <li className="navigation__item">
                     <User className="navigation__item-icon" />
-                    <Link to="/me" className="navigation__link">
+                    <Link
+                      to="/me"
+                      className="navigation__link"
+                      onClick={toggleMobileMenu}
+                    >
                       Profile
                     </Link>
                   </li>
@@ -158,13 +178,21 @@ const Header = () => {
                 <>
                   <li className="navigation__item">
                     <BiLogIn className="navigation__item-icon" />
-                    <Link to="/log-in" className="navigation__link">
+                    <Link
+                      to="/log-in"
+                      className="navigation__link"
+                      onClick={toggleMobileMenu}
+                    >
                       Log in
                     </Link>
                   </li>
                   <li className="navigation__item">
                     <BiLogIn className="navigation__item-icon" />
-                    <Link to="/sign-up" className="navigation__link">
+                    <Link
+                      to="/sign-up"
+                      className="navigation__link"
+                      onClick={toggleMobileMenu}
+                    >
                       Sign up
                     </Link>
                   </li>
