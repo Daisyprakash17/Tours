@@ -13,7 +13,7 @@ const MyBookings = () => {
       api
         .get('users/my-bookings')
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           setBookedTours(res.data.data.bookedTours);
         })
         .then(() => setLoading(false))

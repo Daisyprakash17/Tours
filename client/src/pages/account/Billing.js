@@ -15,7 +15,7 @@ const Billing = () => {
       api
         .get('users/my-billings')
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           if (res.status === 200) {
             if (res.data.results <= 0) {
               return setBillings(null);
