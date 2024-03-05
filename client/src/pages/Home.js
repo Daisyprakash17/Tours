@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import api from '../utils/axiosConfig';
 import TourCard from '../components/Card/TourCard';
 import Alert from '../components/Alert/Alert';
-import api from '../utils/axiosConfig';
+import SpLoading from '../components/Spinner/SpLoading';
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
@@ -48,11 +49,7 @@ const Home = () => {
   return (
     <div className="main-container">
       {message && <Alert message={message} status={status} />}
-      {loading ? (
-        <h1 className="no-results">Loading...</h1>
-      ) : (
-        <TourCard tours={allTours} />
-      )}
+      {loading ? <SpLoading centered /> : <TourCard tours={allTours} />}
     </div>
   );
 };

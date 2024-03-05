@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import TourCard from '../../components/Card/TourCard';
 import api from '../../utils/axiosConfig';
+import TourCard from '../../components/Card/TourCard';
+import SpLoading from '../../components/Spinner/SpLoading';
 
 const MyBookings = () => {
   const [loading, setLoading] = useState(true);
@@ -28,7 +29,7 @@ const MyBookings = () => {
       <h2 className="heading-secondary">My bookings</h2>
       {loading ? (
         <div>
-          <h3 className="no-results">Loading...</h3>
+          <SpLoading centered />
         </div>
       ) : bookedTours.length > 0 ? (
         <TourCard tours={bookedTours} />

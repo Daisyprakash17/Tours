@@ -6,6 +6,7 @@ import Form from '../../components/Form/Form';
 import Input from '../../components/Form/Input';
 import Submit from '../../components/Form/Submit';
 import Alert from '../../components/Alert/Alert';
+import SpLoading from '../../components/Spinner/SpLoading';
 
 const AccountSettings = ({ userInfo }) => {
   const [name, setName] = useState('');
@@ -114,7 +115,7 @@ const AccountSettings = ({ userInfo }) => {
     <Form title="Account settings" onSubmit={handleSubmit}>
       {message && <Alert status={status} message={message} />}
       {loading ? (
-        <h3 className="no-results">Loading...</h3>
+        <SpLoading centered />
       ) : (
         <>
           <Input

@@ -1,21 +1,22 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getClosestDate, starCalc } from '../helper/functions';
+import { AuthContext } from '../store/AuthContext';
+import api from '../utils/axiosConfig';
 import { FaRegClock } from 'react-icons/fa6';
 import { CgGym } from 'react-icons/cg';
 import Calendar from '../components/Icons/Calendar';
 import Location from '../components/Icons/Location';
 import User from '../components/Icons/User';
 import Star from '../components/Icons/Star';
-import api from '../utils/axiosConfig';
 import Button from '../components/Button/Button';
-import { AuthContext } from '../store/AuthContext';
 import Alert from '../components/Alert/Alert';
 import Submit from '../components/Form/Submit';
 import Form from '../components/Form/Form';
 import Input from '../components/Form/Input';
 import Popup from '../components/Popup/Popup';
 import CtaCard from '../components/Card/CtaCard';
+import SpLoading from '../components/Spinner/SpLoading';
 
 const TourDetails = () => {
   const [tour, setTour] = useState({});
@@ -191,7 +192,7 @@ const TourDetails = () => {
         }
       });
     }
-  }, [id, loading, tour, user]);
+  }, [id, tour.name, tour.ratingsAverage, review, loading]);
 
   return (
     <>
@@ -237,7 +238,7 @@ const TourDetails = () => {
         </Popup>
       )}
       {loading ? (
-        <h1>Loading...</h1>
+        <SpLoading centered />
       ) : (
         <div className="details">
           <div className="details-header">
@@ -402,11 +403,15 @@ const TourDetails = () => {
               text={`${tour.duration} days. 1 adventure. Infinite memories. Make
                       it yours today!`}
               cta={
-                <Button
-                  color="green"
-                  value={processing ? 'Processing...' : 'Book now!'}
-                  onClick={bookTourHandler}
-                />
+                processing ? (
+                  <SpLoading />
+                ) : (
+                  <Button
+                    color="green"
+                    value="Book now!"
+                    onClick={bookTourHandler}
+                  />
+                )
               }
             />
           ) : (
