@@ -55,7 +55,7 @@ const Billing = () => {
     <div className="main-container form">
       <h2 className="heading-secondary ma-bt-lg">My Billing</h2>
       {loading ? (
-        <SpLoading centered />
+        <SpLoading />
       ) : !billings ? (
         <h1 className="no-results">There are no billings yet!</h1>
       ) : (

@@ -115,7 +115,7 @@ const AccountSettings = ({ userInfo }) => {
     <Form title="Account settings" onSubmit={handleSubmit}>
       {message && <Alert status={status} message={message} />}
       {loading ? (
-        <SpLoading centered />
+        <SpLoading />
       ) : (
         <>
           <Input
