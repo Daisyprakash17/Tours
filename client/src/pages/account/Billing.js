@@ -1,7 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import api from '../../utils/axiosConfig';
 import { humanReadableDate } from '../../helper/functions';
 import { Link } from 'react-router-dom';
+import SpLoading from '../../components/Spinner/SpLoading';
 
 const Billing = () => {
   const [loading, setLoading] = useState(true);
@@ -54,7 +55,7 @@ const Billing = () => {
     <div className="main-container form">
       <h2 className="heading-secondary ma-bt-lg">My Billing</h2>
       {loading ? (
-        <h1 className="no-results">Loading...</h1>
+        <SpLoading centered />
       ) : !billings ? (
         <h1 className="no-results">There are no billings yet!</h1>
       ) : (

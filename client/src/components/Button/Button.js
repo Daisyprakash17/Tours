@@ -5,11 +5,7 @@ const Button = (props) => {
 
   if (type === 'link') {
     return (
-      <Link
-        className={`btn-text btn-text--${color}`}
-        to={to}
-        onClick={onClick}
-      >
+      <Link className={`btn-text btn-text--${color}`} to={to} onClick={onClick}>
         {value}
       </Link>
     );

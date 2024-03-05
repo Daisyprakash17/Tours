@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../store/AuthContext';
+import api from '../../utils/axiosConfig';
 import Form from '../../components/Form/Form';
 import Input from '../../components/Form/Input';
 import Alert from '../../components/Alert/Alert';
 import Submit from '../../components/Form/Submit';
-import api from '../../utils/axiosConfig';
-import { AuthContext } from '../../store/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import SpLoading from '../../components/Spinner/SpLoading';
 
 const DeleteAccount = () => {
   const [password, setPassword] = useState('');
@@ -98,7 +99,7 @@ const DeleteAccount = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <Submit submitText={disabled ? 'Deleting...' : 'Delete'} />
+      {disabled ? <SpLoading /> : <Submit submitText="Delete" />}
       <div className="note ma-top-md">
         <strong>Note:</strong>{' '}
         <span>

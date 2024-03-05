@@ -50,6 +50,12 @@
       border-color: $color-grey-light;
     }
   }
+
+  .spinner div {
+    width: 4.4rem;
+    height: 4.4rem;
+    margin: 1.8rem;
+  }
 }
 
 .nav__user-img {

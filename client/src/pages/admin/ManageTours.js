@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../../utils/axiosConfig';
 import Alert from '../../components/Alert/Alert';
 import Button from '../../components/Button/Button';
-import { Link } from 'react-router-dom';
+import SpLoading from '../../components/Spinner/SpLoading';
 
 const ManageTours = () => {
   const [tours, setTours] = useState({});
@@ -74,7 +75,7 @@ const ManageTours = () => {
     <div className="content">
       <h2 className="heading-secondary ma-bt-md">Manage Tours</h2>
       {loading ? (
-        <h3 className="no-results">Loading...</h3>
+        <SpLoading centered />
       ) : (
         <div>
           {tours.map((tour, index) => (

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
+import api from '../../utils/axiosConfig';
 import Form from '../../components/Form/Form';
 import Input from '../../components/Form/Input';
 import Submit from '../../components/Form/Submit';
-import api from '../../utils/axiosConfig';
 import Alert from '../../components/Alert/Alert';
+import SpLoading from '../../components/Spinner/SpLoading';
 
 const PasswordChange = () => {
   const [currentPassword, setCurrentPassword] = useState('');
@@ -93,7 +94,7 @@ const PasswordChange = () => {
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
       />
-      <Submit submitText={disabled ? 'Updating...' : 'Save Password'} />
+      {disabled ? <SpLoading /> : <Submit submitText="Save Password" />}
     </Form>
   );
 };

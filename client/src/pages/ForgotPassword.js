@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
+import api from '../utils/axiosConfig';
 import Alert from '../components/Alert/Alert';
 import Form from '../components/Form/Form';
 import Input from '../components/Form/Input';
 import Submit from '../components/Form/Submit';
-import api from '../utils/axiosConfig';
+import SpLoading from '../components/Spinner/SpLoading';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -62,7 +63,7 @@ const ForgotPassword = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <Submit submitText={disabled ? 'Email sending...' : 'Password reset'} />
+        {disabled ? <SpLoading /> : <Submit submitText="Password reset" />}
       </Form>
     </div>
   );

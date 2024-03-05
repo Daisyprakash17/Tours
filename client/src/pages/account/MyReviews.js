@@ -9,6 +9,7 @@ import Star from '../../components/Icons/Star';
 import Submit from '../../components/Form/Submit';
 import Alert from '../../components/Alert/Alert';
 import Popup from '../../components/Popup/Popup';
+import SpLoading from '../../components/Spinner/SpLoading';
 
 const MyReviews = () => {
   const [reviews, setReviews] = useState({});
@@ -135,7 +136,7 @@ const MyReviews = () => {
       )}
       <h2 className="heading-secondary ma-bt-md">My Reviews</h2>
       {loading ? (
-        <h3 className="no-results">Loading...</h3>
+        <SpLoading centered />
       ) : (
         <div>
           {reviews.length <= 0 ? (

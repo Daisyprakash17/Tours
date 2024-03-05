@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { AuthContext } from '../store/AuthContext';
+import { userStorage } from '../helper/functions';
 import api from '../utils/axiosConfig';
 import Form from '../components/Form/Form';
 import Input from '../components/Form/Input';
 import Submit from '../components/Form/Submit';
 import Alert from '../components/Alert/Alert';
-import { AuthContext } from '../store/AuthContext';
-import { userStorage } from '../helper/functions';
+import SpLoading from '../components/Spinner/SpLoading';
 
 const ResetPassword = () => {
   const [password, setPassword] = useState('');
@@ -87,7 +88,7 @@ const ResetPassword = () => {
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
-        <Submit submitText={disabled ? 'Updating...' : 'Password Reset'} />
+        {disabled ? <SpLoading /> : <Submit submitText="Password Reset" />}
       </Form>
     </div>
   );

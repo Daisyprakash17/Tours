@@ -1,11 +1,12 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../store/AuthContext';
+import { BiLogOut, BiLogIn } from 'react-icons/bi';
+import { RiHome2Line } from 'react-icons/ri';
 import api from '../../utils/axiosConfig';
 import Alert from '../Alert/Alert';
 import User from '../Icons/User';
-import { BiLogOut, BiLogIn } from 'react-icons/bi';
-import { RiHome2Line } from 'react-icons/ri';
+import SpLoading from '../Spinner/SpLoading';
 
 const Header = () => {
   const [message, setMessage] = useState('');
@@ -87,7 +88,7 @@ const Header = () => {
         </div>
         <nav ref={menuRef} className="nav nav--user xs-hidden">
           {isLoading ? (
-            <div>Loading...</div>
+            <SpLoading />
           ) : isLoggedIn && user ? (
             <div className="nav__el" onClick={toggleMenu}>
               <img
