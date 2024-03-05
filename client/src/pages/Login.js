@@ -1,19 +1,21 @@
 import { useContext, useEffect, useState } from 'react';
-import { userStorage } from '../helper/functions';
-import api from '../utils/axiosConfig';
-import { AuthContext } from '../store/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { userStorage } from '../helper/functions';
+import { AuthContext } from '../store/AuthContext';
+import api from '../utils/axiosConfig';
 import Alert from '../components/Alert/Alert';
 import Form from '../components/Form/Form';
 import Input from '../components/Form/Input';
 import Button from '../components/Button/Button';
 import Submit from '../components/Form/Submit';
+import SpLoading from '../components/Spinner/SpLoading';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState('');
+  const [disabled, setDisabled] = useState(false);
   const { setIsLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -23,6 +25,7 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setDisabled(true);
 
     api
       .post('users/login', { email, password })
@@ -43,6 +46,7 @@ const Login = () => {
           }, 600);
         }
       })
+      .then(() => setDisabled(false))
       .catch((err) => {
         console.error(err.response.data);
         setMessage(
@@ -87,7 +91,7 @@ const Login = () => {
             value="Forgot password?"
           />
         </div>
-        <Submit submitText="Login" />
+        {disabled ? <SpLoading /> : <Submit submitText="Login" />}
       </Form>
     </div>
   );

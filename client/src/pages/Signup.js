@@ -7,6 +7,7 @@ import Alert from '../components/Alert/Alert';
 import Form from '../components/Form/Form';
 import Input from '../components/Form/Input';
 import Submit from '../components/Form/Submit';
+import SpLoading from '../components/Spinner/SpLoading';
 
 const Signup = () => {
   const [name, setName] = useState('');
@@ -15,6 +16,7 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState('');
+  const [disabled, setDisabled] = useState(false);
   const { setIsLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -24,6 +26,7 @@ const Signup = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setDisabled(true);
 
     api
       .post('users/signup', {
@@ -51,6 +54,7 @@ const Signup = () => {
           }, 600);
         }
       })
+      .then(() => setDisabled(false))
       .catch((err) => {
         console.error(err.response);
         setMessage(
@@ -108,7 +112,7 @@ const Signup = () => {
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
-        <Submit submitText="Signup" />
+        {disabled ? <SpLoading /> : <Submit submitText="Signup" />}
       </Form>
     </div>
   );
