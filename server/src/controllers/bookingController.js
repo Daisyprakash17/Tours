@@ -38,7 +38,9 @@ exports.getCheckoutSession = async (req, res, next) => {
             product_data: {
               name: `${tour.name} Tour`,
               description: tour.summary,
-              images: [`https://www.natours.dev/img/tours/${tour.imageCover}`], // TODO: replace with live project url
+              images: [
+                `https://natours-app-r8rd.onrender.com/public/img/tours/${tour.imageCover}`,
+              ],
             },
           },
           quantity: 1,
