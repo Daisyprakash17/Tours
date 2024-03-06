@@ -2,8 +2,8 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { userStorage } from '../helper/functions';
 import { AuthContext } from '../store/AuthContext';
+import { AlertContext } from '../store/AlertContext';
 import api from '../utils/axiosConfig';
-import Alert from '../components/Alert/Alert';
 import Form from '../components/Form/Form';
 import Input from '../components/Form/Input';
 import Button from '../components/Button/Button';
@@ -13,10 +13,9 @@ import SpLoading from '../components/Spinner/SpLoading';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
-  const [status, setStatus] = useState('');
   const [disabled, setDisabled] = useState(false);
   const { setIsLoggedIn } = useContext(AuthContext);
+  const { setMessage, setStatus } = useContext(AlertContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,31 +37,40 @@ const Login = () => {
 
           setEmail('');
           setPassword('');
+          setIsLoggedIn(true);
+          navigate('/');
 
           setTimeout(() => {
-            setMessage('');
-            setIsLoggedIn(true);
-            navigate('/');
-          }, 600);
+            setMessage(null);
+          }, 1000);
         }
       })
       .then(() => setDisabled(false))
       .catch((err) => {
         console.error(err.response.data);
+        setStatus('error');
+
+        if (err.response.status === 429) {
+          setMessage(err.response.data);
+          setTimeout(() => {
+            setMessage(null);
+          }, 3000);
+          return;
+        }
+
         setMessage(
           err.response.data.error ||
             'Ops! Something went wrong, please try again.'
         );
-        setStatus('error');
+
         setTimeout(() => {
-          setMessage('');
+          setMessage(null);
         }, 3000);
       });
   };
 
   return (
     <div className="main-container">
-      {message && <Alert status={status} message={message} />}
       <Form title="Log in" onSubmit={handleSubmit}>
         <Input
           name="email"

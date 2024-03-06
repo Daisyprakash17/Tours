@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './store/AuthContext';
+import { AlertProvider } from './store/AlertContext';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Home from './pages/Home';
@@ -8,7 +10,6 @@ import ForgotPassword from './pages/ForgotPassword';
 import TourDetails from './pages/TourDetails';
 import Account from './pages/Account';
 import ResetPassword from './pages/ResetPassword';
-import { AuthProvider } from './store/AuthContext';
 
 const App = () => {
   return (
@@ -29,9 +30,11 @@ const AppWrapper = () => {
     <>
       <Router>
         <AuthProvider>
-          <Header />
-          <App />
-          <Footer />
+          <AlertProvider>
+            <Header />
+            <App />
+            <Footer />
+          </AlertProvider>
         </AuthProvider>
       </Router>
     </>

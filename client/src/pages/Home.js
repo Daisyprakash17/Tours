@@ -1,15 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AlertContext } from '../store/AlertContext';
 import api from '../utils/axiosConfig';
 import TourCard from '../components/Card/TourCard';
-import Alert from '../components/Alert/Alert';
 import SpLoading from '../components/Spinner/SpLoading';
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
   const [allTours, setAllTours] = useState({});
-  const [message, setMessage] = useState(null);
-  const [status, setStatus] = useState(null);
+  const { setMessage, setStatus } = useContext(AlertContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,6 +25,20 @@ const Home = () => {
         .then(() => setLoading(false))
         .catch((err) => {
           console.error(err);
+          setStatus('error');
+
+          if (err.response.status === 429) {
+            setMessage(err.response.data);
+            setTimeout(() => {
+              setMessage(null);
+            }, 3000);
+            return;
+          }
+
+          setMessage(
+            err.response.data.message ||
+              'Ops! Something went wrong, please try again.'
+          );
         });
     }
 
@@ -44,11 +57,10 @@ const Home = () => {
         setMessage(null);
       }, 1500);
     }
-  }, [loading, navigate]);
+  }, [loading]);
 
   return (
     <div className="main-container">
-      {message && <Alert message={message} status={status} />}
       {loading ? <SpLoading centered /> : <TourCard tours={allTours} />}
     </div>
   );

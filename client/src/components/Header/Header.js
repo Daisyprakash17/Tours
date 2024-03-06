@@ -1,20 +1,19 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../store/AuthContext';
+import { AlertContext } from '../../store/AlertContext';
 import { BiLogOut, BiLogIn } from 'react-icons/bi';
 import { RiHome2Line } from 'react-icons/ri';
 import api from '../../utils/axiosConfig';
-import Alert from '../Alert/Alert';
 import User from '../Icons/User';
 import SpLoading from '../Spinner/SpLoading';
 
 const Header = () => {
-  const [message, setMessage] = useState('');
-  const [status, setStatus] = useState('');
   const [user, setUser] = useState(null);
   const [subMenuOpen, setSubMenuOpen] = useState(false);
   const [checked, setChecked] = useState(false);
   const { isLoggedIn, setIsLoggedIn, isLoading } = useContext(AuthContext);
+  const { setMessage, setStatus } = useContext(AlertContext);
   const menuRef = useRef();
   const navigate = useNavigate();
 
@@ -56,11 +55,20 @@ const Header = () => {
       })
       .catch((err) => {
         console.error(err);
-        setMessage('Ops, something went wrong. Try logging out again!');
         setStatus('error');
 
+        if (err.response.status === 429) {
+          setMessage(err.response.data);
+          setTimeout(() => {
+            setMessage(null);
+          }, 3000);
+          return;
+        }
+
+        setMessage('Ops, something went wrong. Try logging out again!');
+
         setTimeout(() => {
-          setMessage('');
+          setMessage(null);
         }, 3000);
       });
   };
@@ -76,7 +84,6 @@ const Header = () => {
   return (
     <>
       <header className="header">
-        {message && <Alert status={status} message={message} />}
         {/* Desktop navigation */}
         <nav className="nav nav--tours xs-hidden">
           <Link to="/" className="nav__el">

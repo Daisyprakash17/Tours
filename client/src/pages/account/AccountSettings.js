@@ -2,10 +2,10 @@ import { useContext, useEffect, useState } from 'react';
 import api from '../../utils/axiosConfig';
 import { userStorage } from '../../helper/functions';
 import { AuthContext } from '../../store/AuthContext';
+import { AlertContext } from '../../store/AlertContext';
 import Form from '../../components/Form/Form';
 import Input from '../../components/Form/Input';
 import Submit from '../../components/Form/Submit';
-import Alert from '../../components/Alert/Alert';
 import SpLoading from '../../components/Spinner/SpLoading';
 
 const AccountSettings = ({ userInfo }) => {
@@ -13,10 +13,9 @@ const AccountSettings = ({ userInfo }) => {
   const [email, setEmail] = useState('');
   const [photo, setPhoto] = useState('');
   const [imgData, setImgData] = useState(null);
-  const [message, setMessage] = useState('');
-  const [status, setStatus] = useState('');
   const [loading, setLoading] = useState(true);
   const { setIsLoading } = useContext(AuthContext);
+  const { setMessage, setStatus } = useContext(AlertContext);
 
   useEffect(() => {
     if (userInfo.name && userInfo.email) {
@@ -92,6 +91,15 @@ const AccountSettings = ({ userInfo }) => {
       .catch((err) => {
         console.error(err);
         setStatus('error');
+
+        if (err.response.status === 429) {
+          setMessage(err.response.data);
+          setTimeout(() => {
+            setMessage(null);
+          }, 3000);
+          return;
+        }
+
         if (err.response.data.message.includes('dup key: { email')) {
           setMessage('This email is already in use!');
         } else if (err.response.data.message.includes('dup key: { name')) {
@@ -106,14 +114,13 @@ const AccountSettings = ({ userInfo }) => {
         }
 
         setTimeout(() => {
-          setMessage('');
+          setMessage(null);
         }, 3000);
       });
   };
 
   return (
     <Form title="Account settings" onSubmit={handleSubmit}>
-      {message && <Alert status={status} message={message} />}
       {loading ? (
         <SpLoading />
       ) : (

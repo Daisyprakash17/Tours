@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { AlertContext } from '../store/AlertContext';
 import api from '../utils/axiosConfig';
-import Alert from '../components/Alert/Alert';
 import Form from '../components/Form/Form';
 import Input from '../components/Form/Input';
 import Submit from '../components/Form/Submit';
@@ -8,9 +8,8 @@ import SpLoading from '../components/Spinner/SpLoading';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-  const [status, setStatus] = useState('');
   const [disabled, setDisabled] = useState(false);
+  const { setMessage, setStatus } = useContext(AlertContext);
 
   useEffect(() => {
     document.title = 'Natours | Forgot password';
@@ -36,12 +35,21 @@ const ForgotPassword = () => {
       })
       .catch((err) => {
         console.error(err);
+        setStatus('error');
+        setDisabled(false);
+
+        if (err.response.status === 429) {
+          setMessage(err.response.data);
+          setTimeout(() => {
+            setMessage(null);
+          }, 3000);
+          return;
+        }
+
         setMessage(
           err.response.data.message ||
             'Ops! Something went wrong, please try again.'
         );
-        setStatus('error');
-        setDisabled(false);
 
         setTimeout(() => {
           setMessage('');
@@ -51,7 +59,6 @@ const ForgotPassword = () => {
 
   return (
     <div className="main-container">
-      {message && <Alert status={status} message={message} />}
       <Form title="Forgot password" onSubmit={handleSubmit}>
         <Input
           extraClass="ma-bt-md"

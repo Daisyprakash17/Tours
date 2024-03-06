@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../utils/axiosConfig';
 import { userStorage } from '../helper/functions';
 import { AuthContext } from '../store/AuthContext';
-import Alert from '../components/Alert/Alert';
+import { AlertContext } from '../store/AlertContext';
+import api from '../utils/axiosConfig';
 import Form from '../components/Form/Form';
 import Input from '../components/Form/Input';
 import Submit from '../components/Form/Submit';
@@ -14,10 +14,9 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [message, setMessage] = useState('');
-  const [status, setStatus] = useState('');
   const [disabled, setDisabled] = useState(false);
   const { setIsLoggedIn } = useContext(AuthContext);
+  const { setMessage, setStatus } = useContext(AlertContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,30 +46,41 @@ const Signup = () => {
           setPassword('');
           setConfirmPassword('');
 
+          setIsLoggedIn(true);
+          navigate('/');
+
           setTimeout(() => {
-            setMessage('');
-            setIsLoggedIn(true);
-            navigate('/');
-          }, 600);
+            setMessage(null);
+          }, 1000);
         }
       })
       .then(() => setDisabled(false))
       .catch((err) => {
         console.error(err.response);
+        setStatus('error');
+        setDisabled(false);
+
+        if (err.response.status === 429) {
+          setMessage(err.response.data);
+          setTimeout(() => {
+            setMessage(null);
+          }, 3000);
+          return;
+        }
+
         setMessage(
           err.response.data.message ||
             'Ops! Something went wrong, please try again.'
         );
-        setStatus('error');
+
         setTimeout(() => {
-          setMessage('');
+          setMessage(null);
         }, 3000);
       });
   };
 
   return (
     <div className="main-container">
-      {message && <Alert status={status} message={message} />}
       <Form title="Sign up" onSubmit={handleSubmit}>
         <Input
           name="name"
