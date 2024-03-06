@@ -14,7 +14,7 @@ const TourCard = ({ tours }) => {
             <div className="card__picture">
               <div className="card__picture-overlay">&nbsp;</div>
               <img
-                src={`http://localhost:8000/public/img/tours/${tour.imageCover}`}
+                src={`https://natours-app-r8rd.onrender.com/public/img/tours/${tour.imageCover}`}
                 alt="Tour cover"
                 className="card__picture-img"
                 crossOrigin="anonymous"

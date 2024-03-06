@@ -7,6 +7,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xssPurge = require('xss-purge');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 const tourRouter = require('./src/routes/tourRoutes');
 const userRouter = require('./src/routes/userRoutes');
 const reviewRouter = require('./src/routes/reviewRoutes');
@@ -15,14 +16,16 @@ const bookingController = require('./src/controllers/bookingController');
 const errorHandler = require('./src/handlers/errorHandler');
 
 const app = express();
+
 app.use(
   cors({
-    origin: 'https://localhost:3000',
+    origin: 'https://natours-mern-app.netlify.app',
     credentials: true,
     sameSite: 'none',
     secure: true,
   })
 );
+app.options('*', cors());
 
 /* Global middlewares */
 // Serving static files
@@ -74,6 +77,8 @@ app.use(
     ],
   })
 );
+
+app.use(compression());
 
 // Test middleware
 // app.use((req, res, next) => {

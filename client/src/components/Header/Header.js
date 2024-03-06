@@ -93,7 +93,7 @@ const Header = () => {
             <div className="nav__el" onClick={toggleMenu}>
               <img
                 className="nav__user-img"
-                src={`http://localhost:8000/public/img/users/${user.photo}`}
+                src={`https://natours-app-r8rd.onrender.com/public/img/users/${user.photo}`}
                 alt={`User ${user.name}`}
                 crossOrigin="anonymous"
               />
