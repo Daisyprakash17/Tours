@@ -13,11 +13,11 @@ import SpLoading from '../../components/Spinner/SpLoading';
 
 const MyReviews = () => {
   const [reviews, setReviews] = useState({});
-  const [tours, setTours] = useState({});
   const [review, setReview] = useState('');
   const [rating, setRating] = useState(0);
   const [reviewId, setReviewId] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [disabled, setDisabled] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [message, setMessage] = useState(null);
   const [status, setStatus] = useState(null);
@@ -32,7 +32,6 @@ const MyReviews = () => {
           // console.log(res);
           if (res.status === 200) {
             setReviews(res.data.data.myReviews);
-            setTours(res.data.data.reviewedTours);
           }
         })
         .then(() => setLoading(false))
@@ -51,6 +50,8 @@ const MyReviews = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setDisabled(true);
+
     api
       .patch(`reviews/${reviewId}`, { review, rating })
       .then((res) => {
@@ -69,6 +70,9 @@ const MyReviews = () => {
             setMessage(null);
           }, 1500);
         }
+      })
+      .then(() => {
+        setDisabled(false);
       })
       .catch((err) => {
         console.error(err);
@@ -136,7 +140,7 @@ const MyReviews = () => {
       )}
       <h2 className="heading-secondary ma-bt-md">My Reviews</h2>
       {loading ? (
-        <SpLoading centered />
+        <SpLoading />
       ) : (
         <div>
           {reviews.length <= 0 ? (
@@ -144,18 +148,18 @@ const MyReviews = () => {
           ) : (
             reviews.map((review, index) => (
               <Link
-                to={`/tour/${tours[index].id}`}
+                to={`/tour/${review.tour.id}`}
                 key={index}
                 className="card-secondary content__card"
               >
                 <div className="card-secondary__avatar">
                   <img
-                    src={`https://natours-app-r8rd.onrender.com/public/img/tours/${tours[index].imageCover}`}
-                    alt={tours[index].name}
+                    src={`http://localhost:8000/public/img/tours/${review.tour.imageCover}`}
+                    alt={review.tour.name}
                     className="card-secondary__avatar-img card-secondary__avatar-img--tour"
                     crossOrigin="anonymous"
                   />
-                  <h6 className="card-secondary__title">{tours[index].name}</h6>
+                  <h6 className="card-secondary__title">{review.tour.name}</h6>
                 </div>
                 <p className="card-secondary__text">{review.review}</p>
                 <div className="card-secondary__rating ma-bt-md">
@@ -220,7 +224,7 @@ const MyReviews = () => {
                 );
               })}
             </div>
-            <Submit submitText="Update review" />
+            {disabled ? <SpLoading /> : <Submit submitText="Update review" />}
           </Form>
         </Popup>
       )}

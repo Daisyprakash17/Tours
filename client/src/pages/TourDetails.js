@@ -66,6 +66,11 @@ const TourDetails = () => {
           setReview('');
           setRating(null);
           setShowForm(false);
+          setLoading(true);
+
+          setTimeout(() => {
+            setLoading(false);
+          }, 0);
 
           setTimeout(() => {
             setMessage(null);

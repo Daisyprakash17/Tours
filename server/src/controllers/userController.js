@@ -63,15 +63,10 @@ exports.getMyReviews = async (req, res, next) => {
     // Get all user reviews
     const myReviews = reviews.map((el) => el);
 
-    // Get all reviewed tours
-    const tourIds = reviews.map((el) => el.tour);
-    const tours = await Tour.find({ _id: { $in: tourIds } });
-
     res.status(200).json({
       status: 'success',
       data: {
         myReviews,
-        reviewedTours: tours,
       },
     });
   } catch (err) {

@@ -29,7 +29,7 @@ const MyBookings = () => {
       <h2 className="heading-secondary">My bookings</h2>
       {loading ? (
         <div>
-          <SpLoading centered />
+          <SpLoading />
         </div>
       ) : bookedTours.length > 0 ? (
         <TourCard tours={bookedTours} />
