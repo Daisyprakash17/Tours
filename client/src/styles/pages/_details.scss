@@ -203,6 +203,11 @@
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
 
+    @include respond(phone) {
+      width: 90%;
+      grid-column-gap: 6rem;
+    }
+
     &__card {
       width: 30rem;
       scroll-snap-align: center;
