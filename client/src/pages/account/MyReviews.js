@@ -37,6 +37,24 @@ const MyReviews = () => {
         .then(() => setLoading(false))
         .catch((err) => {
           console.error(err);
+          setStatus('error');
+
+          if (err.response.status === 429) {
+            setMessage(err.response.data);
+            setTimeout(() => {
+              setMessage(null);
+            }, 3000);
+            return;
+          }
+
+          setMessage(
+            err.response.data.message ||
+              'Ops! Something went wrong, please try again.'
+          );
+
+          setTimeout(() => {
+            setMessage(null);
+          }, 3000);
         });
     }
   }, [loading]);
@@ -77,13 +95,22 @@ const MyReviews = () => {
       .catch((err) => {
         console.error(err);
         setStatus('error');
+
+        if (err.response.status === 429) {
+          setMessage(err.response.data);
+          setTimeout(() => {
+            setMessage(null);
+          }, 3000);
+          return;
+        }
+
         setMessage(
           err.response.data.message ||
             'Ops! Something went wrong, please try again.'
         );
 
         setTimeout(() => {
-          setMessage('');
+          setMessage(null);
         }, 3000);
       });
   };
@@ -154,7 +181,7 @@ const MyReviews = () => {
               >
                 <div className="card-secondary__avatar">
                   <img
-                    src={`http://localhost:8000/public/img/tours/${review.tour.imageCover}`}
+                    src={`https://natours-app-r8rd.onrender.com/public/img/tours/${review.tour.imageCover}`}
                     alt={review.tour.name}
                     className="card-secondary__avatar-img card-secondary__avatar-img--tour"
                     crossOrigin="anonymous"

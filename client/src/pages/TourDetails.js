@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getClosestDate, starCalc } from '../helper/functions';
 import { AuthContext } from '../store/AuthContext';
+import { AlertContext } from '../store/AlertContext';
 import api from '../utils/axiosConfig';
 import { FaRegClock } from 'react-icons/fa6';
 import { CgGym } from 'react-icons/cg';
@@ -10,7 +11,6 @@ import Location from '../components/Icons/Location';
 import User from '../components/Icons/User';
 import Star from '../components/Icons/Star';
 import Button from '../components/Button/Button';
-import Alert from '../components/Alert/Alert';
 import Submit from '../components/Form/Submit';
 import Form from '../components/Form/Form';
 import Input from '../components/Form/Input';
@@ -24,11 +24,10 @@ const TourDetails = () => {
   const [showForm, setShowForm] = useState(false);
   const [review, setReview] = useState('');
   const [rating, setRating] = useState(0);
-  const [message, setMessage] = useState(null);
-  const [status, setStatus] = useState(null);
   const [processing, setProcessing] = useState(false);
   const [userCanReview, setUserCanReview] = useState(true);
   const { isLoggedIn } = useContext(AuthContext);
+  const { setMessage, setStatus } = useContext(AlertContext);
   let params = useParams();
   let id = params.id;
   const navigate = useNavigate();
@@ -90,6 +89,16 @@ const TourDetails = () => {
           setTimeout(() => {
             setMessage(null);
           }, 1500);
+
+          return;
+        }
+
+        if (err.response.status === 429) {
+          setMessage(err.response.data);
+
+          setTimeout(() => {
+            setMessage(null);
+          }, 3000);
 
           return;
         }
@@ -156,6 +165,17 @@ const TourDetails = () => {
       .catch((err) => {
         console.error(err);
         setStatus('error');
+
+        if (err.response.status === 429) {
+          setMessage(err.response.data);
+
+          setTimeout(() => {
+            setMessage(null);
+            setProcessing(false);
+          }, 3000);
+          return;
+        }
+
         setMessage(
           err.response.data.message ||
             'Ops! Something went wrong, please try again.'
@@ -183,6 +203,24 @@ const TourDetails = () => {
       .then(() => setLoading(false))
       .catch((err) => {
         console.error(err);
+        setStatus('error');
+
+        if (err.response.status === 429) {
+          setMessage(err.response.data);
+          setTimeout(() => {
+            setMessage(null);
+          }, 3000);
+          return;
+        }
+
+        setMessage(
+          err.response.data.message ||
+            'Ops! Something went wrong, please try again.'
+        );
+
+        setTimeout(() => {
+          setMessage(null);
+        }, 1500);
       });
 
     document.title = `Natours | ${tour.name}`;
@@ -201,7 +239,6 @@ const TourDetails = () => {
 
   return (
     <>
-      {message && <Alert status={status} message={message} />}
       {showForm && (
         <Popup onClose={() => setShowForm(false)}>
           <Form title="Review tour" onSubmit={handleReviewSubmit}>

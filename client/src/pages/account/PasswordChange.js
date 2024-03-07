@@ -1,18 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { AlertContext } from '../../store/AlertContext';
 import api from '../../utils/axiosConfig';
 import Form from '../../components/Form/Form';
 import Input from '../../components/Form/Input';
 import Submit from '../../components/Form/Submit';
-import Alert from '../../components/Alert/Alert';
 import SpLoading from '../../components/Spinner/SpLoading';
 
 const PasswordChange = () => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [message, setMessage] = useState('');
-  const [status, setStatus] = useState('');
   const [disabled, setDisabled] = useState(false);
+  const { setMessage, setStatus } = useContext(AlertContext);
 
   useEffect(() => {
     document.title = 'Natours | Change password';
@@ -48,6 +47,16 @@ const PasswordChange = () => {
       .catch((err) => {
         console.error(err);
         setStatus('error');
+
+        if (err.response.status === 429) {
+          setMessage(err.response.data);
+          setTimeout(() => {
+            setMessage(null);
+            setDisabled(false);
+          }, 3000);
+          return;
+        }
+
         setMessage(
           err.response.data.message ||
             'Ops! Something went wrong, please try again.'
@@ -62,7 +71,6 @@ const PasswordChange = () => {
 
   return (
     <Form title="Change password" onSubmit={handleSubmit}>
-      {message && <Alert status={status} message={message} />}
       <Input
         name="currentPassword"
         label="Current password"
