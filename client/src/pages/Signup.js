@@ -39,7 +39,7 @@ const Signup = () => {
         if (res.status === 201) {
           setStatus('success');
           setMessage('User successfully signed in!');
-          userStorage(res.data.data.user.name, res.data.data.user.photo);
+          userStorage(res.data.data.user.name, res.data.data.user.photo,res.data.token);
 
           setName('');
           setEmail('');

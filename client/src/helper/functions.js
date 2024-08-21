@@ -39,10 +39,11 @@ export const starCalc = (rating) => {
 };
 
 // Set username and photo to localstorage
-export const userStorage = (name, photo) => {
+export const userStorage = (name, photo,jwt_token) => {
   const userObject = {
     name,
     photo,
   };
   localStorage.setItem('user', JSON.stringify(userObject));
+  localStorage.setItem('jwt_token', jwt_token);
 };
