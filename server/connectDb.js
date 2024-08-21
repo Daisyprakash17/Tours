@@ -1,10 +1,8 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-const DB_URL = process.env.MONGODB.replace(
-  '<PASSWORD>',
-  process.env.DATABASE_PASSWORD
-);
+// const DB_URL = process.env.MONGO_URI
+const DB_URL="mongodb+srv://daisyprakash0077:xwCAqdtX4zqoGkcq@cluster0.wpuocgb.mongodb.net/natuors-app?retryWrites=true&w=majority"
 
 const connectDb = async () => {
   try {

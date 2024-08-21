@@ -19,7 +19,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: 'https://natours-mern-app.netlify.app',
+    origin: '*',
     credentials: true,
     sameSite: 'none',
     secure: true,
@@ -62,7 +62,7 @@ app.use(cookieParser());
 app.use(mongoSanitize());
 
 // Data sanitization against Cross-site scripting (XXS)
-app.use(xssPurge());
+// app.use(xssPurge());
 
 // Prevent parameter pollution
 app.use(
