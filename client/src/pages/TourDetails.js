@@ -387,7 +387,7 @@ const TourDetails = () => {
                     className={`picture-box__img picture-box__img--${
                       index + 1
                     }`}
-                    src={`https://natours-app-r8rd.onrender.com/public/img/tours/${image}`}
+                    src={image}
                     alt={`${tour.name}-${index + 1}`}
                     crossOrigin="anonymous"
                   />

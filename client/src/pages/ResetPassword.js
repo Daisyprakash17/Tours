@@ -38,7 +38,7 @@ const ResetPassword = () => {
           setStatus('success');
           setPassword('');
           setConfirmPassword('');
-          userStorage(res.data.data.user.name, res.data.data.user.photo);
+          userStorage(res.data.data.user.name, res.data.data.user.photo,res.data.token);
 
           setTimeout(() => {
             setMessage('');

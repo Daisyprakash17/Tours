@@ -33,7 +33,7 @@ const Login = () => {
         if (res.status === 200) {
           setMessage('You are successfully logged in!');
           setStatus('success');
-          userStorage(res.data.data.user.name, res.data.data.user.photo);
+          userStorage(res.data.data.user.name, res.data.data.user.photo,res.data.token);
 
           setEmail('');
           setPassword('');

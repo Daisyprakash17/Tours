@@ -72,7 +72,7 @@ const AccountSettings = ({ userInfo }) => {
         if (res.status === 200) {
           setStatus('success');
           setMessage('User successfully updated!');
-          userStorage(res.data.data.user.name, res.data.data.user.photo);
+          userStorage(res.data.data.user.name, res.data.data.user.photo,res.data.token);
           setPhoto('');
           setImgData(
             `https://natours-app-r8rd.onrender.com/public/img/users/${res.data.data.user.photo}`
