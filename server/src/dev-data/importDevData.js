@@ -1,3 +1,4 @@
+
 const fs = require('fs');
 const connectDb = require('../../connectDb');
 const Tour = require('../models/tourModel');
@@ -8,7 +9,7 @@ const tours = JSON.parse(fs.readFileSync(`${__dirname}/tours.json`, 'utf8'));
 // IMPORT DATA INTO DB
 const importData = async () => {
   try {
-    await connectDb();
+    await connectDb("mongodb+srv://daisyprakash0077:xwCAqdtX4zqoGkcq@cluster0.wpuocgb.mongodb.net/natuors-app?retryWrites=true&w=majority");
     await Tour.create(tours);
     console.log('Data loaded successfully');
   } catch (err) {
@@ -20,7 +21,7 @@ const importData = async () => {
 // DELETE ALL DATA FROM DB
 const deleteData = async () => {
   try {
-    await connectDb();
+    await connectDb("mongodb+srv://daisyprakash0077:xwCAqdtX4zqoGkcq@cluster0.wpuocgb.mongodb.net/natuors-app?retryWrites=true&w=majority");
     await Tour.deleteMany();
     console.log('Data deleted successfully');
   } catch (err) {
